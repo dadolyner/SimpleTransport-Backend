@@ -6,7 +6,6 @@ import { Rentals } from 'src/entities/rentals.entity';
 import { Users } from 'src/entities/users.entity';
 import { Vehicles } from 'src/entities/vehicles.entities';
 
-const logger = new Logger('TypeOrmConfig');
 @Module({
     imports: [ 
         ConfigModule.forRoot({
@@ -32,4 +31,3 @@ const logger = new Logger('TypeOrmConfig');
     providers: [],
 })
 export class TypeOrmConfig { }
-logger.log('Connection to database established');

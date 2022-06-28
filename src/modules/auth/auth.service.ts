@@ -8,21 +8,22 @@ import { AuthSignUpCredentialsDto } from './dto/auth-credentials-signup.dto';
 import { Logger } from '@nestjs/common';
 import { Users } from '../../entities/users.entity';
 import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
     private logger = new Logger('AuthSevice');
     constructor(
-        private readonly authRepository: AuthRepository,
+        @InjectRepository(AuthRepository) private authRepository: AuthRepository,
         private jwtService: JwtService,
     ) { }
 
-    //register
+    // Register user
     async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
         return this.authRepository.register(signupCredentials);
     }
 
-    //login
+    // Login user
     async logIn(userCredentialsDto: AuthLoginCredentialsDto): Promise<{ accessToken: string }> {
         const { email } = userCredentialsDto;
         const emailExists = await this.authRepository.findOne({ where: { email } });

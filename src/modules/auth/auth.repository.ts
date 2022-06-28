@@ -1,11 +1,10 @@
 // Authorization Repository
 import {
     ConflictException,
-    Injectable,
     InternalServerErrorException,
     UnauthorizedException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { AuthLoginCredentialsDto } from './dto/auth-credentials-login.dto';
 import { Users } from '../../entities/users.entity';
 import * as bcrypt from 'bcrypt';
@@ -13,11 +12,11 @@ import { AuthSignUpCredentialsDto } from './dto/auth-credentials-signup.dto';
 import { Logger } from '@nestjs/common';
 import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto';
 
-@Injectable()
+@EntityRepository(Users)
 export class AuthRepository extends Repository<Users> {
     private logger = new Logger('AuthRepository');
 
-    //register user into database
+    // Register user
     async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
         const { first_name, last_name, email, password, avatar } = signupCredentials;
 
