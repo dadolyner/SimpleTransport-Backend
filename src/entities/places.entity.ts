@@ -5,9 +5,11 @@ import {
     Column,
     BaseEntity,
     OneToOne,
+    OneToMany,
 } from 'typeorm';
 import { Countries } from './countries.entity';
 import { Postals } from './postals.entity';
+import { Users } from './users.entity';
 
 @Entity('places')
 export class Places extends BaseEntity {
@@ -37,4 +39,8 @@ export class Places extends BaseEntity {
     // Countries
     @OneToOne(() => Countries, country => country.place, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     country: Countries;
+
+    // Users
+    @OneToMany(() => Users, user => user.place, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    user: Users[];
 }

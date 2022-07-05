@@ -12,6 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { Vehicles } from './vehicles.entities';
 import { Rentals } from './rentals.entity';
 import { Images } from './images.entity';
+import { Places } from './places.entity';
 
 @Entity('users')
 @Unique(['email', 'username'])
@@ -61,6 +62,10 @@ export class Users extends BaseEntity {
     // Images
     @OneToOne(() => Images, image => image.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     image: Images;
+
+    // Places
+    @OneToOne(() => Places, place => place.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    place: Places;
 
     // Functions
     // Validate user password with bcrypt
