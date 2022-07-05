@@ -15,10 +15,22 @@ export class Rentals extends BaseEntity {
     id: string;
 
     @Column()
-    user_id: string;
+    rent_start: Date;
 
     @Column()
-    vehicle_id: string;
+    rent_end: Date;
+
+    @Column()
+    userId: string;
+
+    @Column()
+    vehicleId: string;
+
+    @Column()
+    created_at: Date;
+
+    @Column()
+    updated_at: Date;
 
     // Relations
     // Users

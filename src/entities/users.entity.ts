@@ -6,13 +6,15 @@ import {
     BaseEntity,
     Unique,
     OneToMany,
+    OneToOne
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Vehicles } from './vehicles.entities';
 import { Rentals } from './rentals.entity';
+import { Images } from './images.entity';
 
 @Entity('users')
-@Unique(['email'])
+@Unique(['email, username'])
 export class Users extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -27,52 +29,54 @@ export class Users extends BaseEntity {
     email: string;
 
     @Column()
+    username: string;
+
+    @Column()
     salt: string;
 
     @Column()
     password: string;
 
-    @Column()
-    avatar: string;
-
     @Column({ nullable: true, default: null })
     passRequestToken: string;
 
     @Column({ nullable: true, default: null })
-    passRequestTokenExpiryDate: string;
+    passRequestTokenExpiryDate: Date;
+
+    @Column()
+    created_at: Date;
+
+    @Column()
+    updated_at: Date;
 
     // Relations
     // Vehicles
     @OneToMany(() => Vehicles, vehicle => vehicle.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     vehicle: Vehicles[];
 
-    // Location
+    // Rentals
     @OneToMany(() => Rentals, rental => rental.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     rental: Rentals[];
 
+    // Images
+    @OneToOne(() => Images, image => image.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    image: Images;
+
     // Functions
     // Validate user password with bcrypt
-    async validatePassword(password: string): Promise<boolean> {
-        const hash = await bcrypt.hash(password, this.salt);
-        return hash === this.password;
-    }
+    async validatePassword(password: string): Promise<boolean> { return await bcrypt.hash(password, this.salt) === this.password; }
 
     // Hash password
-    async hashPassword(password: string, salt: string) {
-        return await bcrypt.hash(password, salt);
-    }
+    async hashPassword(password: string, salt: string) { return await bcrypt.hash(password, salt); }
 
     //Delete sensitive data
-    deleteSensitiveData(keys: string[]) {
-        keys.forEach(key => delete this[key]);
-    }
+    async deleteSensitiveData(keys: string[]): Promise<void> { keys.forEach(key => delete this[key]); }
 
     // Token generator for user
-    generateToken(tokenLenght: number): string {
+    async generateToken(tokenLenght: number): Promise<string> {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let token = '';
         for (let i = 0; i < tokenLenght; i++) token += chars[Math.floor(Math.random() * chars.length)];
-
         return token;
     }
 }
