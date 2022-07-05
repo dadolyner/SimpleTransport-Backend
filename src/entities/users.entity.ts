@@ -45,6 +45,12 @@ export class Users extends BaseEntity {
     passRequestTokenExpiryDate: Date;
 
     @Column()
+    placeId: string;
+    
+    @Column()
+    imageId: string;
+
+    @Column()
     created_at: Date;
 
     @Column()
