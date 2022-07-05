@@ -14,7 +14,7 @@ import { Rentals } from './rentals.entity';
 import { Images } from './images.entity';
 
 @Entity('users')
-@Unique(['email, username'])
+@Unique(['email', 'username'])
 export class Users extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;

@@ -25,9 +25,9 @@ export class AuthService {
 
     // Login user
     async logIn(userCredentialsDto: AuthLoginCredentialsDto): Promise<{ accessToken: string }> {
-        const { email } = userCredentialsDto;
+        const { email, password } = userCredentialsDto;
         const emailExists = await this.authRepository.findOne({ where: { email } });
-        const validate = await this.authRepository.validateUserPassword(userCredentialsDto);
+        const validate = await emailExists.validatePassword(password);
 
         try {
             if (!validate) {
@@ -64,10 +64,5 @@ export class AuthService {
     // Change user information
     async changeUserInfo(user: Users, userInfo: AuthChangeInfoDto): Promise<void> {
         return this.authRepository.changeUserInfo(user, userInfo);
-    }
-
-    // Update user avatar
-    async changeAvatar(user: Users, image: string): Promise<void> {
-        return this.authRepository.changeAvatar(user, image);
     }
 }

@@ -52,11 +52,4 @@ export class AuthController {
     changePassword(@GetUser() user: Users, @Param('token') token: string, @Body('oldPassword') oldPassword: string, @Body('newPassword') newPassword: string): Promise<void> {
         return this.authService.changePassword(user, token, oldPassword, newPassword);
     }
-
-    // Change user avatar
-    @UseGuards(AuthGuard())
-    @Patch('/change-profile-image')
-    changeAvatar(@GetUser() user: Users, @Body('image') image: string): Promise<void> {
-        return this.authService.changeAvatar(user, image);
-    }
 }

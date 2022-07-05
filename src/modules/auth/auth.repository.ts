@@ -18,15 +18,17 @@ export class AuthRepository extends Repository<Users> {
 
     // Register user
     async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
-        const { first_name, last_name, email, password, avatar } = signupCredentials;
+        const { first_name, last_name, email, username, password } = signupCredentials;
 
         const user = new Users();
         user.first_name = first_name;
         user.last_name = last_name;
         user.email = email;
+        user.username = username;
         user.salt = await bcrypt.genSalt();
-        user.password = await this.hashPassword(password, user.salt);
-        user.avatar = avatar;
+        user.password = await user.hashPassword(password, user.salt);
+        user.created_at = new Date();
+        user.updated_at = new Date();
 
         try { await this.save(user) }
         catch (error) {
@@ -34,6 +36,7 @@ export class AuthRepository extends Repository<Users> {
                 this.logger.error(`User with email: ${email} already exists`);
                 throw new ConflictException('User with this email already exist!');
             } else {
+                this.logger.error(`Registration failed!. Reason: ${error.message}`);
                 throw new InternalServerErrorException();
             }
         }
@@ -71,7 +74,7 @@ export class AuthRepository extends Repository<Users> {
             const passRequestTokenExpiryDate = new Date(new Date().getTime() + 600000);
 
             currentUser.passRequestToken = passRequestToken
-            currentUser.passRequestTokenExpiryDate = passRequestTokenExpiryDate.toString();
+            currentUser.passRequestTokenExpiryDate = passRequestTokenExpiryDate
 
             this.logger.verbose(`User with email: ${currentUser.email} has requested password change!`);
             await this.save(currentUser);
@@ -87,42 +90,15 @@ export class AuthRepository extends Repository<Users> {
         const { id } = user
         try {
             const currentUser = await this.findOne({ where: { id } });
-            if (!currentUser.passRequestToken || currentUser.passRequestTokenExpiryDate < new Date().toString()) { this.logger.error(`Reset password token for user with email: ${currentUser.email} has expired!`); throw new UnauthorizedException(); }
+            if (!currentUser.passRequestToken || currentUser.passRequestTokenExpiryDate < new Date()) { this.logger.error(`Reset password token for user with email: ${currentUser.email} has expired!`); throw new UnauthorizedException(); }
             if (!await currentUser.validatePassword(oldPassword)) { this.logger.error(`User with email: ${currentUser.email} entered wrong old password!`); throw new InternalServerErrorException(); }
 
-            currentUser.password = await this.hashPassword(newPassword, currentUser.salt);
+            currentUser.password = await currentUser.hashPassword(newPassword, currentUser.salt);
             currentUser.passRequestToken = null;
             currentUser.passRequestTokenExpiryDate = null;
 
             this.logger.verbose(`User with email: ${currentUser.email} successfully changed its password!`);
             await this.save(currentUser);
         } catch (error) { return error; }
-    }
-
-    // Change user avatar
-    async changeAvatar(user: Users, image: string): Promise<void> {
-        const { id } = user;
-        const currentUser = await this.findOne({ where: { id } });
-        try {
-            currentUser.avatar = image.toString();
-            this.logger.verbose(`User with email: ${currentUser.email} has successfully changed its profile image!`);
-            await this.save(currentUser);
-        } catch (error) {
-            this.logger.error(`There was an error trying to update profile image for user with email: ${currentUser.email}!`);
-            throw new InternalServerErrorException();
-        }
-    }
-
-    //validate inserted password
-    async validateUserPassword(userCredentialsDto: AuthLoginCredentialsDto): Promise<string> {
-        const { email, password } = userCredentialsDto;
-        const user = await this.findOne({ where: { email } });
-        if (user && (await user.validatePassword(password))) return user.email;
-        else return null;
-    }
-
-    //hash password
-    private hashPassword(password: string, salt: string) {
-        return bcrypt.hash(password, salt);
     }
 }

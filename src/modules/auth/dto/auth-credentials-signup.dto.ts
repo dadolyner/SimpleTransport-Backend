@@ -12,10 +12,11 @@ export class AuthSignUpCredentialsDto {
     email: string;
 
     @IsString()
+    @MinLength(4, { message: 'Username must be at least 4 characters long!' })
+    username: string;
+
+    @IsString()
     @MinLength(8, { message: 'Password is too short!' })
     @MaxLength(100, { message: 'Password is too long!' })
     password: string;
-
-    @IsUrl( { message: 'This is not a valid url!' } )
-    avatar: string;
 }
