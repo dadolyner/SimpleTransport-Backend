@@ -13,6 +13,7 @@ export class AuthSignUpCredentialsDto {
 
     @IsString()
     @MinLength(4, { message: 'Username must be at least 4 characters long!' })
+    @MaxLength(100, { message: 'Username is too long!' })
     username: string;
 
     @IsString()

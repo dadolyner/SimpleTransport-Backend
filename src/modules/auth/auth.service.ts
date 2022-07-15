@@ -9,41 +9,39 @@ import { Logger } from '@nestjs/common';
 import { Users } from '../../entities/users.entity';
 import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthChangePasswordDto } from './dto/auth-changePassword.dto';
 
 @Injectable()
 export class AuthService {
-    private logger = new Logger('AuthSevice');
+    private readonly logger = new Logger(AuthService.name);
     constructor(
-        @InjectRepository(AuthRepository) private authRepository: AuthRepository,
+        @InjectRepository(AuthRepository) private readonly authRepository: AuthRepository,
         private jwtService: JwtService,
     ) { }
 
     // Register user
-    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
+    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<Users> {
         return this.authRepository.register(signupCredentials);
     }
 
     // Login user
     async logIn(userCredentialsDto: AuthLoginCredentialsDto): Promise<{ accessToken: string }> {
-        const { email, password } = userCredentialsDto;
-        const emailExists = await this.authRepository.findOne({ where: { email } });
-        const validate = await emailExists.validatePassword(password);
-
         try {
-            if (!validate) {
-                if (!emailExists) {
-                    this.logger.error(`User with email: ${userCredentialsDto.email} does not exist!`);
-                    throw new UnauthorizedException('Email not exists');
-                } else {
-                    this.logger.error(`User tried to login but has entered Invalid credentials`);
-                    throw new UnauthorizedException('Invalid credentials');
-                }
+            const { email, username, password } = userCredentialsDto;
+
+            const exists = await this.authRepository.findOne({ where: [{ email }, { username }] });
+            if (!exists) {
+                email ? this.logger.error(`User with email: ${userCredentialsDto.email} does not exist!`) : this.logger.error(`User with username: ${userCredentialsDto.username} does not exist!`);
+                throw new UnauthorizedException('Email not exists');
             }
 
-            const payload: JwtPayload = { email };
-            const accessToken = await this.jwtService.sign(payload);
+            const validate = await exists.validatePassword(password);
+            if (!validate) { this.logger.error(`User tried to login but has entered Invalid credentials`); throw new UnauthorizedException('Invalid credentials'); }
 
-            this.logger.verbose(`User with email: ${userCredentialsDto.email} logged in!`);
+            const payload: JwtPayload = { email };
+            const accessToken = this.jwtService.sign(payload);
+
+            email ? this.logger.verbose(`User with email: ${userCredentialsDto.email} logged in!`) : this.logger.verbose(`User with username: ${userCredentialsDto.username} logged in!`);
 
             return { accessToken };
         } catch (error) {
@@ -51,18 +49,18 @@ export class AuthService {
         }
     }
 
-    // Request password reset
-    async requestPasswordChange(user: Users): Promise<{ passRequestToken: string }> {
-        return this.authRepository.requestPasswordChange(user);
-    }
-
-    // Update user password
-    async changePassword(user: Users, token: string, oldPassword: string, newPassword: string): Promise<void> {
-        return this.authRepository.changePassword(user, token, oldPassword, newPassword);
-    }
-
     // Change user information
     async changeUserInfo(user: Users, userInfo: AuthChangeInfoDto): Promise<void> {
         return this.authRepository.changeUserInfo(user, userInfo);
+    }
+
+    // Request password reset
+    async requestPasswordChange(userEmail: string): Promise<{ passRequestToken: string }> {
+        return this.authRepository.requestPasswordChange(userEmail);
+    }
+
+    // Update user password
+    async changePassword(token: string, changePassword: AuthChangePasswordDto): Promise<void> {
+        return this.authRepository.changePassword(token, changePassword);
     }
 }

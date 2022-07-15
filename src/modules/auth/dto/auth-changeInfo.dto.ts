@@ -10,4 +10,7 @@ export class AuthChangeInfoDto {
 
     @IsEmail({ message: 'This is not an email!' })
     email: string;
+
+    @IsString()
+    username: string;
 }

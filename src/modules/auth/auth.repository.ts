@@ -1,23 +1,21 @@
 // Authorization Repository
-import {
-    ConflictException,
-    InternalServerErrorException,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
-import { AuthLoginCredentialsDto } from './dto/auth-credentials-login.dto';
 import { Users } from '../../entities/users.entity';
 import * as bcrypt from 'bcrypt';
 import { AuthSignUpCredentialsDto } from './dto/auth-credentials-signup.dto';
 import { Logger } from '@nestjs/common';
 import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto';
+import { AuthChangePasswordDto } from './dto/auth-changePassword.dto';
+import transporter from '../../mail/mail.config';
+import MailTemplate from '../../mail/mail.template';
 
 @EntityRepository(Users)
 export class AuthRepository extends Repository<Users> {
-    private logger = new Logger('AuthRepository');
+    private readonly logger = new Logger(AuthRepository.name);
 
     // Register user
-    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
+    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<Users> {
         const { first_name, last_name, email, username, password } = signupCredentials;
 
         const user = new Users();
@@ -33,7 +31,7 @@ export class AuthRepository extends Repository<Users> {
         try { await this.save(user) }
         catch (error) {
             if (error.code == 23505) {
-                this.logger.error(`User with email: ${email} already exists`);
+                this.logger.error(`User with email: ${email} or username: ${username} already exists`);
                 throw new ConflictException('User with this email already exist!');
             } else {
                 this.logger.error(`Registration failed!. Reason: ${error.message}`);
@@ -42,42 +40,57 @@ export class AuthRepository extends Repository<Users> {
         }
 
         this.logger.verbose(`User with email: ${email} successfully registered!`);
+        return user;
     }
 
     // Change user information
     async changeUserInfo(user: Users, userInfo: AuthChangeInfoDto): Promise<void> {
         const { id } = user;
-        const { first_name, last_name, email } = userInfo;
+        const { first_name, last_name, email, username } = userInfo;
 
         try {
             const currentUser = await this.findOne({ where: { id } });
+            
             currentUser.first_name = first_name;
             currentUser.last_name = last_name;
             currentUser.email = email;
+            currentUser.username = username;
 
-            this.logger.verbose(`User ${currentUser.first_name} ${currentUser.last_name} successfully changed its information!`);
             await this.save(currentUser);
+            this.logger.verbose(`User ${currentUser.first_name} ${currentUser.last_name} successfully changed its information!`);
         } catch (error) {
-            this.logger.error(`User with email: ${email} already exists!`);
+            this.logger.error(`There was a problem changing user information. Reason: ${error.message}`);
             throw new InternalServerErrorException();
         }
     }
 
     // Send request password mail to user
-    async requestPasswordChange(user: Users): Promise<{ passRequestToken: string }> {
-        const { id } = user
-        const currentUser = await this.findOne({ where: { id } });
+    async requestPasswordChange(userEmail: string): Promise<{ passRequestToken: string }> {
+        const currentUser = await this.findOne({ where: { email: userEmail } });
         const { first_name, last_name, email } = currentUser;
 
+        if(!currentUser) {
+            this.logger.error(`User with email: ${userEmail} does not exist!`);
+            throw new UnauthorizedException();
+        }
+
         try {
-            const passRequestToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            const passRequestToken = await currentUser.generateToken(64);
             const passRequestTokenExpiryDate = new Date(new Date().getTime() + 600000);
 
             currentUser.passRequestToken = passRequestToken
             currentUser.passRequestTokenExpiryDate = passRequestTokenExpiryDate
 
-            this.logger.verbose(`User with email: ${currentUser.email} has requested password change!`);
+            await transporter.sendMail({
+                from: '"Simple Transport Support" <support@simpletransport.com>',
+                to: email,
+                subject: 'Password change request',
+                html: MailTemplate(first_name, last_name, `${process.env.SERVER_IP}/change-password/${passRequestToken}`),
+            });
+
             await this.save(currentUser);
+            this.logger.verbose(`User with email: ${currentUser.email} has requested password change. Reset password token has been sent to user's email!`);
+            
             return { passRequestToken }
         } catch (error) {
             this.logger.error(`User with email ${email} does not exist!`);
@@ -86,12 +99,14 @@ export class AuthRepository extends Repository<Users> {
     }
 
     // Change user password
-    async changePassword(user: Users, token: string, oldPassword: string, newPassword: string): Promise<void> {
-        const { id } = user
+    async changePassword(token: string, changePassword: AuthChangePasswordDto): Promise<void> {
+        const { newPassword } = changePassword;
         try {
-            const currentUser = await this.findOne({ where: { id } });
-            if (!currentUser.passRequestToken || currentUser.passRequestTokenExpiryDate < new Date()) { this.logger.error(`Reset password token for user with email: ${currentUser.email} has expired!`); throw new UnauthorizedException(); }
-            if (!await currentUser.validatePassword(oldPassword)) { this.logger.error(`User with email: ${currentUser.email} entered wrong old password!`); throw new InternalServerErrorException(); }
+            const currentUser = await this.findOne({ where: { passRequestToken: token } });
+            if (!currentUser.passRequestToken || currentUser.passRequestTokenExpiryDate < new Date()) {
+                this.logger.error(`Reset password token for user with email: ${currentUser.email} has expired!`);
+                throw new UnauthorizedException();
+            }
 
             currentUser.password = await currentUser.hashPassword(newPassword, currentUser.salt);
             currentUser.passRequestToken = null;

@@ -13,16 +13,17 @@ import { Users } from '../../entities/users.entity';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorator/get-user.decorator';
 import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto';
+import { AuthChangePasswordDto } from './dto/auth-changePassword.dto';
 import { AuthLoginCredentialsDto } from './dto/auth-credentials-login.dto';
 import { AuthSignUpCredentialsDto } from './dto/auth-credentials-signup.dto';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) { }
+    constructor(private readonly authService: AuthService) { }
 
     // Register user
     @Post('/register')
-    register(@Body(ValidationPipe) authSignupCredentialsDto: AuthSignUpCredentialsDto): Promise<void> {
+    register(@Body(ValidationPipe) authSignupCredentialsDto: AuthSignUpCredentialsDto): Promise<Users> {
         return this.authService.register(authSignupCredentialsDto);
     }
 
@@ -40,16 +41,14 @@ export class AuthController {
     }
 
     // Request password reset
-    @UseGuards(AuthGuard())
     @Post('/request-password-change')
-    requestPasswordChange(@GetUser() user: Users): Promise<{ passRequestToken:string }> {
-        return this.authService.requestPasswordChange(user);
+    requestPasswordChange(@Body('email') userEmail: string): Promise<{ passRequestToken:string }> {
+        return this.authService.requestPasswordChange(userEmail);
     }
 
     // Change user password
-    @UseGuards(AuthGuard())
     @Patch('/change-password/:token')
-    changePassword(@GetUser() user: Users, @Param('token') token: string, @Body('oldPassword') oldPassword: string, @Body('newPassword') newPassword: string): Promise<void> {
-        return this.authService.changePassword(user, token, oldPassword, newPassword);
+    changePassword(@Param('token') token: string, @Body() changePassword: AuthChangePasswordDto): Promise<void> {
+        return this.authService.changePassword(token, changePassword);
     }
 }
