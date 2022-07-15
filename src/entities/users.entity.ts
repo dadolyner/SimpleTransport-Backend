@@ -65,13 +65,13 @@ export class Users extends BaseEntity {
     @OneToMany(() => Rentals, rental => rental.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     rental: Rentals[];
 
-    // Images
-    @OneToOne(() => Images, image => image.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    image: Images;
-
     // Places
     @OneToOne(() => Places, place => place.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     place: Places;
+
+    // Images
+    @OneToOne(() => Images, image => image.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    image: Images;
 
     // Functions
     // Validate user password with bcrypt
