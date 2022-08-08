@@ -2,9 +2,10 @@
 import { FuelService } from './fuel.service';
 import { FuelController } from './fuel.controller';
 import { Module } from '@nestjs/common';
-
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { FuelRepository } from './fuel.repository';
 @Module({
-    imports: [],
+    imports: [TypeOrmModule.forFeature([FuelRepository])],
     controllers: [FuelController],
     providers: [FuelService],
 })
