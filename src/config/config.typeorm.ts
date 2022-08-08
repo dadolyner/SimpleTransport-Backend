@@ -1,5 +1,5 @@
 // Config for database connection
-import { Module, Logger } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Brands } from 'src/entities/brands.entity';
@@ -43,6 +43,8 @@ import { Vehicles } from 'src/entities/vehicles.entities';
                     Colors
                 ],
                 synchronize: true,
+                // logging: true,
+                // logger: 'advanced-console',
             }),
             inject: [ConfigService],
         }),
