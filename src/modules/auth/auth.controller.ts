@@ -2,9 +2,9 @@
 import {
     Body,
     Controller,
-    Param,
     Patch,
     Post,
+    Query,
     UseGuards,
     ValidationPipe,
 } from '@nestjs/common';
@@ -23,7 +23,7 @@ export class AuthController {
 
     // Register user
     @Post('/register')
-    register(@Body(ValidationPipe) authSignupCredentialsDto: AuthSignUpCredentialsDto): Promise<Users> {
+    register(@Body(ValidationPipe) authSignupCredentialsDto: AuthSignUpCredentialsDto): Promise<void> {
         return this.authService.register(authSignupCredentialsDto);
     }
 
@@ -35,7 +35,7 @@ export class AuthController {
 
     // Change user info
     @UseGuards(AuthGuard())
-    @Patch('/change-userInfo')
+    @Patch('/change-user-info')
     changeUserInfo(@GetUser() user: Users, @Body() userInfo: AuthChangeInfoDto): Promise<void> {
         return this.authService.changeUserInfo(user, userInfo);
     }
@@ -47,8 +47,8 @@ export class AuthController {
     }
 
     // Change user password
-    @Patch('/change-password/:token')
-    changePassword(@Param('token') token: string, @Body() changePassword: AuthChangePasswordDto): Promise<void> {
+    @Patch('/change-password')
+    changePassword(@Query('token') token: string, @Body() changePassword: AuthChangePasswordDto): Promise<void> {
         return this.authService.changePassword(token, changePassword);
     }
 }

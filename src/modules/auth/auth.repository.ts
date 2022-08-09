@@ -15,7 +15,7 @@ export class AuthRepository extends Repository<Users> {
     private readonly logger = new Logger(AuthRepository.name);
 
     // Register user
-    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<Users> {
+    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
         const { first_name, last_name, email, username, password } = signupCredentials;
 
         const user = new Users();
@@ -40,7 +40,6 @@ export class AuthRepository extends Repository<Users> {
         }
 
         this.logger.verbose(`User with email: ${email} successfully registered!`);
-        return user;
     }
 
     // Change user information
@@ -85,7 +84,7 @@ export class AuthRepository extends Repository<Users> {
                 from: '"Simple Transport Support" <support@simpletransport.com>',
                 to: email,
                 subject: 'Password change request',
-                html: MailTemplate(first_name, last_name, `${process.env.SERVER_IP}/change-password/${passRequestToken}`),
+                html: MailTemplate(first_name, last_name, `${process.env.SERVER_IP}/change-password?token=${passRequestToken}`),
             });
 
             await this.save(currentUser);

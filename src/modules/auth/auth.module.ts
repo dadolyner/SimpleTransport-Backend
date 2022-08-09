@@ -13,8 +13,8 @@ import { JwtStrategy } from './jwt/jwt.strategy';
         TypeOrmModule.forFeature([AuthRepository]),
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register({
-            secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: 604800 },
+            secret: process.env.ACCESS_TOKEN_SECRET,
+            signOptions: { expiresIn: '60s' },
         }),
     ],
     controllers: [AuthController],

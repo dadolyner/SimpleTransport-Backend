@@ -20,7 +20,7 @@ export class AuthService {
     ) { }
 
     // Register user
-    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<Users> {
+    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
         return this.authRepository.register(signupCredentials);
     }
 
