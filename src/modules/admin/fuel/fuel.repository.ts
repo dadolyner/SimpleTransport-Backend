@@ -43,7 +43,7 @@ export class FuelRepository extends Repository<Fuels> {
                 this.logger.error(`Fuel: ${newFuel.fuel} already exists`);
                 throw new ConflictException('This fuel already exists!');
             } else {
-                this.logger.error(`Adding a fuel failed!. Reason: ${error.message}`);
+                this.logger.error(`Editing a fuel failed!. Reason: ${error.message}`);
                 throw new InternalServerErrorException();
             }
         }

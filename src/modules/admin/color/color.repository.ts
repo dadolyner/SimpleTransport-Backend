@@ -43,7 +43,7 @@ export class ColorRepository extends Repository<Colors> {
                 this.logger.error(`Color: ${newColor.color} already exists`);
                 throw new ConflictException('This color already exists!');
             } else {
-                this.logger.error(`Adding a color failed!. Reason: ${error.message}`);
+                this.logger.error(`Editing a color failed!. Reason: ${error.message}`);
                 throw new InternalServerErrorException();
             }
         }
