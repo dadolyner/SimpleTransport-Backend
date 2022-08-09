@@ -8,8 +8,8 @@ export class PostalRepository extends Repository<Postals> {
     private readonly logger = new Logger(PostalRepository.name);
 
     // Create Postal
-    async createPostal(postal: CreatePostalDto): Promise<void> {
-        const {post_office, post_number} = postal
+    async createPostal(postalDto: CreatePostalDto): Promise<void> {
+        const { post_office, post_number } = postalDto
 
         const newPostal = new Postals()
         newPostal.post_office = post_office
@@ -32,14 +32,14 @@ export class PostalRepository extends Repository<Postals> {
     }
 
     // Edit Postal
-    async editPostal(postalId: string, newPostal: CreatePostalDto): Promise<void> {
+    async editPostal(postalId: string, postalDto: CreatePostalDto): Promise<void> {
         const existingPostal = await this.findOne({ where: { id: postalId } });
         if (!existingPostal) {
             this.logger.error(`Postal with id: ${postalId} does not exist`);
             throw new ConflictException('This postal does not exist!');
         }
 
-        const { post_office, post_number } = newPostal
+        const { post_office, post_number } = postalDto
         existingPostal.post_office = post_office
         existingPostal.post_number = post_number
         existingPostal.updated_at = new Date()

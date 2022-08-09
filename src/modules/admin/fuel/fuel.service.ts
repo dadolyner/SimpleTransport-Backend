@@ -18,13 +18,13 @@ export class FuelService {
     }
 
     // Create Fuel
-    async createFuel(fuel: CreateFuelDto): Promise<void> {
-        await this.fuelRepository.createFuel(fuel);
+    async createFuel(fuelDto: CreateFuelDto): Promise<void> {
+        await this.fuelRepository.createFuel(fuelDto);
     }
 
     // Edit Fuel
-    async editFuel(fuelId: string, newFuel: CreateFuelDto): Promise<void> {
-        await this.fuelRepository.editFuel(fuelId, newFuel);
+    async editFuel(fuelId: string, fuelDto: CreateFuelDto): Promise<void> {
+        await this.fuelRepository.editFuel(fuelId, fuelDto);
     }
 
     // Delete Fuel

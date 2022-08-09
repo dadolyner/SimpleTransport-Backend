@@ -16,14 +16,14 @@ export class ColorController {
 
     // Create Color
     @Post()
-    async createColor(@Body() color: CreateColorDto): Promise<void> {
-        return this.colorService.createColor(color);
+    async createColor(@Body() colorDto: CreateColorDto): Promise<void> {
+        return this.colorService.createColor(colorDto);
     }
 
     // Edit Color
     @Patch()
-    async editColor(@Query('id') colorId: string, @Body() color: CreateColorDto): Promise<void> {
-        return this.colorService.editColor(colorId, color);
+    async editColor(@Query('id') colorId: string, @Body() colorDto: CreateColorDto): Promise<void> {
+        return this.colorService.editColor(colorId, colorDto);
     }
 
     // Delete Color

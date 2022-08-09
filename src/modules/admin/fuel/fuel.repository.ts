@@ -8,15 +8,18 @@ export class FuelRepository extends Repository<Fuels> {
     private readonly logger = new Logger(FuelRepository.name);
 
     // Create Fuel
-    async createFuel(fuel: CreateFuelDto): Promise<void> {
+    async createFuel(fuelDto: CreateFuelDto): Promise<void> {
+        const { fuel } = fuelDto;
+
         const newFuel = new Fuels()
-        newFuel.fuel = fuel.fuel
+        newFuel.fuel = fuel
         newFuel.created_at = new Date()
         newFuel.updated_at = new Date()
+
         try { await newFuel.save() }
         catch (error) {
             if (error.code == 23505) {
-                this.logger.error(`Fuel: ${fuel.fuel} already exists`);
+                this.logger.error(`Fuel: ${fuel} already exists`);
                 throw new ConflictException('This fuel already exists!');
             } else {
                 this.logger.error(`Adding a fuel failed!. Reason: ${error.message}`);
@@ -24,23 +27,24 @@ export class FuelRepository extends Repository<Fuels> {
             }
         }
 
-        this.logger.verbose(`Fuel: ${fuel.fuel} successfully added!`);
+        this.logger.verbose(`Fuel: ${fuel} successfully added!`);
     }
 
     // Edit Fuel
-    async editFuel(fuelId: string, newFuel: CreateFuelDto): Promise<void> {
+    async editFuel(fuelId: string, fuelDto: CreateFuelDto): Promise<void> {
         const existingFuel = await this.findOne({ where: { id: fuelId } });
         if (!existingFuel) {
             this.logger.error(`Fuel with id: ${fuelId} does not exist`);
             throw new ConflictException('This fuel does not exist!');
         }
-
-        existingFuel.fuel = newFuel.fuel
+        
+        const { fuel } = fuelDto;
+        existingFuel.fuel = fuel
         existingFuel.updated_at = new Date()
         try { await existingFuel.save() }
         catch (error) {
             if (error.code == 23505) {
-                this.logger.error(`Fuel: ${newFuel.fuel} already exists`);
+                this.logger.error(`Fuel: ${fuel} already exists`);
                 throw new ConflictException('This fuel already exists!');
             } else {
                 this.logger.error(`Editing a fuel failed!. Reason: ${error.message}`);
@@ -48,7 +52,7 @@ export class FuelRepository extends Repository<Fuels> {
             }
         }
 
-        this.logger.verbose(`Fuel: ${newFuel.fuel} successfully edited!`);
+        this.logger.verbose(`Fuel: ${fuel} successfully edited!`);
     }
 
     // Delete Fuel

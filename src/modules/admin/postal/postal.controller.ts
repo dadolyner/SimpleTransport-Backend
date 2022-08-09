@@ -16,14 +16,14 @@ export class PostalController {
 
     // Create Postal
     @Post()
-    async createPostal(@Body() postal: CreatePostalDto): Promise<void> {
-        return this.postalService.createPostal(postal);
+    async createPostal(@Body() postalDto: CreatePostalDto): Promise<void> {
+        return this.postalService.createPostal(postalDto);
     }
 
     // Edit Postal
     @Patch()
-    async editPostal(@Query('id') postalId: string, @Body() newPostal: CreatePostalDto): Promise<void> {
-        return this.postalService.editPostal(postalId, newPostal);
+    async editPostal(@Query('id') postalId: string, @Body() postalDto: CreatePostalDto): Promise<void> {
+        return this.postalService.editPostal(postalId, postalDto);
     }
 
     // Delete Postal

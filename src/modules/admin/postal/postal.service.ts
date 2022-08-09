@@ -18,13 +18,13 @@ export class PostalService {
     }
 
     // Create Postal
-    async createPostal(postal: CreatePostalDto): Promise<void> {
-        await this.postalRepository.createPostal(postal);
+    async createPostal(postalDto: CreatePostalDto): Promise<void> {
+        await this.postalRepository.createPostal(postalDto);
     }
 
     // Edit Postal
-    async editPostal(postalId: string, newPostal: CreatePostalDto): Promise<void> {
-        await this.postalRepository.editPostal(postalId, newPostal);
+    async editPostal(postalId: string, postalDto: CreatePostalDto): Promise<void> {
+        await this.postalRepository.editPostal(postalId, postalDto);
     }
 
     // Delete Postal

@@ -16,14 +16,14 @@ export class FuelController {
 
     // Create Fuel
     @Post()
-    async createFuel(@Body() fuel: CreateFuelDto): Promise<void> {
-        await this.fuelService.createFuel(fuel);
+    async createFuel(@Body() fuelDto: CreateFuelDto): Promise<void> {
+        await this.fuelService.createFuel(fuelDto);
     }
 
     // Edit Fuel
     @Patch()
-    async editFuel(@Query('id') fuelId: string, @Body() newFuel: CreateFuelDto): Promise<void> {
-        await this.fuelService.editFuel(fuelId, newFuel);
+    async editFuel(@Query('id') fuelId: string, @Body() fuelDto: CreateFuelDto): Promise<void> {
+        await this.fuelService.editFuel(fuelId, fuelDto);
     }
 
     // Delete Fuel

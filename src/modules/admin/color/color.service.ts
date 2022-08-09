@@ -18,13 +18,13 @@ export class ColorService {
     }
 
     // Create Color
-    async createColor(color: CreateColorDto): Promise<void> {
-        return this.colorRepository.createColor(color);
+    async createColor(colorDto: CreateColorDto): Promise<void> {
+        return this.colorRepository.createColor(colorDto);
     }
 
     // Edit Color
-    async editColor(colorId: string, newColor: CreateColorDto): Promise<void> {
-        return this.colorRepository.editColor(colorId, newColor);
+    async editColor(colorId: string, colorDto: CreateColorDto): Promise<void> {
+        return this.colorRepository.editColor(colorId, colorDto);
     }
 
     // Delete Color
