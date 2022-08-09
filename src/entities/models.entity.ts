@@ -4,7 +4,7 @@ import {
     PrimaryGeneratedColumn,
     Column,
     BaseEntity,
-    OneToOne,
+    ManyToOne,
 } from 'typeorm';
 import { Brands } from './brands.entity';
 
@@ -27,6 +27,6 @@ export class Models extends BaseEntity {
 
     // Relations
     // Brands
-    @OneToOne(() => Brands, brand => brand.model, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Brands, brand => brand.model, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     brand: Brands;
 }

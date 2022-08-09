@@ -4,8 +4,8 @@ import {
     PrimaryGeneratedColumn,
     Column,
     BaseEntity,
-    OneToOne,
     OneToMany,
+    ManyToOne,
 } from 'typeorm';
 import { Countries } from './countries.entity';
 import { Postals } from './postals.entity';
@@ -33,11 +33,11 @@ export class Places extends BaseEntity {
 
     // Relations
     // Postals
-    @OneToOne(() => Postals, postal => postal.place, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Postals, postal => postal.place, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     postal: Postals;
 
     // Countries
-    @OneToOne(() => Countries, country => country.place, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Countries, country => country.place, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     country: Countries;
 
     // Users

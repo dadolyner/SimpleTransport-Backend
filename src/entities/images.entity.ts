@@ -4,7 +4,7 @@ import {
     PrimaryGeneratedColumn,
     Column,
     BaseEntity,
-    OneToOne,
+    ManyToOne,
 } from 'typeorm';
 import { Vehicles } from './vehicles.entities';
 import { Users } from './users.entity';
@@ -25,10 +25,10 @@ export class Images extends BaseEntity {
 
     // Relations
     // Users
-    @OneToOne(() => Users, user => user.rental, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Users, user => user.rental, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     user: Users;
 
     // Vehicles
-    @OneToOne(() => Vehicles, vehicle => vehicle.rental, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Vehicles, vehicle => vehicle.rental, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     vehicle: Vehicles;
 }

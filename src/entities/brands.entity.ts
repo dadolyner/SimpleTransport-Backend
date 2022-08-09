@@ -4,8 +4,8 @@ import {
     PrimaryGeneratedColumn,
     Column,
     BaseEntity,
-    OneToOne,
     OneToMany,
+    ManyToOne,
 } from 'typeorm';
 import { Countries } from './countries.entity';
 import { Models } from './models.entity';
@@ -29,7 +29,7 @@ export class Brands extends BaseEntity {
 
     // Relations
     // Countries
-    @OneToOne(() => Countries, country => country.brand, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Countries, country => country.brand, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     country: Countries;
 
     // Models

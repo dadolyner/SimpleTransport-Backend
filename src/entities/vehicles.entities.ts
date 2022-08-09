@@ -5,7 +5,7 @@ import {
     Column,
     BaseEntity,
     OneToMany,
-    OneToOne,
+    ManyToOne,
 } from 'typeorm';
 import { Users } from './users.entity';
 import { Rentals } from './rentals.entity';
@@ -74,7 +74,7 @@ export class Vehicles extends BaseEntity {
 
     // Relations
     // Users
-    @OneToOne(() => Users, user => user.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Users, user => user.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     user: Users;
 
     // Rentals
@@ -82,7 +82,7 @@ export class Vehicles extends BaseEntity {
     rental: Rentals[];
 
     // Colors
-    @OneToOne(() => Colors, color => color.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Colors, color => color.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     color: Colors;
 
     //Fuels

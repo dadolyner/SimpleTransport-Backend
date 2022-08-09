@@ -6,7 +6,7 @@ import {
     BaseEntity,
     Unique,
     OneToMany,
-    OneToOne
+    ManyToOne
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Vehicles } from './vehicles.entities';
@@ -66,11 +66,11 @@ export class Users extends BaseEntity {
     rental: Rentals[];
 
     // Places
-    @OneToOne(() => Places, place => place.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Places, place => place.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     place: Places;
 
     // Images
-    @OneToOne(() => Images, image => image.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @ManyToOne(() => Images, image => image.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     image: Images;
 
     // Functions
