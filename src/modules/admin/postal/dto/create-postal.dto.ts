@@ -1,9 +1,11 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator"
 
 export class CreatePostalDto {
-    @IsString()
-    post_office: string;
+    @IsString({ message: "Postal office must be a string" })
+    @IsNotEmpty({ message: "Postal office is required" })
+    post_office: string
 
-    @IsString()
-    post_number: string;
+    @IsString({ message: "Postal number must be a string" })
+    @IsNotEmpty({ message: "Postal number is required" })
+    post_number: string
 }
