@@ -17,11 +17,11 @@ export class CountryRepository extends Repository<Countries> {
         newCountry.created_at = new Date()
         newCountry.updated_at = new Date()
 
+        const countryExists = await this.findOne({ where: { country: country } })
+        if (countryExists) throw CustomException.conflict(CountryRepository.name, `Country: ${country} already exists!`)
+
         try { await newCountry.save() }
-        catch (error) {
-            if (error.code == 23505) throw CustomException.conflict(CountryRepository.name, `Country: ${country} (${abbreviation}) already exists!`)
-            else throw CustomException.internalServerError(CountryRepository.name, `Adding a country failed! Reason: ${error.message}`)
-        }
+        catch (error) { throw CustomException.internalServerError(CountryRepository.name, `Adding a country failed! Reason: ${error.message}`) }
 
         throw CustomException.created(CountryRepository.name, `Country: ${country} successfully created!`)
     }
@@ -37,11 +37,11 @@ export class CountryRepository extends Repository<Countries> {
         existingCountry.abbreviation = abbreviation
         existingCountry.updated_at = new Date()
 
+        const countryExists = await this.findOne({ where: { country: country } })
+        if (countryExists) throw CustomException.conflict(CountryRepository.name, `Country: ${country} already exists!`)
+
         try { await existingCountry.save() }
-        catch (error) {
-            if (error.code == 23505) throw CustomException.conflict(CountryRepository.name, `Country: ${country} (${abbreviation}) already exist!`)
-            else throw CustomException.internalServerError(CountryRepository.name, `Editing a country failed! Reason: ${error.message}`)
-        }
+        catch (error) { throw CustomException.internalServerError(CountryRepository.name, `Editing a country failed! Reason: ${error.message}`) }
 
         throw CustomException.ok(CountryRepository.name, `Country: ${oldCountry} successfully changed into ${country}!`)
     }

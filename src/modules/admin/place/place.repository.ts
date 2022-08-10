@@ -17,8 +17,8 @@ export class PlaceRepository extends Repository<Places> {
         if (!postalExists) throw CustomException.badRequest(PlaceRepository.name, `Postal with id: ${postalId} does not exist`)
         const countryExists = await Countries.findOne({ where: { id: countryId } })
         if (!countryExists) throw CustomException.badRequest(PlaceRepository.name, `Country with id: ${countryId} does not exist`)
-        const existingPlace = await this.findOne({ where: { place: place, postalId: postalId, countryId: countryId } })
-        if (existingPlace) throw CustomException.badRequest(PlaceRepository.name, `Place: ${place} already exists`)
+        const placeExists = await this.findOne({ where: { place: place, postalId: postalId, countryId: countryId } })
+        if (placeExists) throw CustomException.conflict(PlaceRepository.name, `Place: ${place} already exists`)
 
         const newPlace = new Places()
         newPlace.place = place
@@ -28,7 +28,7 @@ export class PlaceRepository extends Repository<Places> {
         newPlace.updated_at = new Date()
 
         try { await newPlace.save() }
-        catch (error) { throw CustomException.internalServerError(PlaceRepository.name, `Adding a fuel failed!. Reason: ${error.message}`) }
+        catch (error) { throw CustomException.internalServerError(PlaceRepository.name, `Adding a place failed!. Reason: ${error.message}`) }
 
         throw CustomException.created(PlaceRepository.name, `Place: ${place} successfully created!`)
     }
@@ -45,8 +45,8 @@ export class PlaceRepository extends Repository<Places> {
         existingPlace.countryId = countryId
         existingPlace.updated_at = new Date()
 
-        const existingPlaceConnection = await this.findOne({ where: { place: place } && { postalId: postalId } && { countryId: countryId } })
-        if (existingPlaceConnection) throw CustomException.conflict(PlaceRepository.name, `Place: ${place} with postalId: ${postalId} and countryId: ${countryId} already exists`)
+        const placeExists = await this.findOne({ where: { place: place } && { postalId: postalId } && { countryId: countryId } })
+        if (placeExists) throw CustomException.conflict(PlaceRepository.name, `Place: ${place} with postalId: ${postalId} and countryId: ${countryId} already exists`)
 
         try { await existingPlace.save() }
         catch (error) { throw CustomException.internalServerError(PlaceRepository.name, `Editing a place failed! Reason: ${error.message}`) }
@@ -59,7 +59,6 @@ export class PlaceRepository extends Repository<Places> {
         const existingPlace = await this.findOne({ where: { id: placeId } })
         if (!existingPlace) throw CustomException.conflict(PlaceRepository.name, `Place with id: ${placeId} does not exist!`)
 
-        const { place } = existingPlace
         try { await this.delete(placeId) }
         catch (error) {throw CustomException.internalServerError(PlaceRepository.name, `Deleting a place failed! Reason: ${error.message}`)}
 

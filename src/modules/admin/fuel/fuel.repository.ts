@@ -16,11 +16,11 @@ export class FuelRepository extends Repository<Fuels> {
         newFuel.created_at = new Date()
         newFuel.updated_at = new Date()
 
+        const fuelExists = await this.findOne({ where: { fuel: fuel } })
+        if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel: ${fuel} already exists!`)
+
         try { await newFuel.save() }
-        catch (error) {
-            if (error.code == 23505) throw CustomException.conflict(FuelRepository.name, `Fuel: ${fuel} already exists!`)
-            else throw CustomException.internalServerError(FuelRepository.name, `Adding a fuel failed!. Reason: ${error.message}`)
-        }
+        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Adding a fuel failed!. Reason: ${error.message}`) }
 
         throw CustomException.created(FuelRepository.name, `Fuel: ${fuel} successfully created!`)
     }
@@ -35,11 +35,11 @@ export class FuelRepository extends Repository<Fuels> {
         existingFuel.fuel = fuel
         existingFuel.updated_at = new Date()
 
+        const fuelExists = await this.findOne({ where: { fuel: fuel } })
+        if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel: ${fuel} already exists!`)
+
         try { await existingFuel.save() }
-        catch (error) {
-            if (error.code == 23505) throw CustomException.conflict(FuelRepository.name, `Fuel: ${fuel} already exist!`)
-            else throw CustomException.internalServerError(FuelRepository.name, `Editing a fuel failed! Reason: ${error.message}`)
-        }
+        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Editing a fuel failed! Reason: ${error.message}`) }
 
         throw CustomException.ok(FuelRepository.name, `Fuel: ${oldFuel} successfully changed into ${fuel}!`)
     }
