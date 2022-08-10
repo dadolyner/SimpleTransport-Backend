@@ -1,8 +1,9 @@
 // Place DTO
-import { IsString, IsUUID } from "class-validator"
+import { IsNotEmpty, IsString, IsUUID } from "class-validator"
 
 export class CreatePlaceDto {
     @IsString({ message: "Place must be a string!" })
+    @IsNotEmpty({ message: "Place is required!" })
     place: string
 
     @IsString({ message: "postalId must be a valid uuid string!" })
