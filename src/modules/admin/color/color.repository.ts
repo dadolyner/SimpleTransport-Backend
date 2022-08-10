@@ -1,15 +1,15 @@
-import { ConflictException, InternalServerErrorException, Logger } from "@nestjs/common";
-import { Colors } from "src/entities/colors.entity";
-import { EntityRepository, Repository } from "typeorm";
-import { CreateColorDto } from "./dto/create-color.dto";
+// Color Repository
+import { Colors } from "src/entities/colors.entity"
+import { CustomException } from "src/HttpException/custom.exception"
+import { EntityRepository, Repository } from "typeorm"
+import { CreateColorDto } from "./dto/create-color.dto"
 
 @EntityRepository(Colors)
 export class ColorRepository extends Repository<Colors> {
-    private readonly logger = new Logger(ColorRepository.name);
-
+    
     // Create Color
     async createColor(colorDto: CreateColorDto): Promise<void> {
-        const { color } = colorDto;
+        const { color } = colorDto
 
         const newColor = new Colors()
         newColor.color = color
@@ -18,58 +18,40 @@ export class ColorRepository extends Repository<Colors> {
 
         try { await newColor.save() }
         catch (error) {
-            if (error.code == 23505) {
-                this.logger.error(`Color: ${color} already exists`);
-                throw new ConflictException('This color already exists!');
-            } else {
-                this.logger.error(`Adding a color failed!. Reason: ${error.message}`);
-                throw new InternalServerErrorException();
-            }
+            if (error.code == 23505) throw CustomException.conflict(ColorRepository.name, `Color: ${color} already exists!`)
+            else throw CustomException.internalServerError(ColorRepository.name, `Adding a color failed! Reason: ${error.message} `)
         }
 
-        this.logger.verbose(`Color: ${color} successfully added!`);
+        throw CustomException.created(ColorRepository.name, `Color: ${color} successfully created!`)
     }
 
     // Edit Color
     async editColor(colorId: string, colorDto: CreateColorDto): Promise<void> {
-        const existingColor = await this.findOne({ where: { id: colorId } });
-        if (!existingColor) {
-            this.logger.error(`Color with id: ${colorId} does not exist`);
-            throw new ConflictException('This color does not exist!');
-        }
+        const existingColor = await this.findOne({ where: { id: colorId } })
+        if (!existingColor) throw CustomException.notFound(ColorRepository.name, `Color with id: ${colorId} does not exist!`)
         
-        const { color } = colorDto;
+        const oldColor = existingColor.color
+        const { color } = colorDto
         existingColor.color = color
         existingColor.updated_at = new Date()
         
         try { await existingColor.save() }
         catch (error) {
-            if (error.code == 23505) {
-                this.logger.error(`Color: ${color} already exists`);
-                throw new ConflictException('This color already exists!');
-            } else {
-                this.logger.error(`Editing a color failed!. Reason: ${error.message}`);
-                throw new InternalServerErrorException();
-            }
+            if (error.code == 23505) throw CustomException.conflict(ColorRepository.name, `Color: ${color} already exists!`)
+            else throw CustomException.internalServerError(ColorRepository.name, `Editing a color failed! Reason: ${error.message}`)
         }
 
-        this.logger.verbose(`Color: ${color} successfully edited!`);
+        throw CustomException.ok(ColorRepository.name, `Color: ${oldColor} successfully changed into ${color} !`)
     }
 
     // Delete Color
     async deleteColor(colorId: string): Promise<void> {
-        const existingColor = await this.findOne({ where: { id: colorId } });
-        if (!existingColor) {
-            this.logger.error(`Color with id: ${colorId} does not exist`);
-            throw new ConflictException('This color does not exist!');
-        }
+        const existingColor = await this.findOne({ where: { id: colorId } })
+        if (!existingColor) throw CustomException.notFound(ColorRepository.name, `Color with id: ${colorId} does not exist!`)
 
         try { await existingColor.remove() }
-        catch (error) {
-            this.logger.error(`Deleting a color failed!. Reason: ${error.message}`);
-            throw new InternalServerErrorException();
-        }
+        catch (error) { throw CustomException.internalServerError(ColorRepository.name, `Deleting a color failed! Reason: ${error.message}`) }
 
-        this.logger.verbose(`Color: ${existingColor.color} successfully deleted!`);
+        throw CustomException.ok(ColorRepository.name, `Color: ${existingColor.color} successfully deleted!`)
     }
 }
