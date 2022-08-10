@@ -44,7 +44,7 @@ export class Users extends BaseEntity {
     @Column({ nullable: true, default: null })
     passRequestTokenExpiryDate: Date;
 
-    @Column({ nullable: true, default: null })
+    @Column()
     placeId: string;
     
     @Column({ nullable: true, default: null })
