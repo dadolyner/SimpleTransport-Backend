@@ -1,5 +1,34 @@
 // Model Controller
-import { Controller } from '@nestjs/common';
+import { Body, Query, Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { Models } from 'src/entities/models.entity'
+import { CreateModelDto } from './dto/create-model.dto'
+import { ModelService } from './model.service'
 
-@Controller()
-export class ModelController {}
+@Controller('model')
+export class ModelController {
+    constructor(private readonly modelService: ModelService) {}
+
+    // Get Models
+    @Get()
+    async getModels(modelId: string): Promise<Models[]> {
+        return this.modelService.getModels(modelId)
+    }
+
+    // Create Model
+    @Post()
+    async createModel(@Body() modelDto: CreateModelDto): Promise<void> {
+        return this.modelService.createModel(modelDto)
+    }
+
+    // Edit Model
+    @Patch()
+    async editModel(@Query('id') modelId: string, @Body() modelDto: CreateModelDto): Promise<void> {
+        return this.modelService.editModel(modelId, modelDto)
+    }
+
+    // Delete Model
+    @Delete()
+    async deleteModel(@Query('id') modelId: string): Promise<void> {
+        return this.modelService.deleteModel(modelId)
+    }
+}
