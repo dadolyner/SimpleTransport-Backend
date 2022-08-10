@@ -1,6 +1,7 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateFuelDto {
-    @IsString()
-    fuel: string;
+    @IsString({ message: "Fuel must be a string" })
+    @IsNotEmpty({ message: "Fuel is required" })
+    fuel: string
 }
