@@ -62,6 +62,6 @@ export class CustomException extends HttpException {
     static internalServerError(location: string, message: string) {
         const logger = new Logger(location)
         logger.error(message)
-        return new CustomException(message, 505)
+        return new CustomException(message, 500)
     }
 }
