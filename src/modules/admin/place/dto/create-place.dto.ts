@@ -1,14 +1,15 @@
-import { IsString, IsUUID } from "class-validator";
+// Place DTO
+import { IsString, IsUUID } from "class-validator"
 
 export class CreatePlaceDto {
-    @IsString()
-    place: string;
+    @IsString({ message: "Place must be a string!" })
+    place: string
 
-    @IsString()
+    @IsString({ message: "postalId must be a valid uuid string!" })
     @IsUUID()
-    postalId: string;
+    postalId: string
 
-    @IsString()
+    @IsString({ message: "countryId must be a valid uuid string!" })
     @IsUUID()
-    countryId: string;
+    countryId: string
 }
