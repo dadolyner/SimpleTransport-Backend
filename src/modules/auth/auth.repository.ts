@@ -1,8 +1,10 @@
 // Authorization Repository
+import { ConflictException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common'
 import { EntityRepository, Repository } from 'typeorm'
 import { Users } from '../../entities/users.entity'
 import * as bcrypt from 'bcrypt'
 import { AuthSignUpCredentialsDto } from './dto/auth-credentials-signup.dto'
+import { Logger } from '@nestjs/common'
 import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto'
 import { AuthChangePasswordDto } from './dto/auth-changePassword.dto'
 import transporter from '../../mail/mail.config'
@@ -11,6 +13,7 @@ import { CustomException } from 'src/HttpException/custom.exception'
 
 @EntityRepository(Users)
 export class AuthRepository extends Repository<Users> {
+    private readonly logger = new Logger(AuthRepository.name)
 
     // Register user
     async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
@@ -63,7 +66,6 @@ export class AuthRepository extends Repository<Users> {
         const { first_name, last_name, email } = userExists
         const passRequestToken = await userExists.generateToken(64)
         const passRequestTokenExpiryDate = new Date(new Date().getTime() + 600000)
-
         userExists.passRequestToken = passRequestToken
         userExists.passRequestTokenExpiryDate = passRequestTokenExpiryDate
 
