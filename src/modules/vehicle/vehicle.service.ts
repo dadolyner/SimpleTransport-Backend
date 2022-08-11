@@ -11,7 +11,6 @@ export class VehicleService {
 
     // Get Vehicles
     async getVehicles(vehicleId: string): Promise<Vehicles[]> {
-        this.logger.log(`Starting query`)
         let vehicleQuery = this.vehicleRepository.createQueryBuilder()
             .select([
                 'vehicle.id',
