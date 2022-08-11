@@ -9,8 +9,8 @@ export class PlaceController {
 
     // Get places
     @Get()
-    async getPlaces(@Query('id') placeId: string): Promise<Places[]> {
-        return await this.placeService.getPlaces(placeId)
+    async getPlaces(@Query() placeFilters: string): Promise<Places[]> {
+        return await this.placeService.getPlaces(placeFilters)
     }
 
     // Create place

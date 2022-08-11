@@ -7,10 +7,10 @@ import { RentalRepository } from './rental.repository';
 @Injectable()
 export class RentalService {
     private readonly logger = new Logger(RentalService.name)
-    constructor(@InjectRepository(RentalRepository) private readonly rentalRepository: RentalRepository) {}
+    constructor(@InjectRepository(RentalRepository) private readonly rentalRepository: RentalRepository) { }
 
     // Get Rentals
-    async getRentals(rentalId: string): Promise<Rentals[]> {
+    async getRentals(rentalFilters: string): Promise<Rentals[]> {
         let rentalQuery = this.rentalRepository.createQueryBuilder()
             .select([
                 'rental.id',
@@ -61,7 +61,7 @@ export class RentalService {
             .leftJoin('vehicle.model', 'model')
             .leftJoin('model.brand', 'brand')
             .leftJoin('brand.country', 'country')
-        if (rentalId) rentalQuery = rentalQuery.where('rental.id = :id', { id: rentalId })
+            .where(rentalFilters)
 
         const rentals = await rentalQuery.getMany()
         this.logger.verbose(`Retrieving rentals. Found ${rentals.length} items.`)

@@ -10,8 +10,8 @@ export class ModelController {
 
     // Get Models
     @Get()
-    async getModels(modelId: string): Promise<Models[]> {
-        return this.modelService.getModels(modelId)
+    async getModels(@Query() modelFilters: string): Promise<Models[]> {
+        return this.modelService.getModels(modelFilters)
     }
 
     // Create Model

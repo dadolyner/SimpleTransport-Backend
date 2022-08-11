@@ -11,16 +11,20 @@ export class CountryService {
     constructor(@InjectRepository(CountryRepository) private readonly countryRepository: CountryRepository) {}
 
     // Get Countries
-    async getCountries(countryId: string): Promise<Countries[]> {
-        if (countryId) {
-            const countries = await this.countryRepository.find({ where: { id: countryId } })
-            this.logger.verbose(`Retrieving country with id: ${countryId}. Found ${countries.length} items.`)
-            return countries
-        } else {
-            const countries = await this.countryRepository.find()
-            this.logger.verbose(`Retrieving all countries. Found ${countries.length} items.`)
-            return countries
-        }
+    async getCountries(countryFilters: string): Promise<Countries[]> {
+        const countryQuery = this.countryRepository.createQueryBuilder()
+            .select([
+                'country.id',
+                'country.country',
+                'country.abbreviation',
+            ])
+            .from(Countries, 'country')
+        .where(countryFilters)
+
+        const countries = await countryQuery.getMany()
+        this.logger.verbose(`Retrieving countries. Found ${countries.length} items.`)
+
+        return countries
     }
 
     // Create Country

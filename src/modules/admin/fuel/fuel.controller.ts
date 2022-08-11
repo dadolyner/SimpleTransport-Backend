@@ -9,8 +9,8 @@ export class FuelController {
 
     // Get Fuels
     @Get()
-    async getFuels(@Query('id') fuelId: string): Promise<Fuels[]> {
-        return await this.fuelService.getFuels(fuelId)
+    async getFuels(@Query() fuelFilters: string): Promise<Fuels[]> {
+        return await this.fuelService.getFuels(fuelFilters)
     }
 
     // Create Fuel

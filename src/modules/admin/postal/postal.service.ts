@@ -11,16 +11,20 @@ export class PostalService {
     constructor(@InjectRepository(PostalRepository) private readonly postalRepository: PostalRepository) {}
 
     // Get Postals
-    async getPostals(postalId: string): Promise<Postals[]> {
-        if (postalId) {
-            const postals = await this.postalRepository.find({ where: { id: postalId } })
-            this.logger.verbose(`Retrieving postal with id: ${postalId}. Found ${postals.length} items.`)
-            return postals
-        } else {
-            const postals = await this.postalRepository.find()
-            this.logger.verbose(`Retrieving all postals. Found ${postals.length} items.`)
-            return postals
-        }
+    async getPostals(postalFilters: string): Promise<Postals[]> {
+        const postalsQuery = this.postalRepository.createQueryBuilder()
+            .select([
+                'postal.id',
+                'postal.post_office',
+                'postal.post_number',
+            ])
+            .from(Postals, 'postal')
+            .where(postalFilters)
+
+        const postals = await postalsQuery.getMany()
+        this.logger.verbose(`Retrieving postals. Found ${postals.length} items.`)
+
+        return postals
     }
 
     // Create Postal

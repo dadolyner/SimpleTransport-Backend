@@ -11,16 +11,19 @@ export class ColorService {
     constructor(@InjectRepository(ColorRepository) private readonly colorRepository: ColorRepository) { }
 
     // Get Colors
-    async getColors(colorId: string): Promise<Colors[]> {
-        if (colorId) {
-            const colors = await this.colorRepository.find({ where: { id: colorId } })
-            this.logger.verbose(`Retrieving color with id: ${colorId}. Found ${colors.length} items.`)
-            return colors
-        } else {
-            const colors = await this.colorRepository.find()
-            this.logger.verbose(`Retrieving all colors. Found ${colors.length} items.`)
-            return colors
-        }
+    async getColors(colorFilters: string): Promise<Colors[]> {
+        const colorsQuery = this.colorRepository.createQueryBuilder()
+            .select([
+                'color.id',
+                'color.color',
+            ])
+            .from(Colors, 'color')
+        .where(colorFilters)
+
+        const colors = await colorsQuery.getMany()
+        this.logger.verbose(`Retrieving colors. Found ${colors.length} items.`)
+
+        return colors
     }
 
     // Create Color

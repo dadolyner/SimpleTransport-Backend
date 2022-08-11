@@ -11,8 +11,8 @@ export class BrandService {
     constructor(@InjectRepository(BrandRepository) private readonly brandRepository: BrandRepository) {}
 
     // Get Brands
-    async getBrands(brandId: string): Promise<Brands[]> {
-        let brandsQuery = this.brandRepository.createQueryBuilder()
+    async getBrands(brandFilters: string): Promise<Brands[]> {
+        const brandsQuery = this.brandRepository.createQueryBuilder()
             .select([
                 'brand.id',
                 'brand.brand',
@@ -20,7 +20,7 @@ export class BrandService {
             ])
             .from(Brands, 'brand')
             .innerJoin('brand.country', 'country')
-        if(brandId) brandsQuery = brandsQuery.where('brand.id = :id', { id: brandId })
+        .where(brandFilters)
 
         const brands = await brandsQuery.getMany()
         this.logger.verbose(`Retrieving brands. Found ${brands.length} items.`)

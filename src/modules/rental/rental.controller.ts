@@ -9,8 +9,8 @@ export class RentalController {
 
     // Get Rentals
     @Get()
-    async getRentals(@Query('id') rentalId: string): Promise<Rentals[]> {
-        return this.rentalService.getRentals(rentalId);
+    async getRentals(@Query() rentalFilters: string): Promise<Rentals[]> {
+        return this.rentalService.getRentals(rentalFilters);
     }
 
     // Create Rental

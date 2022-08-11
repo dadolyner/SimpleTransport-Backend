@@ -9,8 +9,8 @@ export class VehicleController {
 
     // Get Vehicles
     @Get()
-    async getVehicles(@Query('id') vehicleId: string): Promise<Vehicles[]> {
-        return await this.vehicleService.getVehicles(vehicleId)
+    async getVehicles(@Query() vehicleFilters: string): Promise<Vehicles[]> {
+        return await this.vehicleService.getVehicles(vehicleFilters)
     }
 
     // Create Vehicle

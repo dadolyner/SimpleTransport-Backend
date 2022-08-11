@@ -10,7 +10,7 @@ export class VehicleService {
     constructor(@InjectRepository(VehicleRepository) private readonly vehicleRepository: VehicleRepository) { }
 
     // Get Vehicles
-    async getVehicles(vehicleId: string): Promise<Vehicles[]> {
+    async getVehicles(vehicleFilters: string): Promise<Vehicles[]> {
         let vehicleQuery = this.vehicleRepository.createQueryBuilder()
             .select([
                 'vehicle.id',
@@ -57,7 +57,7 @@ export class VehicleService {
             .leftJoin('vehicle.model', 'model')
             .leftJoin('model.brand', 'brand')
             .leftJoin('brand.country', 'country')
-        if (vehicleId) vehicleQuery = vehicleQuery.where('vehicle.id = :id', { id: vehicleId })
+            .where(vehicleFilters)
 
         const vehicles = await vehicleQuery.getMany()
         this.logger.verbose(`Retrieving vehicles. Found ${vehicles.length} items.`)

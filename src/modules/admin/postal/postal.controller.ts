@@ -10,8 +10,8 @@ export class PostalController {
 
     // Get Postals
     @Get()
-    async getPostals(@Query('id') postalId: string): Promise<Postals[]> {
-        return this.postalService.getPostals(postalId)
+    async getPostals(@Query() postalFilters: string): Promise<Postals[]> {
+        return this.postalService.getPostals(postalFilters)
     }
 
     // Create Postal

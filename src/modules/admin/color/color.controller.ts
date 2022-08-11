@@ -10,8 +10,8 @@ export class ColorController {
 
     // Get All Colors
     @Get()
-    async getAllColors(@Query('id') colorId: string): Promise<Colors[]> {
-        return this.colorService.getColors(colorId)
+    async getAllColors(@Query() colorFilters: string): Promise<Colors[]> {
+        return this.colorService.getColors(colorFilters)
     }
 
     // Create Color

@@ -10,8 +10,8 @@ export class CountryController {
 
     // Get Countries
     @Get()
-    async getCountries(@Query('id') countryId: string): Promise<Countries[]> {
-        return this.countryService.getCountries(countryId)
+    async getCountries(@Query() countryFilters: string): Promise<Countries[]> {
+        return this.countryService.getCountries(countryFilters)
     }
 
     // Create Country

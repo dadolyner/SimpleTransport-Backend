@@ -10,7 +10,7 @@ export class PlaceService {
     constructor(@InjectRepository(PlaceRepository) private readonly placeRepository: PlaceRepository) { }
 
     // Get places
-    async getPlaces(placeId: string): Promise<Places[]> {
+    async getPlaces(placeFilters: string): Promise<Places[]> {
         let placesQuery = this.placeRepository.createQueryBuilder()
             .select([
                 'place.id',
@@ -22,7 +22,7 @@ export class PlaceService {
             .from(Places, 'place')
             .innerJoin('place.postal', 'postal')
             .innerJoin('place.country', 'country')
-        if(placeId) placesQuery = placesQuery.where('place.id = :id', { id: placeId })
+            .where(placeFilters)
 
         const places = await placesQuery.getMany()
         this.logger.verbose(`Retrieving places. Found ${places.length} items.`)

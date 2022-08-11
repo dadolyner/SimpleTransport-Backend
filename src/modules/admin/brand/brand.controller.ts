@@ -6,12 +6,12 @@ import { CreateBrandDto } from './dto/create-brand.dto'
 
 @Controller('brand')
 export class BrandController {
-    constructor(private readonly brandservice: BrandService) {}
+    constructor(private readonly brandservice: BrandService) { }
 
     // Get Brands
     @Get()
-    async getBrands(brandId: string): Promise<Brands[]> {
-        return this.brandservice.getBrands(brandId)
+    async getBrands(@Query() brandFilters: string): Promise<Brands[]> {
+        return this.brandservice.getBrands(brandFilters)
     }
 
     // Create Brand

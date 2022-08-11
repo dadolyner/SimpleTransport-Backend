@@ -8,11 +8,11 @@ import { ModelRepository } from './model.repository'
 @Injectable()
 export class ModelService {
     private readonly logger = new Logger(ModelService.name)
-    constructor(@InjectRepository(ModelRepository) private readonly modelRepository: ModelRepository) {}
+    constructor(@InjectRepository(ModelRepository) private readonly modelRepository: ModelRepository) { }
 
     // Get Models
-    async getModels(modelId: string): Promise<Models[]> {
-        let modelsQuery = this.modelRepository.createQueryBuilder()
+    async getModels(modelFilters: string): Promise<Models[]> {
+        const modelsQuery = this.modelRepository.createQueryBuilder()
             .select([
                 'model.id',
                 'model.model',
@@ -22,11 +22,10 @@ export class ModelService {
             .from(Models, 'model')
             .innerJoin('model.brand', 'brand')
             .innerJoin('brand.country', 'country')
-        if(modelId) modelsQuery = modelsQuery.where('model.id = :id', { id: modelId })
+            .where(modelFilters)
 
         const models = await modelsQuery.getMany()
         this.logger.verbose(`Retrieving models. Found ${models.length} items.`)
-
         return models
     }
 

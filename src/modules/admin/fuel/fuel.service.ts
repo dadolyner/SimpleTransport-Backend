@@ -11,16 +11,19 @@ export class FuelService {
     constructor(@InjectRepository(FuelRepository) private readonly fuelRepository: FuelRepository) { }
 
     // Get Fuels
-    async getFuels(fuelId: string): Promise<Fuels[]> {
-        if (fuelId) {
-            const fuels = await this.fuelRepository.find({ where: { id: fuelId } })
-            this.logger.verbose(`Retrieving fuel with id: ${fuelId}. Found ${fuels.length} items.`)
-            return fuels
-        } else {
-            const fuels = await this.fuelRepository.find()
-            this.logger.verbose(`Retrieving all fuels. Found ${fuels.length} items.`)
-            return fuels
-        }
+    async getFuels(fuelFilters: string): Promise<Fuels[]> {
+        const fuelQuery = this.fuelRepository.createQueryBuilder()
+            .select([
+                'fuel.id',
+                'fuel.fuel',
+            ])
+            .from(Fuels, 'fuel')
+        .where(fuelFilters)
+
+        const fuels = await fuelQuery.getMany()
+        this.logger.verbose(`Retrieving fuels. Found ${fuels.length} items.`)
+
+        return fuels
     }
 
     // Create Fuel
