@@ -12,6 +12,7 @@ import { Rentals } from './rentals.entity';
 import { Colors } from './colors.entity';
 import { Fuels } from './fuels.entity';
 import { Images } from './images.entity';
+import { Models } from './models.entity';
 
 @Entity('vehicles')
 export class Vehicles extends BaseEntity {
@@ -30,7 +31,7 @@ export class Vehicles extends BaseEntity {
     @Column()
     torque: number;
 
-    @Column()
+    @Column('float')
     acceleration: number;
 
     @Column()
@@ -49,12 +50,9 @@ export class Vehicles extends BaseEntity {
     vin: string;
 
     @Column()
-    class: string;
-
-    @Column()
     userId: string;
 
-    @Column()
+    @Column({ nullable: true, default: null })
     imageId: string;
 
     @Column()
@@ -77,6 +75,10 @@ export class Vehicles extends BaseEntity {
     @ManyToOne(() => Users, user => user.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     user: Users;
 
+    // Models
+    @ManyToOne(() => Models, model => model.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    model: Models;
+
     // Rentals
     @OneToMany(() => Rentals, rental => rental.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     rental: Rentals[];
@@ -86,8 +88,8 @@ export class Vehicles extends BaseEntity {
     color: Colors;
 
     //Fuels
-    @OneToMany(() => Fuels, fuel => fuel.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    fuel: Fuels[];
+    @ManyToOne(() => Fuels, fuel => fuel.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    fuel: Fuels;
 
     // Images
     @OneToMany(() => Images, image => image.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })

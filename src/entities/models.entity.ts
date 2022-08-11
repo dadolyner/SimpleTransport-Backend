@@ -7,6 +7,7 @@ import {
     ManyToOne,
 } from 'typeorm';
 import { Brands } from './brands.entity';
+import { Vehicles } from './vehicles.entities';
 
 @Entity('models')
 export class Models extends BaseEntity {
@@ -29,4 +30,8 @@ export class Models extends BaseEntity {
     // Brands
     @ManyToOne(() => Brands, brand => brand.model, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     brand: Brands;
+
+    // Vehicles
+    @ManyToOne(() => Vehicles, vehicle => vehicle.model, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    vehicle: Vehicles;
 }
