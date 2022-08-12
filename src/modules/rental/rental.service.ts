@@ -29,7 +29,7 @@ export class RentalService {
                     'place.place',
                     'postal.id',
                     'postal.post_office',
-                    'postal.post_number',
+                    'postal.post_code',
                     'userCountry.id',
                     'userCountry.country',
                     'vehicle.id',
@@ -81,7 +81,7 @@ export class RentalService {
                         username: rental.user.username,
                         place: rental.user.place.place,
                         post_office: rental.user.place.postal.post_office,
-                        post_number: rental.user.place.postal.post_number,
+                        post_code: rental.user.place.postal.post_code,
                         country: rental.user.place.country.country,
                     },
                     vehicle: {

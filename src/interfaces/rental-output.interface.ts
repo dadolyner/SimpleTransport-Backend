@@ -11,7 +11,7 @@ export interface RentalsOutput {
         username: string
         place: string
         post_office: string
-        post_number: string
+        post_code: string
         country: string
     },
     vehicle: {

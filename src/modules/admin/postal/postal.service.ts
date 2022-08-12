@@ -18,7 +18,7 @@ export class PostalService {
                 .select([
                     'postal.id',
                     'postal.post_office',
-                    'postal.post_number',
+                    'postal.post_code',
                 ])
                 .from(Postals, 'postal')
                 .where(postalFilters)

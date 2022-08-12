@@ -7,5 +7,5 @@ export class CreatePostalDto {
 
     @IsString({ message: "Postal number must be a string" })
     @IsNotEmpty({ message: "Postal number is required" })
-    post_number: string
+    post_code: string
 }

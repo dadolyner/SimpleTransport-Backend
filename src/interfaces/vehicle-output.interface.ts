@@ -26,7 +26,7 @@ export interface VehiclesOutput {
         username: string
         place: string
         post_office: string
-        post_number: string
+        post_code: string
         country: string
     },
 }

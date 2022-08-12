@@ -37,7 +37,7 @@ export class VehicleService {
                     'place.place',
                     'postal.id',
                     'postal.post_office',
-                    'postal.post_number',
+                    'postal.post_code',
                     'userCountry.id',
                     'userCountry.country',
                     'color.id',
@@ -92,7 +92,7 @@ export class VehicleService {
                         username: vehicle.user.username,
                         place: vehicle.user.place.place,
                         post_office: vehicle.user.place.postal.post_office,
-                        post_number: vehicle.user.place.postal.post_number,
+                        post_code: vehicle.user.place.postal.post_code,
                         country: vehicle.user.place.country.country,
                     },
                 }

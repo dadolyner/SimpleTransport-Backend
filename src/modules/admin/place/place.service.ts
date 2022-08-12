@@ -20,7 +20,7 @@ export class PlaceService {
                     'place.id',
                     'place.place',
                     'postal.post_office',
-                    'postal.post_number',
+                    'postal.post_code',
                     'country.country',
                 ])
                 .from(Places, 'place')
@@ -34,7 +34,7 @@ export class PlaceService {
                     id: place.id,
                     place: place.place,
                     post_office: place.postal.post_office,
-                    post_number: place.postal.post_number,
+                    post_code: place.postal.post_code,
                     country: place.country.country,
                 }
             })
