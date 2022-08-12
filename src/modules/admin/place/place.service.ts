@@ -24,8 +24,8 @@ export class PlaceService {
                     'country.country',
                 ])
                 .from(Places, 'place')
-                .innerJoin('place.postal', 'postal')
-                .innerJoin('place.country', 'country')
+                .leftJoin('place.postal', 'postal')
+                .leftJoin('place.country', 'country')
                 .where(placeFilters)
                 .getMany()
 

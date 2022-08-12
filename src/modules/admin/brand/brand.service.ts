@@ -22,7 +22,7 @@ export class BrandService {
                     'country.country',
                 ])
                 .from(Brands, 'brand')
-                .innerJoin('brand.country', 'country')
+                .leftJoin('brand.country', 'country')
                 .where(brandFilters)
                 .getMany()
 

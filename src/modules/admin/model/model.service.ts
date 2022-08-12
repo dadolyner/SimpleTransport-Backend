@@ -23,8 +23,8 @@ export class ModelService {
                     'country.country',
                 ])
                 .from(Models, 'model')
-                .innerJoin('model.brand', 'brand')
-                .innerJoin('brand.country', 'country')
+                .leftJoin('model.brand', 'brand')
+                .leftJoin('brand.country', 'country')
                 .where(modelFilters)
                 .getMany()
 
