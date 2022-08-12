@@ -1,15 +1,9 @@
 // Countries Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, Unique } from 'typeorm';
 import { Brands } from './brands.entity';
 import { Places } from './places.entity';
-
 @Entity('countries')
+@Unique(['country', 'abbreviation'])
 export class Countries extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;

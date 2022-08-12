@@ -1,16 +1,9 @@
 // Brands Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    OneToMany,
-    ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, Unique } from 'typeorm';
 import { Countries } from './countries.entity';
 import { Models } from './models.entity';
-
 @Entity('brands')
+@Unique(['brand'])
 export class Brands extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;

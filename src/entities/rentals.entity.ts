@@ -1,14 +1,7 @@
 // Rentals Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm';
 import { Vehicles } from './vehicles.entities';
 import { Users } from './users.entity';
-
 @Entity('rentals')
 export class Rentals extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')

@@ -1,14 +1,8 @@
 // Colors Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, Unique } from 'typeorm';
 import { Vehicles } from './vehicles.entities';
-
 @Entity('colors')
+@Unique(['color'])
 export class Colors extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;

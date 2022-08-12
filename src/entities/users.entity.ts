@@ -1,19 +1,10 @@
 // Users Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    Unique,
-    OneToMany,
-    ManyToOne
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, Unique, OneToMany, ManyToOne } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Vehicles } from './vehicles.entities';
 import { Rentals } from './rentals.entity';
 import { Images } from './images.entity';
 import { Places } from './places.entity';
-
 @Entity('users')
 @Unique(['email', 'username'])
 export class Users extends BaseEntity {
@@ -46,7 +37,7 @@ export class Users extends BaseEntity {
 
     @Column()
     placeId: string;
-    
+
     @Column({ nullable: true, default: null })
     imageId: string;
 

@@ -1,20 +1,13 @@
 // Vehicles Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    OneToMany,
-    ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, Unique } from 'typeorm';
 import { Users } from './users.entity';
 import { Rentals } from './rentals.entity';
 import { Colors } from './colors.entity';
 import { Fuels } from './fuels.entity';
 import { Images } from './images.entity';
 import { Models } from './models.entity';
-
 @Entity('vehicles')
+@Unique(['licence_plate', 'vin'])
 export class Vehicles extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -25,10 +18,10 @@ export class Vehicles extends BaseEntity {
     @Column()
     shifter: string;
 
-    @Column()
+    @Column('float')
     horsepower: number;
 
-    @Column()
+    @Column('float')
     torque: number;
 
     @Column('float')
@@ -37,7 +30,7 @@ export class Vehicles extends BaseEntity {
     @Column()
     year: string;
 
-    @Column()
+    @Column('float')
     price: number;
 
     @Column()

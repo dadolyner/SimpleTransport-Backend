@@ -1,16 +1,8 @@
 // Places Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    OneToMany,
-    ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne } from 'typeorm';
 import { Countries } from './countries.entity';
 import { Postals } from './postals.entity';
 import { Users } from './users.entity';
-
 @Entity('places')
 export class Places extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')

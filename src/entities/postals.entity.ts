@@ -1,14 +1,8 @@
 // Postals Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, Unique } from 'typeorm';
 import { Places } from './places.entity';
-
 @Entity('postals')
+@Unique(['post_code'])
 export class Postals extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -17,7 +11,7 @@ export class Postals extends BaseEntity {
     post_office: string;
 
     @Column()
-    post_number: string;
+    post_code: string;
 
     @Column()
     created_at: Date;

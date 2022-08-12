@@ -1,15 +1,9 @@
 // Models Entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BaseEntity,
-    ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, Unique } from 'typeorm';
 import { Brands } from './brands.entity';
 import { Vehicles } from './vehicles.entities';
-
 @Entity('models')
+@Unique(['model'])
 export class Models extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
