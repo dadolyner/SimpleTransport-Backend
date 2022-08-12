@@ -26,7 +26,7 @@ export class AuthController {
     }
 
     // Change user info
-    @UseGuards(AuthGuard())
+    @UseGuards(AuthGuard('jwt'))
     @Patch('/change-user-info')
     changeUserInfo(@GetUser() user: Users, @Body() userInfo: AuthChangeInfoDto): Promise<void> {
         return this.authService.changeUserInfo(user, userInfo)

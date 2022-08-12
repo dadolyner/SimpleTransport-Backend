@@ -1,4 +1,4 @@
-//Authorization Service
+// Authorization Service
 import { Injectable } from '@nestjs/common'
 import { AuthLoginCredentialsDto } from './dto/auth-credentials-login.dto'
 import { AuthRepository } from './auth.repository'
@@ -30,17 +30,17 @@ export class AuthService {
         const { email, username, password } = userCredentialsDto
 
         const userExists = await this.authRepository.findOne({ where: [{ email }, { username }] })
-        if (!userExists) throw CustomException.badRequest(AuthService.name, 'User not found')
+        if (!userExists) throw CustomException.badRequest(AuthService.name, 'Provided user does not exist.')
         const isPasswordValid = await userExists.validatePassword(password)
-        if (!isPasswordValid) throw CustomException.badRequest(AuthService.name, 'Invalid credentials')
+        if (!isPasswordValid) throw CustomException.badRequest(AuthService.name, 'User entered invalid credentials.')
 
         const payload: JwtPayload = { email }
         const accessToken = this.jwtService.sign(payload)
 
         try {
-            email ? this.logger.verbose(`User with email: ${userCredentialsDto.email} logged in!`) : this.logger.verbose(`User with username: ${userCredentialsDto.username} logged in!`)
+            this.logger.verbose(`User ${userExists.first_name} ${userExists.last_name} <${userExists.email}> <${userExists.username}> successfully logged in.`)
             return { accessToken }
-        } catch (error) { throw CustomException.internalServerError(AuthService.name, `Login failed! Reason: ${error.message}`) }
+        } catch (error) { throw CustomException.internalServerError(AuthService.name, `Login failed. Reason: ${error.message}.`) }
     }
 
     // Change user information
