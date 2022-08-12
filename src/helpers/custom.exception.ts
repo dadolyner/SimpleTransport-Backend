@@ -1,3 +1,4 @@
+// Custom Exceptions extended class 
 import { HttpException, Logger } from "@nestjs/common"
 
 export class CustomException extends HttpException {

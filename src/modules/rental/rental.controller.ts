@@ -1,3 +1,4 @@
+// Rental Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
 import { RentalsOutput } from 'src/interfaces/rental-output.interface'
 import { CreateRentalDto } from './dto/create-rental.dto'

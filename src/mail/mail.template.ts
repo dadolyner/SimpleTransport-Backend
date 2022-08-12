@@ -1,3 +1,4 @@
+// Reset email template
 const MailTemplate = (first_name: string, last_name: string, resetLink: string) => {
     return `
         <!DOCTYPE html>
@@ -22,7 +23,7 @@ const MailTemplate = (first_name: string, last_name: string, resetLink: string) 
             </table>
         </body>
         </html>
-    `;
+    `
 }
 
-export default MailTemplate;
+export default MailTemplate

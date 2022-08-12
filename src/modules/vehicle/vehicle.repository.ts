@@ -1,5 +1,4 @@
 // Vehicle Repository
-import { Brands } from "src/entities/brands.entity"
 import { Colors } from "src/entities/colors.entity"
 import { Fuels } from "src/entities/fuels.entity"
 import { Models } from "src/entities/models.entity"

@@ -1,10 +1,10 @@
 // User Service
 import { Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm';
-import { Users } from 'src/entities/users.entity';
-import { CustomException } from 'src/helpers/custom.exception';
-import { UsersOutput } from 'src/interfaces/users-output.interface';
-import { UserRepository } from './user.repository';
+import { InjectRepository } from '@nestjs/typeorm'
+import { Users } from 'src/entities/users.entity'
+import { CustomException } from 'src/helpers/custom.exception'
+import { UsersOutput } from 'src/interfaces/users-output.interface'
+import { UserRepository } from './user.repository'
 
 @Injectable()
 export class UserService {

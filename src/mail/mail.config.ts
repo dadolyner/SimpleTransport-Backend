@@ -1,4 +1,5 @@
-import * as nodemailer from 'nodemailer';
+// Config setup for nodemailer
+import * as nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
     host: 'smtp-relay.sendinblue.com',
@@ -8,6 +9,6 @@ const transporter = nodemailer.createTransport({
         user: process.env.STMP_USER,
         pass: process.env.STMP_PASS,
     },
-});
+})
 
-export default transporter;
+export default transporter
