@@ -3,6 +3,7 @@ import { Rentals } from "src/entities/rentals.entity"
 import { Users } from "src/entities/users.entity"
 import { Vehicles } from "src/entities/vehicles.entities"
 import { CustomException } from "src/helpers/custom.exception"
+import { getRentDuration } from "src/helpers/rentDuration"
 import { Between, EntityRepository, LessThan, MoreThan, Not, Repository } from "typeorm"
 import { CreateRentalDto } from "./dto/create-rental.dto"
 
@@ -19,6 +20,7 @@ export class RentalRepository extends Repository<Rentals> {
         if (!vehicleExists) throw CustomException.badRequest(RentalRepository.name, `Provided vehicle does not exist.`)
         const rentalExist = await this.findOne({ where: { vehicleId: vehicleId, rent_end: MoreThan(new Date(rent_start)) } })
         if (rentalExist) throw CustomException.conflict(RentalRepository.name, `Selected car is not currently available for rent.`)
+        if(getRentDuration(rent_start, rent_end) > vehicleExists.rent_duration) throw CustomException.badRequest(RentalRepository.name, `Rental duration is greater than the vehicle's rent duration.`)
 
         const rental = new Rentals()
         rental.rent_start = new Date(rent_start)
@@ -46,6 +48,7 @@ export class RentalRepository extends Repository<Rentals> {
         if (!vehicleExists) throw CustomException.badRequest(RentalRepository.name, `Provided vehicle does not exist.`)
         const rentalExist = await this.findOne({ where: { vehicleId: vehicleId, rent_start: Between(rent_start, rent_end), rent_end: Between(rent_start, rent_end) } })
         if (rentalExist) throw CustomException.conflict(RentalRepository.name, `Selected car is not currently available for rent.`)
+        if(getRentDuration(rent_start, rent_end) > vehicleExists.rent_duration) throw CustomException.badRequest(RentalRepository.name, `Rental duration is greater than the vehicle's rent duration.`)
 
         existingRental.rent_start = new Date(rent_start)
         existingRental.rent_end = new Date(rent_end)
