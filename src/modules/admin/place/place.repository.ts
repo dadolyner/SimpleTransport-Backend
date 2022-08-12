@@ -2,7 +2,7 @@
 import { Countries } from "src/entities/countries.entity"
 import { Places } from "src/entities/places.entity"
 import { Postals } from "src/entities/postals.entity"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreatePlaceDto } from "./dto/create-place.dto"
 

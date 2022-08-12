@@ -9,7 +9,7 @@ import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto'
 import { AuthChangePasswordDto } from './dto/auth-changePassword.dto'
 import transporter from '../../mail/mail.config'
 import MailTemplate from '../../mail/mail.template'
-import { CustomException } from 'src/HttpException/custom.exception'
+import { CustomException } from 'src/helpers/custom.exception'
 
 @EntityRepository(Users)
 export class AuthRepository extends Repository<Users> {

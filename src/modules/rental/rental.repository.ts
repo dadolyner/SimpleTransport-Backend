@@ -2,7 +2,7 @@
 import { Rentals } from "src/entities/rentals.entity"
 import { Users } from "src/entities/users.entity"
 import { Vehicles } from "src/entities/vehicles.entities"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreateRentalDto } from "./dto/create-rental.dto"
 

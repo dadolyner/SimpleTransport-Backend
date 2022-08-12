@@ -1,6 +1,6 @@
 // Country Repository
 import { Countries } from "src/entities/countries.entity"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreateCountryDto } from "./dto/create-country.dto"
 

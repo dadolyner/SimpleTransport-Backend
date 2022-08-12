@@ -1,7 +1,7 @@
 // Brand Repository
 import { Brands } from "src/entities/brands.entity"
 import { Countries } from "src/entities/countries.entity"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreateBrandDto } from "./dto/create-brand.dto"
 

@@ -1,6 +1,6 @@
 // Color Repository
 import { Colors } from "src/entities/colors.entity"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreateColorDto } from "./dto/create-color.dto"
 

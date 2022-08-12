@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/users.entity';
 import { Vehicles } from 'src/entities/vehicles.entities';
-import { CustomException } from 'src/HttpException/custom.exception';
+import { CustomException } from 'src/helpers/custom.exception';
 import { UserRepository } from './user.repository';
 
 @Injectable()

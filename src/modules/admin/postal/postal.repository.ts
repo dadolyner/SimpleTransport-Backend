@@ -1,6 +1,6 @@
 // Postal Repository
 import { Postals } from "src/entities/postals.entity"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreatePostalDto } from "./dto/create-postal.dto"
 

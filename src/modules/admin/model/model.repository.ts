@@ -1,7 +1,7 @@
 // Model Repository
 import { Brands } from "src/entities/brands.entity"
 import { Models } from "src/entities/models.entity"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreateModelDto } from "./dto/create-model.dto"
 

@@ -10,7 +10,7 @@ import { Users } from '../../entities/users.entity'
 import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { AuthChangePasswordDto } from './dto/auth-changePassword.dto'
-import { CustomException } from 'src/HttpException/custom.exception'
+import { CustomException } from 'src/helpers/custom.exception'
 
 @Injectable()
 export class AuthService {

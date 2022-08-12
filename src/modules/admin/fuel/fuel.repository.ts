@@ -1,6 +1,6 @@
 // Fuel Repository
 import { Fuels } from "src/entities/fuels.entity"
-import { CustomException } from "src/HttpException/custom.exception"
+import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
 import { CreateFuelDto } from "./dto/create-fuel.dto"
 
