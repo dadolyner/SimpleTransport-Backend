@@ -2,6 +2,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Fuels } from 'src/entities/fuels.entity'
+import { CustomException } from 'src/helpers/custom.exception'
 import { CreateFuelDto } from './dto/create-fuel.dto'
 import { FuelRepository } from './fuel.repository'
 
@@ -12,18 +13,20 @@ export class FuelService {
 
     // Get Fuels
     async getFuels(fuelFilters: string): Promise<Fuels[]> {
-        const fuelQuery = this.fuelRepository.createQueryBuilder()
-            .select([
-                'fuel.id',
-                'fuel.fuel',
-            ])
-            .from(Fuels, 'fuel')
-        .where(fuelFilters)
+        try {
+            const fuels = await this.fuelRepository.createQueryBuilder()
+                .select([
+                    'fuel.id',
+                    'fuel.fuel',
+                ])
+                .from(Fuels, 'fuel')
+                .where(fuelFilters)
+                .getMany()
 
-        const fuels = await fuelQuery.getMany()
-        this.logger.verbose(`Retrieving fuels. Found ${fuels.length} items.`)
-
-        return fuels
+            this.logger.verbose(`Retrieving fuels. Found ${fuels.length} items.`)
+            return fuels
+        }
+        catch (error) { throw CustomException.internalServerError(FuelService.name, `Retrieving fuels failed. Reason: ${error.message}.`) }
     }
 
     // Create Fuel

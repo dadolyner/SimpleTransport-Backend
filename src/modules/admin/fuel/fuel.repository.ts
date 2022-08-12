@@ -11,47 +11,47 @@ export class FuelRepository extends Repository<Fuels> {
     async createFuel(fuelDto: CreateFuelDto): Promise<void> {
         const { fuel } = fuelDto
 
+        const fuelExists = await this.findOne({ where: { fuel: fuel } })
+        if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel ${fuel} already exists.`)
+
         const newFuel = new Fuels()
         newFuel.fuel = fuel
         newFuel.created_at = new Date()
         newFuel.updated_at = new Date()
 
-        const fuelExists = await this.findOne({ where: { fuel: fuel } })
-        if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel: ${fuel} already exists!`)
-
         try { await newFuel.save() }
-        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Adding a fuel failed!. Reason: ${error.message}`) }
+        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Adding a fuel failed. Reason: ${error.message}.`) }
 
-        throw CustomException.created(FuelRepository.name, `Fuel: ${fuel} successfully created!`)
+        throw CustomException.created(FuelRepository.name, `Fuel ${fuel} successfully created.`)
     }
 
     // Edit Fuel
     async editFuel(fuelId: string, fuelDto: CreateFuelDto): Promise<void> {
+        const { fuel } = fuelDto
+        
         const existingFuel = await this.findOne({ where: { id: fuelId } })
-        if (!existingFuel) throw CustomException.conflict(FuelRepository.name, `Fuel with id: ${fuelId} does not exist!`)
+        if (!existingFuel) throw CustomException.conflict(FuelRepository.name, `Provided fuel does not exist.`)
+        const fuelExists = await this.findOne({ where: { fuel: fuel } })
+        if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel ${fuel} already exists.`)
 
         const oldFuel = existingFuel.fuel
-        const { fuel } = fuelDto
         existingFuel.fuel = fuel
         existingFuel.updated_at = new Date()
 
-        const fuelExists = await this.findOne({ where: { fuel: fuel } })
-        if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel: ${fuel} already exists!`)
-
         try { await existingFuel.save() }
-        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Editing a fuel failed! Reason: ${error.message}`) }
+        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Editing a fuel failed. Reason: ${error.message}.`) }
 
-        throw CustomException.ok(FuelRepository.name, `Fuel: ${oldFuel} successfully changed into ${fuel}!`)
+        throw CustomException.ok(FuelRepository.name, `Fuel ${oldFuel} successfully edited.`)
     }
 
     // Delete Fuel
     async deleteFuel(fuelId: string): Promise<void> {
         const existingFuel = await this.findOne({ where: { id: fuelId } })
-        if (!existingFuel) throw CustomException.conflict(FuelRepository.name, `Fuel with id: ${fuelId} does not exist!`)
+        if (!existingFuel) throw CustomException.conflict(FuelRepository.name, `Provided fuel does not exist.`)
 
         try { await existingFuel.remove() }
-        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Deleting a fuel failed! Reason: ${error.message}`) }
+        catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Deleting a fuel failed. Reason: ${error.message}.`) }
 
-        throw CustomException.ok(FuelRepository.name, `Fuel: ${existingFuel.fuel} successfully deleted!`)
+        throw CustomException.ok(FuelRepository.name, `Fuel ${existingFuel.fuel} successfully deleted.`)
     }
 }
