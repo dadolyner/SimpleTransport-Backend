@@ -2,6 +2,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Colors } from 'src/entities/colors.entity'
+import { CustomException } from 'src/helpers/custom.exception'
 import { ColorRepository } from './color.repository'
 import { CreateColorDto } from './dto/create-color.dto'
 
@@ -12,18 +13,20 @@ export class ColorService {
 
     // Get Colors
     async getColors(colorFilters: string): Promise<Colors[]> {
-        const colorsQuery = this.colorRepository.createQueryBuilder()
+        try {
+            const colors = await this.colorRepository.createQueryBuilder()
             .select([
                 'color.id',
                 'color.color',
             ])
             .from(Colors, 'color')
-        .where(colorFilters)
-
-        const colors = await colorsQuery.getMany()
-        this.logger.verbose(`Retrieving colors. Found ${colors.length} items.`)
-
-        return colors
+            .where(colorFilters)
+            .getMany()
+            
+            this.logger.verbose(`Retrieving colors. Found ${colors.length} items.`)
+            return colors
+        }
+        catch(error) { throw CustomException.internalServerError(ColorService.name, `Retrieving colors failed. Reason: ${error.message}.`) }
     }
 
     // Create Color
