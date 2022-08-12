@@ -2,29 +2,32 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Countries } from 'src/entities/countries.entity'
+import { CustomException } from 'src/helpers/custom.exception'
 import { CountryRepository } from './country.repository'
 import { CreateCountryDto } from './dto/create-country.dto'
 
 @Injectable()
 export class CountryService {
     private readonly logger = new Logger(CountryService.name)
-    constructor(@InjectRepository(CountryRepository) private readonly countryRepository: CountryRepository) {}
+    constructor(@InjectRepository(CountryRepository) private readonly countryRepository: CountryRepository) { }
 
     // Get Countries
     async getCountries(countryFilters: string): Promise<Countries[]> {
-        const countryQuery = this.countryRepository.createQueryBuilder()
-            .select([
-                'country.id',
-                'country.country',
-                'country.abbreviation',
-            ])
-            .from(Countries, 'country')
-        .where(countryFilters)
+        try {
+            const countries = await this.countryRepository.createQueryBuilder()
+                .select([
+                    'country.id',
+                    'country.country',
+                    'country.abbreviation',
+                ])
+                .from(Countries, 'country')
+                .where(countryFilters)
+                .getMany()
 
-        const countries = await countryQuery.getMany()
-        this.logger.verbose(`Retrieving countries. Found ${countries.length} items.`)
-
-        return countries
+            this.logger.verbose(`Retrieving countries. Found ${countries.length} items.`)
+            return countries
+        }
+        catch (error) { throw CustomException.internalServerError(CountryService.name, `Retrieving countries failed. Reason: ${error.message}.`) }
     }
 
     // Create Country
