@@ -1,6 +1,6 @@
 // Model Controller
 import { Body, Query, Controller, Get, Post, Patch, Delete } from '@nestjs/common'
-import { Models } from 'src/entities/models.entity'
+import { ModelsOutput } from 'src/interfaces/model-output.interface'
 import { CreateModelDto } from './dto/create-model.dto'
 import { ModelService } from './model.service'
 
@@ -10,7 +10,7 @@ export class ModelController {
 
     // Get Models
     @Get()
-    async getModels(@Query() modelFilters: string): Promise<Models[]> {
+    async getModels(@Query() modelFilters: string): Promise<ModelsOutput[]> {
         return this.modelService.getModels(modelFilters)
     }
 
