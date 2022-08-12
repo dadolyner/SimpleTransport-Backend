@@ -2,30 +2,42 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Brands } from 'src/entities/brands.entity'
+import { CustomException } from 'src/helpers/custom.exception'
+import { BrandsOutput } from 'src/interfaces/brand-output.interface'
 import { BrandRepository } from './brand.repository'
 import { CreateBrandDto } from './dto/create-brand.dto'
 
 @Injectable()
 export class BrandService {
     private readonly logger = new Logger(BrandService.name)
-    constructor(@InjectRepository(BrandRepository) private readonly brandRepository: BrandRepository) {}
+    constructor(@InjectRepository(BrandRepository) private readonly brandRepository: BrandRepository) { }
 
     // Get Brands
-    async getBrands(brandFilters: string): Promise<Brands[]> {
-        const brandsQuery = this.brandRepository.createQueryBuilder()
-            .select([
-                'brand.id',
-                'brand.brand',
-                'country.country',
-            ])
-            .from(Brands, 'brand')
-            .innerJoin('brand.country', 'country')
-        .where(brandFilters)
+    async getBrands(brandFilters: string): Promise<BrandsOutput[]> {
+        try {
+            const brands = await this.brandRepository.createQueryBuilder()
+                .select([
+                    'brand.id',
+                    'brand.brand',
+                    'country.country',
+                ])
+                .from(Brands, 'brand')
+                .innerJoin('brand.country', 'country')
+                .where(brandFilters)
+                .getMany()
 
-        const brands = await brandsQuery.getMany()
-        this.logger.verbose(`Retrieving brands. Found ${brands.length} items.`)
+            const output = brands.map(brand => {
+                return {
+                    id: brand.id,
+                    brand: brand.brand,
+                    country: brand.country.country,
+                }
+            })
 
-        return brands
+            this.logger.verbose(`Retrieving brands. Found ${brands.length} items.`)
+            return output
+        }
+        catch (error) { throw CustomException.internalServerError(BrandService.name, `Retrieving brands failed. Reason: ${error.message}`) }
     }
 
     // Create Brand

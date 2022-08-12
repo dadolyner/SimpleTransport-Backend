@@ -1,6 +1,6 @@
 // Brand Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { Brands } from 'src/entities/brands.entity'
+import { BrandsOutput } from 'src/interfaces/brand-output.interface'
 import { BrandService } from './brand.service'
 import { CreateBrandDto } from './dto/create-brand.dto'
 
@@ -10,7 +10,7 @@ export class BrandController {
 
     // Get Brands
     @Get()
-    async getBrands(@Query() brandFilters: string): Promise<Brands[]> {
+    async getBrands(@Query() brandFilters: string): Promise<BrandsOutput[]> {
         return this.brandservice.getBrands(brandFilters)
     }
 
