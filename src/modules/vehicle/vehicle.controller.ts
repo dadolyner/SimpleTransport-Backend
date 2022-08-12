@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { Vehicles } from 'src/entities/vehicles.entities';
-import { CreateVehicleDto } from './dto/create-vehicle.dto';
-import { VehicleService } from './vehicle.service';
+import { VehiclesOutput } from 'src/interfaces/vehicle-output.interface'
+import { CreateVehicleDto } from './dto/create-vehicle.dto'
+import { VehicleService } from './vehicle.service'
 
 @Controller('vehicle')
 export class VehicleController {
@@ -9,7 +9,7 @@ export class VehicleController {
 
     // Get Vehicles
     @Get()
-    async getVehicles(@Query() vehicleFilters: string): Promise<Vehicles[]> {
+    async getVehicles(@Query() vehicleFilters: string): Promise<VehiclesOutput[]> {
         return await this.vehicleService.getVehicles(vehicleFilters)
     }
 
