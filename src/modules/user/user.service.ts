@@ -2,8 +2,8 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/users.entity';
-import { Vehicles } from 'src/entities/vehicles.entities';
 import { CustomException } from 'src/helpers/custom.exception';
+import { UsersOutput } from 'src/interfaces/users-output.interface';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -12,9 +12,9 @@ export class UserService {
     constructor(@InjectRepository(UserRepository) private readonly userRepository: UserRepository) { }
 
     // Get logged in user info
-    async getUserInfo(user: Users): Promise<Users> {
+    async getUserInfo(user: Users): Promise<UsersOutput> {
         const userExists = await this.userRepository.findOne({ id: user.id })
-        if (!userExists) throw CustomException.badRequest(UserService.name, `User with id: ${user.id} does not exist`)
+        if (!userExists) throw CustomException.badRequest(UserService.name, `Provided user does not exist.`)
 
         try {
             const userInfo = await this.userRepository.createQueryBuilder()
@@ -70,17 +70,58 @@ export class UserService {
                 .where('user.id = :id', { id: user.id })
                 .getOne()
 
-            this.logger.verbose(`Retrieved user info for logged in user: ${user.id}`)
-            return userInfo
+            const output = {
+                user: {
+                    id: userInfo.id,
+                    first_name: userInfo.first_name,
+                    last_name: userInfo.last_name,
+                    email: userInfo.email,
+                    username: userInfo.username,
+                    place: userInfo.place.place,
+                    post_office: userInfo.place.postal.post_office,
+                    post_number: userInfo.place.postal.post_number,
+                    country: userInfo.place.country.country,
+                },
+                rental: userInfo.rental.map(rental => {
+                    return {
+                        id: rental.id,
+                        rent_start: rental.rent_start,
+                        rent_end: rental.rent_end
+                    }
+                }),
+                vehicle: userInfo.vehicle.map(vehicle => {
+                    return {
+                        id: vehicle.id,
+                        seats: vehicle.seats,
+                        shifter: vehicle.shifter,
+                        horsepower: vehicle.horsepower,
+                        torque: vehicle.torque,
+                        acceleration: vehicle.acceleration,
+                        year: vehicle.year,
+                        price: vehicle.price,
+                        rent_duration: vehicle.rent_duration,
+                        licence_plate: vehicle.licence_plate,
+                        vin: vehicle.vin,
+                        color: vehicle.color.color,
+                        fuel: vehicle.fuel.fuel,
+                        model: vehicle.model.model,
+                        brand: vehicle.model.brand.brand,
+                        country: vehicle.model.brand.country.country
+                    }
+                })
+            }
+
+            this.logger.verbose(`Retrieved info for user ${user.first_name} ${user.last_name} <${user.email}>.`)
+            return output
         }
-        catch (error) { throw CustomException.internalServerError(UserService.name, `Retrieving user info failed. Reason: ${error}`) }
+        catch (error) { throw CustomException.internalServerError(UserService.name, `Retrieving user info failed. Reason: ${error}.`) }
     }
 
     // Get user info by his id
-    async getUserInfoById(userId: string): Promise<Users> {
+    async getUserInfoById(userId: string): Promise<UsersOutput> {
         const userExists = await this.userRepository.findOne({ id: userId })
-        if (!userExists) throw CustomException.badRequest(UserService.name, `User with id: ${userId} does not exist`)
-        
+        if (!userExists) throw CustomException.badRequest(UserService.name, `Provided user does not exist.`)
+
         try {
             const userInfo = await this.userRepository.createQueryBuilder()
                 .select([
@@ -135,9 +176,50 @@ export class UserService {
                 .where('user.id = :id', { id: userId })
                 .getOne()
 
-            this.logger.verbose(`Retrieved user info for user with id: ${userId}`)
-            return userInfo
+                const output = {
+                    user: {
+                        id: userInfo.id,
+                        first_name: userInfo.first_name,
+                        last_name: userInfo.last_name,
+                        email: userInfo.email,
+                        username: userInfo.username,
+                        place: userInfo.place.place,
+                        post_office: userInfo.place.postal.post_office,
+                        post_number: userInfo.place.postal.post_number,
+                        country: userInfo.place.country.country,
+                    },
+                    rental: userInfo.rental.map(rental => {
+                        return {
+                            id: rental.id,
+                            rent_start: rental.rent_start,
+                            rent_end: rental.rent_end
+                        }
+                    }),
+                    vehicle: userInfo.vehicle.map(vehicle => {
+                        return {
+                            id: vehicle.id,
+                            seats: vehicle.seats,
+                            shifter: vehicle.shifter,
+                            horsepower: vehicle.horsepower,
+                            torque: vehicle.torque,
+                            acceleration: vehicle.acceleration,
+                            year: vehicle.year,
+                            price: vehicle.price,
+                            rent_duration: vehicle.rent_duration,
+                            licence_plate: vehicle.licence_plate,
+                            vin: vehicle.vin,
+                            color: vehicle.color.color,
+                            fuel: vehicle.fuel.fuel,
+                            model: vehicle.model.model,
+                            brand: vehicle.model.brand.brand,
+                            country: vehicle.model.brand.country.country
+                        }
+                    })
+                }
+
+                this.logger.verbose(`Retrieved info for user ${userExists.first_name} ${userExists.last_name} <${userExists.email}>.`)
+            return output
         }
-        catch (error) { throw CustomException.internalServerError(UserService.name, `Retrieving user info failed. Reason: ${error}`) }
+        catch (error) { throw CustomException.internalServerError(UserService.name, `Retrieving user info failed. Reason: ${error}.`) }
     }
 }
