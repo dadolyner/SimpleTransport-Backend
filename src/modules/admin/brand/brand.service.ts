@@ -37,7 +37,7 @@ export class BrandService {
             this.logger.verbose(`Retrieving brands. Found ${brands.length} items.`)
             return output
         }
-        catch (error) { throw CustomException.internalServerError(BrandService.name, `Retrieving brands failed. Reason: ${error.message}`) }
+        catch (error) { throw CustomException.internalServerError(BrandService.name, `Retrieving brands failed. Reason: ${error.message}.`) }
     }
 
     // Create Brand
