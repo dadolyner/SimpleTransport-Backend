@@ -1,10 +1,10 @@
 // Image Service
 import { Injectable, Logger } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm';
-import { Images } from 'src/entities/images.entity';
-import { CustomException } from 'src/helpers/custom.exception';
-import { CreateImageDto } from './dto/create-image.dto';
-import { ImageRepository } from './image.repository';
+import { InjectRepository } from '@nestjs/typeorm'
+import { Images } from 'src/entities/images.entity'
+import { CustomException } from 'src/helpers/custom.exception'
+import { CreateImageDto } from './dto/create-image.dto'
+import { ImageRepository } from './image.repository'
 
 @Injectable()
 export class ImageService {

@@ -1,27 +1,27 @@
 // Images Entity
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm';
-import { Vehicles } from './vehicles.entities';
-import { Users } from './users.entity';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from 'typeorm'
+import { Vehicles } from './vehicles.entities'
+import { Users } from './users.entity'
 @Entity('images')
 export class Images extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id: string
 
     @Column()
-    url: string;
+    url: string
 
     @Column()
-    created_at: Date;
+    created_at: Date
 
     @Column()
-    updated_at: Date;
+    updated_at: Date
 
     // Relations
     // Users
     @ManyToOne(() => Users, user => user.rental, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    user: Users;
+    user: Users
 
     // Vehicles
     @ManyToOne(() => Vehicles, vehicle => vehicle.rental, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    vehicle: Vehicles;
+    vehicle: Vehicles
 }

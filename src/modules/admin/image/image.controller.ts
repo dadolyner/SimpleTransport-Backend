@@ -1,7 +1,7 @@
 // Image Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { Images } from 'src/entities/images.entity';
-import { ImageService } from './image.service';
+import { Images } from 'src/entities/images.entity'
+import { ImageService } from './image.service'
 
 @Controller('image')
 export class ImageController {

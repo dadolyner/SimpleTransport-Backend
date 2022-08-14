@@ -1,9 +1,9 @@
 // Image Repository
 
-import { Images } from "src/entities/images.entity";
-import { CustomException } from "src/helpers/custom.exception";
-import { EntityRepository, Repository } from "typeorm";
-import { CreateImageDto } from "./dto/create-image.dto";
+import { Images } from "src/entities/images.entity"
+import { CustomException } from "src/helpers/custom.exception"
+import { EntityRepository, Repository } from "typeorm"
+import { CreateImageDto } from "./dto/create-image.dto"
 
 @EntityRepository(Images)
 export class ImageRepository extends Repository<Images> {

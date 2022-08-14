@@ -1,90 +1,90 @@
 // Vehicles Entity
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, Unique } from 'typeorm';
-import { Users } from './users.entity';
-import { Rentals } from './rentals.entity';
-import { Colors } from './colors.entity';
-import { Fuels } from './fuels.entity';
-import { Images } from './images.entity';
-import { Models } from './models.entity';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, Unique } from 'typeorm'
+import { Users } from './users.entity'
+import { Rentals } from './rentals.entity'
+import { Colors } from './colors.entity'
+import { Fuels } from './fuels.entity'
+import { Images } from './images.entity'
+import { Models } from './models.entity'
 @Entity('vehicles')
 @Unique(['licence_plate', 'vin'])
 export class Vehicles extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id: string
 
     @Column()
-    seats: number;
+    seats: number
 
     @Column()
-    shifter: string;
+    shifter: string
 
     @Column('float')
-    horsepower: number;
+    horsepower: number
 
     @Column('float')
-    torque: number;
+    torque: number
 
     @Column('float')
-    acceleration: number;
+    acceleration: number
 
     @Column()
-    year: string;
+    year: string
 
     @Column('float')
-    price: number;
+    price: number
 
     @Column()
-    rent_duration: number;
+    rent_duration: number
 
     @Column()
-    licence_plate: string;
+    licence_plate: string
 
     @Column()
-    vin: string;
+    vin: string
 
     @Column()
-    userId: string;
+    userId: string
 
     @Column({ nullable: true, default: null })
-    imageId: string;
+    imageId: string
 
     @Column()
-    modelId: string;
+    modelId: string
 
     @Column()
-    colorId: string;
+    colorId: string
 
     @Column()
-    fuelId: string;
+    fuelId: string
 
     @Column()
-    created_at: Date;
+    created_at: Date
 
     @Column()
-    updated_at: Date;
+    updated_at: Date
 
     // Relations
     // Users
     @ManyToOne(() => Users, user => user.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    user: Users;
+    user: Users
 
     // Models
     @ManyToOne(() => Models, model => model.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    model: Models;
+    model: Models
 
     // Rentals
     @OneToMany(() => Rentals, rental => rental.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    rental: Rentals[];
+    rental: Rentals[]
 
     // Colors
     @ManyToOne(() => Colors, color => color.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    color: Colors;
+    color: Colors
 
     //Fuels
     @ManyToOne(() => Fuels, fuel => fuel.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    fuel: Fuels;
+    fuel: Fuels
 
     // Images
     @OneToMany(() => Images, image => image.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    image: Images[];
+    image: Images[]
 }
