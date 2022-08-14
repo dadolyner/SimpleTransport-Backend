@@ -1,4 +1,4 @@
-// Models export interface
+// Places export interface
 export interface PlacesOutput {
     id: string
     place: string

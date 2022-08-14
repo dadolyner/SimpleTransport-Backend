@@ -1,4 +1,4 @@
-// Data transfer object for logging in
+// Login DTO
 import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator'
 
 export class AuthLoginCredentialsDto {

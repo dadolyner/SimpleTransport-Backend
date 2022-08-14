@@ -1,4 +1,4 @@
-// Models export interface
+// Users export interface
 export interface UsersOutput {
     user: {
         id: string

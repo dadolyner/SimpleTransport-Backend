@@ -1,4 +1,4 @@
-// Authorization Repository
+// Auth Repository
 import { EntityRepository, Repository } from 'typeorm'
 import { Users } from '../../entities/users.entity'
 import * as bcrypt from 'bcrypt'

@@ -1,4 +1,4 @@
-// Data Transfer Object for changing user info
+// ChangeInfo DTO
 import { IsEmail, IsString } from 'class-validator'
 
 export class AuthChangeInfoDto {

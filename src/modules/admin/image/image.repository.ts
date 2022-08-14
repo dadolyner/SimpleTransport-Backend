@@ -1,5 +1,4 @@
 // Image Repository
-
 import { Images } from "src/entities/images.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
