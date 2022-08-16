@@ -33,27 +33,23 @@ export class CreateVehicleDto {
     @IsNotEmpty({message: "Rent duration plate is required"})
     rent_duration: number
 
-    @IsString({ message: "Shifter must be a string" })
+    @IsString({ message: "Licence Plate must be a string" })
     @IsNotEmpty({message: "Licence is required"})
     licence_plate: string
 
-    @IsString({ message: "Shifter must be a string" })
+    @IsString({ message: "Vin must be a string" })
     @IsNotEmpty({message: "Vin is required"})
     vin: string
 
-    @IsString({ message: "Shifter must be a valid uuid string" })
-    @IsUUID()
-    userId: string
-
-    @IsString({ message: "Shifter must be a valid uuid string" })
+    @IsString({ message: "Model must be a valid uuid string" })
     @IsUUID()
     modelId: string
 
-    @IsString({ message: "Shifter must be a valid uuid string" })
+    @IsString({ message: "Color must be a valid uuid string" })
     @IsUUID()
     colorId: string
 
-    @IsString({ message: "Shifter must be a valid uuid string" })
+    @IsString({ message: "Fuel must be a valid uuid string" })
     @IsUUID()
     fuelId: string
 }

@@ -1,6 +1,8 @@
 // Rental Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
+import { Users } from 'src/entities/users.entity'
 import { RentalsOutput } from 'src/interfaces/rental-output.interface'
+import { GetUser } from '../auth/decorator/get-user.decorator'
 import { CreateRentalDto } from './dto/create-rental.dto'
 import { RentalService } from './rental.service'
 
@@ -16,14 +18,14 @@ export class RentalController {
 
     // Create Rental
     @Post()
-    async createRental(@Body() createRentalDto: CreateRentalDto): Promise<void> {
-        return this.rentalService.createRental(createRentalDto)
+    async createRental(@GetUser() user: Users, @Body() createRentalDto: CreateRentalDto): Promise<void> {
+        return this.rentalService.createRental(user, createRentalDto)
     }
 
     // Edit Rental
     @Patch()
-    async editRental(@Query('id') rentalId: string, @Body() editRentalDto: CreateRentalDto): Promise<void> {
-        return this.rentalService.editRental(rentalId, editRentalDto)
+    async editRental(@GetUser() user: Users, @Query('id') rentalId: string, @Body() editRentalDto: CreateRentalDto): Promise<void> {
+        return this.rentalService.editRental(user, rentalId, editRentalDto)
     }
 
     // Delete Rental

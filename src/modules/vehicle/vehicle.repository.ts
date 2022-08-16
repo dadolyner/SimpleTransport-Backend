@@ -10,12 +10,12 @@ import { CreateVehicleDto } from "./dto/create-vehicle.dto"
 
 @EntityRepository(Vehicles)
 export class VehicleRepository extends Repository<Vehicles> {
-    
-    // Create vehicle
-    async createVehicle(vehicleDto: CreateVehicleDto): Promise<void> {
-        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, userId, modelId, colorId, fuelId } = vehicleDto
 
-        const userExists = await Users.findOne({ where: { id: userId } })
+    // Create vehicle
+    async createVehicle(user: Users, vehicleDto: CreateVehicleDto): Promise<void> {
+        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId } = vehicleDto
+
+        const userExists = await Users.findOne(user)
         if (!userExists) throw CustomException.badRequest(VehicleRepository.name, `Provided user does not exist.`)
         const modelExists = await Models.findOne({ where: { id: modelId } })
         if (!modelExists) throw CustomException.badRequest(VehicleRepository.name, `Provided model does not exist.`)
@@ -37,7 +37,7 @@ export class VehicleRepository extends Repository<Vehicles> {
         newVehicle.rent_duration = rent_duration
         newVehicle.licence_plate = licence_plate
         newVehicle.vin = vin
-        newVehicle.userId = userId
+        newVehicle.userId = userExists.id
         newVehicle.modelId = modelId
         newVehicle.colorId = colorId
         newVehicle.fuelId = fuelId
@@ -51,12 +51,12 @@ export class VehicleRepository extends Repository<Vehicles> {
     }
 
     // Edit vehicle
-    async editVehicle(vehicleId: string, vehicleDto: CreateVehicleDto): Promise<void> {
-        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, userId, modelId, colorId, fuelId } = vehicleDto
-        
+    async editVehicle(user: Users, vehicleId: string, vehicleDto: CreateVehicleDto): Promise<void> {
+        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId } = vehicleDto
+
         const existingVehicle = await this.findOne({ where: { id: vehicleId } })
         if (!existingVehicle) throw CustomException.badRequest(VehicleRepository.name, `Provided vehicle does not exist.`)
-        const userExists = await Users.findOne({ where: { id: userId } })
+        const userExists = await Users.findOne(user)
         if (!userExists) throw CustomException.badRequest(VehicleRepository.name, `Provided user does not exist.`)
         const modelExists = await Models.findOne({ where: { id: modelId } })
         if (!modelExists) throw CustomException.badRequest(VehicleRepository.name, `Model with id ${modelId} does not exist.`)
@@ -66,7 +66,7 @@ export class VehicleRepository extends Repository<Vehicles> {
         if (!fuelExists) throw CustomException.badRequest(VehicleRepository.name, `Fuel with id ${fuelId} does not exist.`)
         const vehicleExists = await this.findOne({ where: [{ licence_plate }, { vin }] })
         if (vehicleExists) throw CustomException.conflict(VehicleRepository.name, `Vehicle with licence plate ${licence_plate} or vin number ${vin} already exists.`)
-    
+
         existingVehicle.seats = seats
         existingVehicle.shifter = shifter
         existingVehicle.horsepower = horsepower

@@ -1,6 +1,8 @@
 // Vehicle Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
+import { Users } from 'src/entities/users.entity'
 import { VehiclesOutput } from 'src/interfaces/vehicle-output.interface'
+import { GetUser } from '../auth/decorator/get-user.decorator'
 import { CreateVehicleDto } from './dto/create-vehicle.dto'
 import { VehicleService } from './vehicle.service'
 
@@ -16,14 +18,14 @@ export class VehicleController {
 
     // Create Vehicle
     @Post()
-    async createVehicle(@Body() vehicleDto: CreateVehicleDto): Promise<void> {
-        return await this.vehicleService.createVehicle(vehicleDto)
+    async createVehicle(@GetUser() user: Users, @Body() vehicleDto: CreateVehicleDto): Promise<void> {
+        return await this.vehicleService.createVehicle(user, vehicleDto)
     }
 
     // Edit Vehicle
     @Patch()
-    async editVehicle(@Query('id') vehicleId:string, @Body() vehicleDto: CreateVehicleDto): Promise<void> {
-        return await this.vehicleService.editVehicle(vehicleId,vehicleDto)
+    async editVehicle(@GetUser() user: Users, @Query('id') vehicleId:string, @Body() vehicleDto: CreateVehicleDto): Promise<void> {
+        return await this.vehicleService.editVehicle(user, vehicleId,vehicleDto)
     }
 
     // Delete Vehicle

@@ -11,10 +11,10 @@ import { CreateRentalDto } from "./dto/create-rental.dto"
 export class RentalRepository extends Repository<Rentals> {
 
     // Create Rental
-    async createRental(rentalDto: CreateRentalDto): Promise<void> {
-        const { rent_start, rent_end, userId, vehicleId } = rentalDto
+    async createRental(user: Users, rentalDto: CreateRentalDto): Promise<void> {
+        const { rent_start, rent_end, vehicleId } = rentalDto
 
-        const userExists = await Users.findOne({ where: { id: userId } })
+        const userExists = await Users.findOne(user)
         if (!userExists) throw CustomException.badRequest(RentalRepository.name, `Provided user does not exist.`)
         const vehicleExists = await Vehicles.findOne({ where: { id: vehicleId } })
         if (!vehicleExists) throw CustomException.badRequest(RentalRepository.name, `Provided vehicle does not exist.`)
@@ -25,8 +25,8 @@ export class RentalRepository extends Repository<Rentals> {
         const rental = new Rentals()
         rental.rent_start = new Date(rent_start)
         rental.rent_end = new Date(rent_end)
-        rental.userId = userId
-        rental.vehicleId = vehicleId
+        rental.userId = userExists.id
+        rental.vehicleId = vehicleExists.id
         rental.created_at = new Date()
         rental.updated_at = new Date()
 
@@ -37,12 +37,12 @@ export class RentalRepository extends Repository<Rentals> {
     }
 
     // Edit Rental
-    async editRental(rentalId: string, rentalDto: CreateRentalDto): Promise<void> {
-        const { rent_start, rent_end, userId, vehicleId } = rentalDto
+    async editRental(user: Users, rentalId: string, rentalDto: CreateRentalDto): Promise<void> {
+        const { rent_start, rent_end, vehicleId } = rentalDto
 
         const existingRental = await this.findOne({ where: { id: rentalId } })
         if (!existingRental) throw CustomException.badRequest(RentalRepository.name, `Provided rental does not exist.`)
-        const userExists = await Users.findOne({ where: { id: userId } })
+        const userExists = await Users.findOne(user)
         if (!userExists) throw CustomException.badRequest(RentalRepository.name, `Provided user does not exist.`)
         const vehicleExists = await Vehicles.findOne({ where: { id: vehicleId } })
         if (!vehicleExists) throw CustomException.badRequest(RentalRepository.name, `Provided vehicle does not exist.`)
@@ -52,8 +52,8 @@ export class RentalRepository extends Repository<Rentals> {
 
         existingRental.rent_start = new Date(rent_start)
         existingRental.rent_end = new Date(rent_end)
-        existingRental.userId = userId
-        existingRental.vehicleId = vehicleId
+        existingRental.userId = userExists.id
+        existingRental.vehicleId = vehicleExists.id
         existingRental.updated_at = new Date()
 
         try { await this.save(existingRental) }

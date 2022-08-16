@@ -2,6 +2,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Rentals } from 'src/entities/rentals.entity'
+import { Users } from 'src/entities/users.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { RentalsOutput } from 'src/interfaces/rental-output.interface'
 import { CreateRentalDto } from './dto/create-rental.dto'
@@ -112,13 +113,13 @@ export class RentalService {
     }
 
     // Create Rental
-    async createRental(rentalDto: CreateRentalDto): Promise<void> {
-        return await this.rentalRepository.createRental(rentalDto)
+    async createRental(user: Users, rentalDto: CreateRentalDto): Promise<void> {
+        return await this.rentalRepository.createRental(user, rentalDto)
     }
 
     // Edit Rental
-    async editRental(rentalId: string, rentalDto: CreateRentalDto): Promise<void> {
-        return await this.rentalRepository.editRental(rentalId, rentalDto)
+    async editRental(user: Users,rentalId: string, rentalDto: CreateRentalDto): Promise<void> {
+        return await this.rentalRepository.editRental(user, rentalId, rentalDto)
     }
 
     // Delete Rental

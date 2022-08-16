@@ -1,6 +1,7 @@
 // Vehicle Service
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Users } from 'src/entities/users.entity'
 import { Vehicles } from 'src/entities/vehicles.entities'
 import { CustomException } from 'src/helpers/custom.exception'
 import { VehiclesOutput } from 'src/interfaces/vehicle-output.interface'
@@ -105,13 +106,13 @@ export class VehicleService {
     }
 
     // Create Vehicle
-    async createVehicle(vehicleDto: CreateVehicleDto): Promise<void> {
-        return await this.vehicleRepository.createVehicle(vehicleDto)
+    async createVehicle(user: Users, vehicleDto: CreateVehicleDto): Promise<void> {
+        return await this.vehicleRepository.createVehicle(user, vehicleDto)
     }
 
     // Edit Vehicle
-    async editVehicle(vehicleId: string, vehicleDto: CreateVehicleDto): Promise<void> {
-        return await this.vehicleRepository.editVehicle(vehicleId, vehicleDto)
+    async editVehicle(user: Users, vehicleId: string, vehicleDto: CreateVehicleDto): Promise<void> {
+        return await this.vehicleRepository.editVehicle(user, vehicleId, vehicleDto)
     }
 
     // Delete Vehicle
