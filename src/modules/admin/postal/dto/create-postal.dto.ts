@@ -1,3 +1,4 @@
+// Postal DTO
 import { IsNotEmpty, IsString } from "class-validator"
 
 export class CreatePostalDto {

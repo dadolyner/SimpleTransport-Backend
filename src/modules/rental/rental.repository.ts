@@ -4,7 +4,7 @@ import { Users } from "src/entities/users.entity"
 import { Vehicles } from "src/entities/vehicles.entities"
 import { CustomException } from "src/helpers/custom.exception"
 import { getRentDuration } from "src/helpers/rentDuration"
-import { Between, EntityRepository, LessThan, MoreThan, Not, Repository } from "typeorm"
+import { Between, EntityRepository, MoreThan, Repository } from "typeorm"
 import { CreateRentalDto } from "./dto/create-rental.dto"
 
 @EntityRepository(Rentals)

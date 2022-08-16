@@ -1,16 +1,16 @@
-// Data Transfer Object for changing user info
-import { IsEmail, IsString } from 'class-validator';
+// ChangeInfo DTO
+import { IsEmail, IsString } from 'class-validator'
 
 export class AuthChangeInfoDto {
     @IsString()
-    first_name: string;
+    first_name: string
 
     @IsString()
-    last_name: string;
+    last_name: string
 
     @IsEmail({ message: 'This is not an email!' })
-    email: string;
+    email: string
 
     @IsString()
-    username: string;
+    username: string
 }

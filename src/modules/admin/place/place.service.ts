@@ -1,4 +1,4 @@
-// Place Servic
+// Place Service
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Places } from 'src/entities/places.entity'

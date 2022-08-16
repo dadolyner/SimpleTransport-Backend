@@ -1,4 +1,4 @@
-// Payload that will be in our Access Token
+// Payload interface for JWT token
 export interface JwtPayload {
-    email: string;
+    email: string
 }

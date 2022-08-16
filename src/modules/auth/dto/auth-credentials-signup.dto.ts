@@ -1,4 +1,4 @@
-// User DTO
+// SignUp DTO
 import { IsEmail, IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
 
 export class AuthSignUpCredentialsDto {

@@ -1,4 +1,4 @@
-// Authorization Service
+// Auth Service
 import { Injectable } from '@nestjs/common'
 import { AuthLoginCredentialsDto } from './dto/auth-credentials-login.dto'
 import { AuthRepository } from './auth.repository'

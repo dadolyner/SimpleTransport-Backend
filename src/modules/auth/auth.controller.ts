@@ -1,4 +1,4 @@
-// Authorization Controller
+// Auth Controller
 import { Body, Controller, Patch, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { Users } from '../../entities/users.entity'

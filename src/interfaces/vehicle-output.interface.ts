@@ -1,4 +1,4 @@
-// Vehicle export interface
+// Vehicles export interface
 export interface VehiclesOutput {
     vehicle: {
         id: string
