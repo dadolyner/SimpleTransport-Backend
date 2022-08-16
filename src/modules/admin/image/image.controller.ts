@@ -1,7 +1,7 @@
 // Image Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { Images } from 'src/entities/images.entity';
-import { ImageService } from './image.service';
+import { Images } from 'src/entities/images.entity'
+import { ImageService } from './image.service'
 
 @Controller('image')
 export class ImageController {
@@ -21,13 +21,13 @@ export class ImageController {
 
     // Edit Image
     @Patch()
-    async editImage(@Query() imageId: string, @Body() imageDto: any): Promise<void> {
+    async editImage(@Query('id') imageId: string, @Body() imageDto: any): Promise<void> {
         await this.imageService.editImage(imageId, imageDto)
     }
 
     // Delete Image
     @Delete()
-    async deleteImage(@Query() imageId: string): Promise<void> {
+    async deleteImage(@Query('id') imageId: string): Promise<void> {
         await this.imageService.deleteImage(imageId)
     }
 }
