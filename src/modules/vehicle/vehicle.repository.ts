@@ -55,7 +55,7 @@ export class VehicleRepository extends Repository<Vehicles> {
         const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, userId, modelId, colorId, fuelId } = vehicleDto
         
         const existingVehicle = await this.findOne({ where: { id: vehicleId } })
-        if (!existingVehicle) throw CustomException.notFound(VehicleRepository.name, `Provided vehicle does not exist.`)
+        if (!existingVehicle) throw CustomException.badRequest(VehicleRepository.name, `Provided vehicle does not exist.`)
         const userExists = await Users.findOne({ where: { id: userId } })
         if (!userExists) throw CustomException.badRequest(VehicleRepository.name, `Provided user does not exist.`)
         const modelExists = await Models.findOne({ where: { id: modelId } })
@@ -92,7 +92,7 @@ export class VehicleRepository extends Repository<Vehicles> {
     // Delete vehicle
     async deleteVehicle(vehicleId: string): Promise<void> {
         const existingVehicle = await this.findOne({ where: { id: vehicleId } })
-        if (!existingVehicle) throw CustomException.notFound(VehicleRepository.name, `Provided vehicle does not exist.`)
+        if (!existingVehicle) throw CustomException.badRequest(VehicleRepository.name, `Provided vehicle does not exist.`)
 
         try { await existingVehicle.remove() }
         catch (error) { throw CustomException.internalServerError(VehicleRepository.name, `Deleting a vehicle failed. Reason: ${error.message}.`) }

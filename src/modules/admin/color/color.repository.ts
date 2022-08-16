@@ -30,7 +30,7 @@ export class ColorRepository extends Repository<Colors> {
         const { color } = colorDto
 
         const existingColor = await this.findOne({ where: { id: colorId } })
-        if (!existingColor) throw CustomException.notFound(ColorRepository.name, `Provided color does not exist.`)
+        if (!existingColor) throw CustomException.badRequest(ColorRepository.name, `Provided color does not exist.`)
         const colorExists = await this.findOne({ where: { color: color } })
         if (colorExists) throw CustomException.conflict(ColorRepository.name, `Color ${color} already exists.`)
 
@@ -47,7 +47,7 @@ export class ColorRepository extends Repository<Colors> {
     // Delete Color
     async deleteColor(colorId: string): Promise<void> {
         const existingColor = await this.findOne({ where: { id: colorId } })
-        if (!existingColor) throw CustomException.notFound(ColorRepository.name, `Provided color does not exist.`)
+        if (!existingColor) throw CustomException.badRequest(ColorRepository.name, `Provided color does not exist.`)
 
         try { await existingColor.remove() }
         catch (error) { throw CustomException.internalServerError(ColorRepository.name, `Deleting a color failed. Reason: ${error.message}.`) }

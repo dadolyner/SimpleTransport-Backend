@@ -41,7 +41,7 @@ export class RentalRepository extends Repository<Rentals> {
         const { rent_start, rent_end, userId, vehicleId } = rentalDto
 
         const existingRental = await this.findOne({ where: { id: rentalId } })
-        if (!existingRental) throw CustomException.notFound(RentalRepository.name, `Provided rental does not exist.`)
+        if (!existingRental) throw CustomException.badRequest(RentalRepository.name, `Provided rental does not exist.`)
         const userExists = await Users.findOne({ where: { id: userId } })
         if (!userExists) throw CustomException.badRequest(RentalRepository.name, `Provided user does not exist.`)
         const vehicleExists = await Vehicles.findOne({ where: { id: vehicleId } })
@@ -65,7 +65,7 @@ export class RentalRepository extends Repository<Rentals> {
     // Delete Rental
     async deleteRental(rentalId: string): Promise<void> {
         const existingRental = await this.findOne({ where: { id: rentalId } })
-        if (!existingRental) throw CustomException.notFound(RentalRepository.name, `Provided rental does not exist.`)
+        if (!existingRental) throw CustomException.badRequest(RentalRepository.name, `Provided rental does not exist.`)
 
         try { await existingRental.remove() }
         catch (error) { throw CustomException.internalServerError(RentalRepository.name, `Deleting a rental failed. Reason: ${error.message}.`) }

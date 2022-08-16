@@ -31,9 +31,9 @@ export class PostalRepository extends Repository<Postals> {
         const { post_office, post_code } = postalDto
         
         const existingPostal = await this.findOne({ where: { id: postalId } })
-        if (!existingPostal) throw CustomException.conflict(PostalRepository.name, `Provided postal does not exist.`)
+        if (!existingPostal) throw CustomException.badRequest(PostalRepository.name, `Provided postal does not exist.`)
         const postalExists = await this.findOne({ where: [{ post_office }, { post_code }] })
-        if (postalExists) throw CustomException.badRequest(PostalRepository.name, `Postal ${post_office} (${post_code}) already exists.`)
+        if (postalExists) throw CustomException.conflict(PostalRepository.name, `Postal ${post_office} (${post_code}) already exists.`)
 
         const oldPostal = { ...existingPostal }
         existingPostal.post_office = post_office
@@ -49,7 +49,7 @@ export class PostalRepository extends Repository<Postals> {
     // Delete Postal
     async deletePostal(postalId: string): Promise<void> {
         const existingPostal = await this.findOne({ where: { id: postalId } })
-        if (!existingPostal) throw CustomException.conflict(PostalRepository.name, `Provided postal does not exist.`)
+        if (!existingPostal) throw CustomException.badRequest(PostalRepository.name, `Provided postal does not exist.`)
 
         try { await existingPostal.remove() }
         catch (error) { throw CustomException.internalServerError(PostalRepository.name, `Deleting a postal failed. Reason: ${error.message}.`) }

@@ -42,7 +42,7 @@ export class PlaceRepository extends Repository<Places> {
         const countryExists = await Countries.findOne({ where: { id: countryId } })
         if (!countryExists) throw CustomException.badRequest(PlaceRepository.name, `Provided country does not exist.`)
         const existingPlace = await this.findOne({ where: { id: placeId } })
-        if (!existingPlace) throw CustomException.conflict(PlaceRepository.name, `Provided place does not exist.`)
+        if (!existingPlace) throw CustomException.badRequest(PlaceRepository.name, `Provided place does not exist.`)
         const placeExists = await this.findOne({ where: { place: place, postalId: postalId, countryId: countryId } })
         if (placeExists) throw CustomException.conflict(PlaceRepository.name, `Place ${place} already exists.`)
         
@@ -61,7 +61,7 @@ export class PlaceRepository extends Repository<Places> {
     // Delete Place
     async deletePlace(placeId: string): Promise<void> {
         const existingPlace = await this.findOne({ where: { id: placeId } })
-        if (!existingPlace) throw CustomException.conflict(PlaceRepository.name, `Provided place does not exist.`)
+        if (!existingPlace) throw CustomException.badRequest(PlaceRepository.name, `Provided place does not exist.`)
 
         try { await this.delete(placeId) }
         catch (error) {throw CustomException.internalServerError(PlaceRepository.name, `Deleting a place failed. Reason: ${error.message}.`)}

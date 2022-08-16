@@ -34,7 +34,7 @@ export class BrandRepository extends Repository<Brands> {
         const { brand, countryId } = brandDto
 
         const existingBrand = await this.findOne({ where: { id: brandId } })
-        if (!existingBrand) throw CustomException.conflict(BrandRepository.name, `Provided brand does not exist.`)
+        if (!existingBrand) throw CustomException.badRequest(BrandRepository.name, `Provided brand does not exist.`)
         const countryExists = await Countries.findOne({ where: { id: countryId } })
         if (!countryExists) throw CustomException.badRequest(BrandRepository.name, `Provided country does not exist.`)
         const brandExists = await this.findOne({ where: { brand: brand, countryId: countryId } })
@@ -54,7 +54,7 @@ export class BrandRepository extends Repository<Brands> {
     // Delete Brand
     async deleteBrand(brandId: string): Promise<void> {
         const existingBrand = await this.findOne({ where: { id: brandId } })
-        if (!existingBrand) throw CustomException.conflict(BrandRepository.name, `Provided brand does not exist.`)
+        if (!existingBrand) throw CustomException.badRequest(BrandRepository.name, `Provided brand does not exist.`)
 
         try { await existingBrand.remove() }
         catch (error) { throw CustomException.internalServerError(BrandRepository.name, `Deleting a brand failed. Reason: ${error.message}.`) }

@@ -30,7 +30,7 @@ export class ImageRepository extends Repository<Images> {
         const { url } = imageDto
 
         const existingImage = await this.findOne({ where: { id: imageId } })
-        if (!existingImage) throw CustomException.conflict(ImageRepository.name, `Provided image does not exist.`)
+        if (!existingImage) throw CustomException.badRequest(ImageRepository.name, `Provided image does not exist.`)
         const imageExists = await this.findOne({ where: { url: url } })
         if (imageExists) throw CustomException.conflict(ImageRepository.name, `Image ${url} already exists.`)
 
@@ -48,7 +48,7 @@ export class ImageRepository extends Repository<Images> {
     // Delete Image
     async deleteImage(imageId: string): Promise<void> {
         const existingImage = await this.findOne({ where: { id: imageId } })
-        if (!existingImage) throw CustomException.conflict(ImageRepository.name, `Provided image does not exist.`)
+        if (!existingImage) throw CustomException.badRequest(ImageRepository.name, `Provided image does not exist.`)
 
         try { await existingImage.remove() }
         catch (error) { throw CustomException.internalServerError(ImageRepository.name, `Deleting an image failed. Reason: ${error.message}.`) }

@@ -42,7 +42,7 @@ export class AuthRepository extends Repository<Users> {
         const { first_name, last_name, email, username } = userInfo
 
         const userExists = await this.findOne({ where: { id } })
-        if (!userExists) throw CustomException.notFound(AuthRepository.name, `Provided user does not exist.`)
+        if (!userExists) throw CustomException.badRequest(AuthRepository.name, `Provided user does not exist.`)
         const emailExists = await this.findOne({ where: { email } })
         if (emailExists && emailExists.id !== id) throw CustomException.conflict(AuthRepository.name, `User with this email already exists.`)
         const usernameExists = await this.findOne({ where: { username } })
@@ -63,7 +63,7 @@ export class AuthRepository extends Repository<Users> {
     // Send request password mail to user
     async requestPasswordChange(userEmail: string): Promise<void> {
         const userExists = await this.findOne({ where: { email: userEmail } })
-        if (!userExists) throw CustomException.notFound(AuthRepository.name, `Provided user does not exist.`)
+        if (!userExists) throw CustomException.badRequest(AuthRepository.name, `Provided user does not exist.`)
 
         const { first_name, last_name, email } = userExists
         const passRequestToken = await userExists.generateToken(64)
@@ -87,8 +87,8 @@ export class AuthRepository extends Repository<Users> {
     // Change user password
     async changePassword(token: string, changePassword: AuthChangePasswordDto): Promise<void> {
         const userWithToken = await this.findOne({ where: { passRequestToken: token } })
-        if (!userWithToken) throw CustomException.notFound(AuthRepository.name, `Provided token does not exist.`)
-        if (userWithToken.passRequestTokenExpiryDate < new Date()) throw CustomException.notFound(AuthRepository.name, `Provided token has expired.`)
+        if (!userWithToken) throw CustomException.badRequest(AuthRepository.name, `Provided token does not exist.`)
+        if (userWithToken.passRequestTokenExpiryDate < new Date()) throw CustomException.badRequest(AuthRepository.name, `Provided token has expired.`)
 
         const { newPassword } = changePassword
 

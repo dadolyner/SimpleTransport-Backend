@@ -31,7 +31,7 @@ export class CountryRepository extends Repository<Countries> {
         const { country, abbreviation } = countryDto
         
         const existingCountry = await this.findOne({ where: { id: countryId } })
-        if (!existingCountry) throw CustomException.notFound(CountryRepository.name, `Provided country does not exist.`)
+        if (!existingCountry) throw CustomException.badRequest(CountryRepository.name, `Provided country does not exist.`)
         const countryExists = await this.findOne({ where: { country: country } })
         if (countryExists) throw CustomException.conflict(CountryRepository.name, `Country ${country} already exists.`)
 
@@ -49,7 +49,7 @@ export class CountryRepository extends Repository<Countries> {
     // Delete Country
     async deleteCountry(countryId: string): Promise<void> {
         const existingCountry = await this.findOne({ where: { id: countryId } })
-        if (!existingCountry) throw CustomException.notFound(CountryRepository.name, `Provided country does not exist.`)
+        if (!existingCountry) throw CustomException.badRequest(CountryRepository.name, `Provided country does not exist.`)
 
         try { await existingCountry.remove() }
         catch (error) { throw CustomException.internalServerError(CountryRepository.name, `Deleting a country failed. Reason: ${error.message}.`) }

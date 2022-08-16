@@ -30,7 +30,7 @@ export class FuelRepository extends Repository<Fuels> {
         const { fuel } = fuelDto
         
         const existingFuel = await this.findOne({ where: { id: fuelId } })
-        if (!existingFuel) throw CustomException.conflict(FuelRepository.name, `Provided fuel does not exist.`)
+        if (!existingFuel) throw CustomException.badRequest(FuelRepository.name, `Provided fuel does not exist.`)
         const fuelExists = await this.findOne({ where: { fuel: fuel } })
         if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel ${fuel} already exists.`)
 
@@ -47,7 +47,7 @@ export class FuelRepository extends Repository<Fuels> {
     // Delete Fuel
     async deleteFuel(fuelId: string): Promise<void> {
         const existingFuel = await this.findOne({ where: { id: fuelId } })
-        if (!existingFuel) throw CustomException.conflict(FuelRepository.name, `Provided fuel does not exist.`)
+        if (!existingFuel) throw CustomException.badRequest(FuelRepository.name, `Provided fuel does not exist.`)
 
         try { await existingFuel.remove() }
         catch (error) { throw CustomException.internalServerError(FuelRepository.name, `Deleting a fuel failed. Reason: ${error.message}.`) }
