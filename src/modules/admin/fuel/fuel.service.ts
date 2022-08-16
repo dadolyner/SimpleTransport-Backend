@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Fuels } from 'src/entities/fuels.entity'
 import { CustomException } from 'src/helpers/custom.exception'
+import { QueryFilters } from 'src/helpers/queryFilter'
 import { CreateFuelDto } from './dto/create-fuel.dto'
 import { FuelRepository } from './fuel.repository'
 
@@ -20,7 +21,7 @@ export class FuelService {
                     'fuel.fuel',
                 ])
                 .from(Fuels, 'fuel')
-                .where(fuelFilters)
+                .where(...QueryFilters(fuelFilters))
                 .getMany()
 
             this.logger.verbose(`Retrieving fuels. Found ${fuels.length} items.`)

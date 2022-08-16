@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Rentals } from 'src/entities/rentals.entity'
 import { Users } from 'src/entities/users.entity'
 import { CustomException } from 'src/helpers/custom.exception'
+import { QueryFilters } from 'src/helpers/queryFilter'
 import { RentalsOutput } from 'src/interfaces/rental-output.interface'
 import { CreateRentalDto } from './dto/create-rental.dto'
 import { RentalRepository } from './rental.repository'
@@ -66,7 +67,7 @@ export class RentalService {
                 .leftJoin('vehicle.model', 'model')
                 .leftJoin('model.brand', 'brand')
                 .leftJoin('brand.country', 'country')
-                .where(rentalFilters)
+                .where(...QueryFilters(rentalFilters))
                 .getMany()
 
             const output = rentals.map(rental => {
