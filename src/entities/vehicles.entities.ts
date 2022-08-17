@@ -12,7 +12,7 @@ export class Vehicles extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()
+    @Column('integer')
     seats: number
 
     @Column()
@@ -33,7 +33,7 @@ export class Vehicles extends BaseEntity {
     @Column('float')
     price: number
 
-    @Column()
+    @Column('integer')
     rent_duration: number
 
     @Column()
