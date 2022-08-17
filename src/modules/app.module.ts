@@ -15,7 +15,6 @@ import { Module } from '@nestjs/common'
 
 @Module({
     imports: [
-        ImageModule,
         TypeOrmConfig,
         AuthModule,
         UserModule,
@@ -28,6 +27,7 @@ import { Module } from '@nestjs/common'
         ModelModule,
         FuelModule,
         ColorModule,
+        ImageModule,
     ],
     controllers: [],
     providers: [],
