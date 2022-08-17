@@ -1,10 +1,11 @@
 // Place Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { PlacesOutput } from 'src/interfaces/place-output.interface'
 import { PlaceDto } from './dto/place.dto'
 import { PlaceService } from './place.service'
 
+@ApiTags('PLACE')
 @Controller('place')
 export class PlaceController {
     constructor(private readonly placeService: PlaceService) {}

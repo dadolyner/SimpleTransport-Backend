@@ -1,10 +1,11 @@
 // Model Controller
 import { Body, Query, Controller, Get, Post, Patch, Delete } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ModelsOutput } from 'src/interfaces/model-output.interface'
 import { ModelDto } from './dto/model.dto'
 import { ModelService } from './model.service'
 
+@ApiTags('MODEL')
 @Controller('model')
 export class ModelController {
     constructor(private readonly modelService: ModelService) {}

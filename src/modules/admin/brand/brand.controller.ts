@@ -1,10 +1,11 @@
 // Brand Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { BrandsOutput } from 'src/interfaces/brand-output.interface'
 import { BrandService } from './brand.service'
 import { BrandDto } from './dto/brand.dto'
 
+@ApiTags('BRAND')
 @Controller('brand')
 export class BrandController {
     constructor(private readonly brandservice: BrandService) { }

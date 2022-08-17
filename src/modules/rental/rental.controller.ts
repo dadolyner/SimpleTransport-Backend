@@ -1,13 +1,14 @@
 // Rental Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Users } from 'src/entities/users.entity'
 import { RentalsOutput } from 'src/interfaces/rental-output.interface'
 import { GetUser } from '../auth/decorator/get-user.decorator'
 import { RentalDto } from './dto/rental.dto'
 import { RentalService } from './rental.service'
 
+@ApiTags('RENTAL')
 @Controller('rental')
 export class RentalController {
     constructor(private readonly rentalService: RentalService) { }

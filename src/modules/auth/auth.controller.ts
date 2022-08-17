@@ -1,7 +1,7 @@
 // Auth Controller
 import { Body, Controller, Patch, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Users } from '../../entities/users.entity'
 import { AuthService } from './auth.service'
 import { GetUser } from './decorator/get-user.decorator'
@@ -11,6 +11,7 @@ import { LoginCredentialsDto } from './dto/login.dto'
 import { RequestPassChangeDto } from './dto/requestPassChange.dto'
 import { SignupCredentialsDto } from './dto/signup.dto'
 
+@ApiTags('AUTH')
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) { }

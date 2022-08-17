@@ -1,13 +1,14 @@
 // Vehicle Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Users } from 'src/entities/users.entity'
 import { VehiclesOutput } from 'src/interfaces/vehicle-output.interface'
 import { GetUser } from '../auth/decorator/get-user.decorator'
 import { VehicleDto } from './dto/vehicle.dto'
 import { VehicleService } from './vehicle.service'
 
+@ApiTags('VEHICLE')
 @Controller('vehicle')
 export class VehicleController {
     constructor(private readonly vehicleService: VehicleService) { }

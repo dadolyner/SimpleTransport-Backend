@@ -1,10 +1,11 @@
 // Image Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Images } from 'src/entities/images.entity'
 import { ImageDto } from './dto/image.dto'
 import { ImageService } from './image.service'
 
+@ApiTags('IMAGE')
 @Controller('image')
 export class ImageController {
     constructor(private readonly imageService: ImageService) {}

@@ -1,10 +1,11 @@
 // Color Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Colors } from 'src/entities/colors.entity'
 import { ColorService } from './color.service'
 import { ColorDto } from './dto/color.dto'
 
+@ApiTags('COLOR')
 @Controller('color')
 export class ColorController {
     constructor(private readonly colorService: ColorService) { }

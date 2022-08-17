@@ -1,9 +1,11 @@
 // Fuel Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Fuels } from 'src/entities/fuels.entity'
 import { FuelDto } from './dto/fuel.dto'
 import { FuelService } from './fuel.service'
+
+@ApiTags('FUEL')
 @Controller('fuel')
 export class FuelController {
     constructor(private readonly fuelService: FuelService) { }

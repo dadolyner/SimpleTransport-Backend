@@ -1,10 +1,11 @@
 // Postal Controller
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Postals } from 'src/entities/postals.entity'
 import { PostalDto } from './dto/postal.dto'
 import { PostalService } from './postal.service'
 
+@ApiTags('POSTAL')
 @Controller('postal')
 export class PostalController {
     constructor(private readonly postalService: PostalService) {}
