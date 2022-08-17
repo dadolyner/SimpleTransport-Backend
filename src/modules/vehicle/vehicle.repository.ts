@@ -6,13 +6,13 @@ import { Users } from "src/entities/users.entity"
 import { Vehicles } from "src/entities/vehicles.entities"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreateVehicleDto } from "./dto/create-vehicle.dto"
+import { VehicleDto } from "./dto/vehicle.dto"
 
 @EntityRepository(Vehicles)
 export class VehicleRepository extends Repository<Vehicles> {
 
     // Create vehicle
-    async createVehicle(user: Users, vehicleDto: CreateVehicleDto): Promise<void> {
+    async createVehicle(user: Users, vehicleDto: VehicleDto): Promise<void> {
         const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId } = vehicleDto
 
         const userExists = await Users.findOne(user)
@@ -51,7 +51,7 @@ export class VehicleRepository extends Repository<Vehicles> {
     }
 
     // Edit vehicle
-    async editVehicle(user: Users, vehicleId: string, vehicleDto: CreateVehicleDto): Promise<void> {
+    async editVehicle(user: Users, vehicleId: string, vehicleDto: VehicleDto): Promise<void> {
         const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId } = vehicleDto
 
         const existingVehicle = await this.findOne({ where: { id: vehicleId } })
@@ -66,6 +66,8 @@ export class VehicleRepository extends Repository<Vehicles> {
         if (!fuelExists) throw CustomException.badRequest(VehicleRepository.name, `Fuel with id ${fuelId} does not exist.`)
         const vehicleExists = await this.findOne({ where: [{ licence_plate }, { vin }] })
         if (vehicleExists) throw CustomException.conflict(VehicleRepository.name, `Vehicle with licence plate ${licence_plate} or vin number ${vin} already exists.`)
+        const userHasVehicle = await this.findOne({ where: { id: vehicleId, userId: userExists.id } })
+        if (!userHasVehicle) throw CustomException.badRequest(VehicleRepository.name, `Current user does not own this vehicle.`)
 
         existingVehicle.seats = seats
         existingVehicle.shifter = shifter
@@ -90,9 +92,13 @@ export class VehicleRepository extends Repository<Vehicles> {
     }
 
     // Delete vehicle
-    async deleteVehicle(vehicleId: string): Promise<void> {
+    async deleteVehicle(user: Users, vehicleId: string): Promise<void> {
         const existingVehicle = await this.findOne({ where: { id: vehicleId } })
         if (!existingVehicle) throw CustomException.badRequest(VehicleRepository.name, `Provided vehicle does not exist.`)
+        const userExists = await Users.findOne(user)
+        if (!userExists) throw CustomException.badRequest(VehicleRepository.name, `Provided user does not exist.`)
+        const userHasVehicle = await this.findOne({ where: { id: vehicleId, userId: userExists.id } })
+        if (!userHasVehicle) throw CustomException.badRequest(VehicleRepository.name, `Current user does not own this vehicle.`)
 
         try { await existingVehicle.remove() }
         catch (error) { throw CustomException.internalServerError(VehicleRepository.name, `Deleting a vehicle failed. Reason: ${error.message}.`) }

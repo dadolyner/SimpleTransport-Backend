@@ -2,13 +2,13 @@
 import { Countries } from "src/entities/countries.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreateCountryDto } from "./dto/create-country.dto"
+import { CountryDto } from "./dto/country.dto"
 
 @EntityRepository(Countries)
 export class CountryRepository extends Repository<Countries> {
 
     // Create Country
-    async createCountry(countryDto: CreateCountryDto): Promise<void> {
+    async createCountry(countryDto: CountryDto): Promise<void> {
         const { country, abbreviation } = countryDto
 
         const countryExists = await this.findOne({ where: { country: country } })
@@ -27,7 +27,7 @@ export class CountryRepository extends Repository<Countries> {
     }
 
     // Edit Country
-    async editCountry(countryId: string, countryDto: CreateCountryDto): Promise<void> {
+    async editCountry(countryId: string, countryDto: CountryDto): Promise<void> {
         const { country, abbreviation } = countryDto
         
         const existingCountry = await this.findOne({ where: { id: countryId } })

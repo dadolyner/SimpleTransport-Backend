@@ -6,7 +6,7 @@ import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
 import { BrandsOutput } from 'src/interfaces/brand-output.interface'
 import { BrandRepository } from './brand.repository'
-import { CreateBrandDto } from './dto/create-brand.dto'
+import { BrandDto } from './dto/brand.dto'
 
 @Injectable()
 export class BrandService {
@@ -42,12 +42,12 @@ export class BrandService {
     }
 
     // Create Brand
-    async createBrand(brandDto: CreateBrandDto): Promise<void> {
+    async createBrand(brandDto: BrandDto): Promise<void> {
         return this.brandRepository.createBrand(brandDto)
     }
 
     // Edit Brand
-    async editBrand(brandId: string, brandDto: CreateBrandDto): Promise<void> {
+    async editBrand(brandId: string, brandDto: BrandDto): Promise<void> {
         return this.brandRepository.editBrand(brandId, brandDto)
     }
 

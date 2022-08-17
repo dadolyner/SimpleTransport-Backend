@@ -3,14 +3,14 @@ import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/commo
 import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { Countries } from 'src/entities/countries.entity'
 import { CountryService } from './country.service'
-import { CreateCountryDto } from './dto/create-country.dto'
+import { CountryDto } from './dto/country.dto'
 
 @Controller('country')
 export class CountryController {
     constructor(private readonly countryService: CountryService) {}
 
     // Get Countries
-    @ApiResponse({ status: 200, description: 'Retrieve all countries.' })
+    @ApiResponse({ status: 200, description: 'Retrieve countries.' })
     @Get()
     async getCountries(@Query() countryFilters: string): Promise<Countries[]> {
         return this.countryService.getCountries(countryFilters)
@@ -18,18 +18,18 @@ export class CountryController {
 
     // Create Country
     @ApiResponse({ status: 201, description: 'Create new country.' })
-    @ApiBody({ type: CreateCountryDto })
+    @ApiBody({ type: CountryDto })
     @Post()
-    async createCountry(@Body() countryDto: CreateCountryDto): Promise<void> {
+    async createCountry(@Body() countryDto: CountryDto): Promise<void> {
         return this.countryService.createCountry(countryDto)
     }
 
     // Edit Country
     @ApiResponse({ status: 200, description: 'Edit existing country.' })
     @ApiQuery({ name: 'id', description: 'country id', required: true })
-    @ApiBody({ type: CreateCountryDto })
+    @ApiBody({ type: CountryDto })
     @Patch()
-    async editCountry(@Query('id') countryId: string, @Body() countryDto: CreateCountryDto): Promise<void> {
+    async editCountry(@Query('id') countryId: string, @Body() countryDto: CountryDto): Promise<void> {
         return this.countryService.editCountry(countryId, countryDto)
     }
 

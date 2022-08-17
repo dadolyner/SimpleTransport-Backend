@@ -5,7 +5,7 @@ import { Models } from 'src/entities/models.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
 import { ModelsOutput } from 'src/interfaces/model-output.interface'
-import { CreateModelDto } from './dto/create-model.dto'
+import { ModelDto } from './dto/model.dto'
 import { ModelRepository } from './model.repository'
 
 @Injectable()
@@ -45,12 +45,12 @@ export class ModelService {
     }
 
     // Create Model
-    async createModel(modelDto: CreateModelDto): Promise<void> {
+    async createModel(modelDto: ModelDto): Promise<void> {
         return this.modelRepository.createModel(modelDto)
     }
 
     // Edit Model
-    async editModel(modelId: string, modelDto: CreateModelDto): Promise<void> {
+    async editModel(modelId: string, modelDto: ModelDto): Promise<void> {
         return this.modelRepository.editModel(modelId, modelDto)
     }
 

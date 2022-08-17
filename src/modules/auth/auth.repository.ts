@@ -2,18 +2,19 @@
 import { EntityRepository, Repository } from 'typeorm'
 import { Users } from '../../entities/users.entity'
 import * as bcrypt from 'bcrypt'
-import { AuthSignUpCredentialsDto } from './dto/auth-credentials-signup.dto'
-import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto'
-import { AuthChangePasswordDto } from './dto/auth-changePassword.dto'
+import { SignupCredentialsDto } from './dto/signup.dto'
+import { ChangeInfoDto } from './dto/changeInfo.dto'
+import { ChangePasswordDto } from './dto/changePassword.dto'
 import transporter from '../../mail/mail.config'
 import MailTemplate from '../../mail/mail.template'
 import { CustomException } from 'src/helpers/custom.exception'
+import { RequestPassChangeDto } from './dto/requestPassChange.dto'
 
 @EntityRepository(Users)
 export class AuthRepository extends Repository<Users> {
 
     // Register user
-    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
+    async register(signupCredentials: SignupCredentialsDto): Promise<void> {
         const { first_name, last_name, email, username, password, placeId } = signupCredentials
 
         const userExists = await this.findOne({ where: [{ email }, { username }] })
@@ -37,7 +38,7 @@ export class AuthRepository extends Repository<Users> {
     }
 
     // Change user information
-    async changeUserInfo(user: Users, userInfo: AuthChangeInfoDto): Promise<void> {
+    async changeUserInfo(user: Users, userInfo: ChangeInfoDto): Promise<void> {
         const { id } = user
         const { first_name, last_name, email, username } = userInfo
 
@@ -61,7 +62,7 @@ export class AuthRepository extends Repository<Users> {
     }
 
     // Send request password mail to user
-    async requestPasswordChange(userEmail: string): Promise<void> {
+    async requestPasswordChange(userEmail: RequestPassChangeDto): Promise<void> {
         const userExists = await this.findOne({ where: { email: userEmail } })
         if (!userExists) throw CustomException.badRequest(AuthRepository.name, `Provided user does not exist.`)
 
@@ -85,14 +86,14 @@ export class AuthRepository extends Repository<Users> {
     }
 
     // Change user password
-    async changePassword(token: string, changePassword: AuthChangePasswordDto): Promise<void> {
+    async changePassword(token: string, changePassword: ChangePasswordDto): Promise<void> {
         const userWithToken = await this.findOne({ where: { passRequestToken: token } })
         if (!userWithToken) throw CustomException.badRequest(AuthRepository.name, `Provided token does not exist.`)
         if (userWithToken.passRequestTokenExpiryDate < new Date()) throw CustomException.badRequest(AuthRepository.name, `Provided token has expired.`)
 
-        const { newPassword } = changePassword
+        const { password } = changePassword
 
-        userWithToken.password = await userWithToken.hashPassword(newPassword, userWithToken.salt)
+        userWithToken.password = await userWithToken.hashPassword(password, userWithToken.salt)
         userWithToken.passRequestToken = null
         userWithToken.passRequestTokenExpiryDate = null
 

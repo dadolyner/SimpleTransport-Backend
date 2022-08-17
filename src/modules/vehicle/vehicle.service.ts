@@ -6,7 +6,7 @@ import { Vehicles } from 'src/entities/vehicles.entities'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
 import { VehiclesOutput } from 'src/interfaces/vehicle-output.interface'
-import { CreateVehicleDto } from './dto/create-vehicle.dto'
+import { VehicleDto } from './dto/vehicle.dto'
 import { VehicleRepository } from './vehicle.repository'
 
 @Injectable()
@@ -107,17 +107,17 @@ export class VehicleService {
     }
 
     // Create Vehicle
-    async createVehicle(user: Users, vehicleDto: CreateVehicleDto): Promise<void> {
+    async createVehicle(user: Users, vehicleDto: VehicleDto): Promise<void> {
         return await this.vehicleRepository.createVehicle(user, vehicleDto)
     }
 
     // Edit Vehicle
-    async editVehicle(user: Users, vehicleId: string, vehicleDto: CreateVehicleDto): Promise<void> {
+    async editVehicle(user: Users, vehicleId: string, vehicleDto: VehicleDto): Promise<void> {
         return await this.vehicleRepository.editVehicle(user, vehicleId, vehicleDto)
     }
 
     // Delete Vehicle
-    async deleteVehicle(vehicleId: string): Promise<void> {
-        return await this.vehicleRepository.deleteVehicle(vehicleId)
+    async deleteVehicle(user: Users, vehicleId: string): Promise<void> {
+        return await this.vehicleRepository.deleteVehicle(user, vehicleId)
     }
 }

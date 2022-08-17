@@ -2,7 +2,7 @@
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
 import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { Postals } from 'src/entities/postals.entity'
-import { CreatePostalDto } from './dto/create-postal.dto'
+import { PostalDto } from './dto/postal.dto'
 import { PostalService } from './postal.service'
 
 @Controller('postal')
@@ -10,26 +10,26 @@ export class PostalController {
     constructor(private readonly postalService: PostalService) {}
 
     // Get Postals
-    @ApiResponse({ status: 200, description: 'Retrieve all postals' })
+    @ApiResponse({ status: 200, description: 'Retrieve postals' })
     @Get()
     async getPostals(@Query() postalFilters: string): Promise<Postals[]> {
         return this.postalService.getPostals(postalFilters)
     }
 
     // Create Postal
-    @ApiResponse({ status: 201, description: 'Create a new postal' })
-    @ApiBody({ type: CreatePostalDto })
+    @ApiResponse({ status: 201, description: 'Create new postal' })
+    @ApiBody({ type: PostalDto })
     @Post()
-    async createPostal(@Body() postalDto: CreatePostalDto): Promise<void> {
+    async createPostal(@Body() postalDto: PostalDto): Promise<void> {
         return this.postalService.createPostal(postalDto)
     }
 
     // Edit Postal
     @ApiResponse({ status: 200, description: 'Edit existing postal' })
     @ApiQuery({ name: 'id', description: 'place id', required: true })
-    @ApiBody({ type: CreatePostalDto })
+    @ApiBody({ type: PostalDto })
     @Patch()
-    async editPostal(@Query('id') postalId: string, @Body() postalDto: CreatePostalDto): Promise<void> {
+    async editPostal(@Query('id') postalId: string, @Body() postalDto: PostalDto): Promise<void> {
         return this.postalService.editPostal(postalId, postalDto)
     }
 

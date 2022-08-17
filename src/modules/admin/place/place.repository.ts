@@ -4,13 +4,13 @@ import { Places } from "src/entities/places.entity"
 import { Postals } from "src/entities/postals.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreatePlaceDto } from "./dto/create-place.dto"
+import { PlaceDto } from "./dto/place.dto"
 
 @EntityRepository(Places)
 export class PlaceRepository extends Repository<Places> {
 
     // Create Place
-    async createPlace(placeDto: CreatePlaceDto): Promise<void> {
+    async createPlace(placeDto: PlaceDto): Promise<void> {
         const { place, postalId, countryId } = placeDto
 
         const postalExists = await Postals.findOne({ where: { id: postalId } })
@@ -34,7 +34,7 @@ export class PlaceRepository extends Repository<Places> {
     }
 
     // Edit Place
-    async editPlace(placeId: string, placeDto: CreatePlaceDto): Promise<void> {
+    async editPlace(placeId: string, placeDto: PlaceDto): Promise<void> {
         const { place, postalId, countryId } = placeDto
         
         const postalExists = await Postals.findOne({ where: { id: postalId } })

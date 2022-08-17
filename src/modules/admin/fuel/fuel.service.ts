@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Fuels } from 'src/entities/fuels.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
-import { CreateFuelDto } from './dto/create-fuel.dto'
+import { FuelDto } from './dto/fuel.dto'
 import { FuelRepository } from './fuel.repository'
 
 @Injectable()
@@ -31,12 +31,12 @@ export class FuelService {
     }
 
     // Create Fuel
-    async createFuel(fuelDto: CreateFuelDto): Promise<void> {
+    async createFuel(fuelDto: FuelDto): Promise<void> {
         await this.fuelRepository.createFuel(fuelDto)
     }
 
     // Edit Fuel
-    async editFuel(fuelId: string, fuelDto: CreateFuelDto): Promise<void> {
+    async editFuel(fuelId: string, fuelDto: FuelDto): Promise<void> {
         await this.fuelRepository.editFuel(fuelId, fuelDto)
     }
 

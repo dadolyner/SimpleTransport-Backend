@@ -2,33 +2,33 @@
 import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common'
 import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { Fuels } from 'src/entities/fuels.entity'
-import { CreateFuelDto } from './dto/create-fuel.dto'
+import { FuelDto } from './dto/fuel.dto'
 import { FuelService } from './fuel.service'
 @Controller('fuel')
 export class FuelController {
     constructor(private readonly fuelService: FuelService) { }
 
     // Get Fuels
-    @ApiResponse({ status: 200, description: 'Retrieve all fuels' })
+    @ApiResponse({ status: 200, description: 'Retrieve fuels' })
     @Get()
     async getFuels(@Query() fuelFilters: string): Promise<Fuels[]> {
         return await this.fuelService.getFuels(fuelFilters)
     }
 
     // Create Fuel
-    @ApiResponse({ status: 201, description: 'Create a new fuel' })
-    @ApiBody({ type: CreateFuelDto })
+    @ApiResponse({ status: 201, description: 'Create new fuel' })
+    @ApiBody({ type: FuelDto })
     @Post()
-    async createFuel(@Body() fuelDto: CreateFuelDto): Promise<void> {
+    async createFuel(@Body() fuelDto: FuelDto): Promise<void> {
         await this.fuelService.createFuel(fuelDto)
     }
 
     // Edit Fuel
     @ApiResponse({ status: 200, description: 'Edit existing fuel' })
     @ApiQuery({ name: 'id', description: 'fuel id', required: true })
-    @ApiBody({ type: CreateFuelDto })
+    @ApiBody({ type: FuelDto })
     @Patch()
-    async editFuel(@Query('id') fuelId: string, @Body() fuelDto: CreateFuelDto): Promise<void> {
+    async editFuel(@Query('id') fuelId: string, @Body() fuelDto: FuelDto): Promise<void> {
         await this.fuelService.editFuel(fuelId, fuelDto)
     }
 

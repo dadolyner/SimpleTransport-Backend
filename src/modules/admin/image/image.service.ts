@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Images } from 'src/entities/images.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
-import { CreateImageDto } from './dto/create-image.dto'
+import { ImageDto } from './dto/image.dto'
 import { ImageRepository } from './image.repository'
 
 @Injectable()
@@ -31,12 +31,12 @@ export class ImageService {
     }
 
     // Create Image
-    async createImage(imageDto: CreateImageDto): Promise<void> {
+    async createImage(imageDto: ImageDto): Promise<void> {
         await this.imageRepostory.createImage(imageDto)
     }
 
     // Edit Image
-    async editImage(imageId: string, imageDto: CreateImageDto): Promise<void> {
+    async editImage(imageId: string, imageDto: ImageDto): Promise<void> {
         await this.imageRepostory.editImage(imageId, imageDto)
     }
 

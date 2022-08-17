@@ -2,13 +2,13 @@
 import { Postals } from "src/entities/postals.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreatePostalDto } from "./dto/create-postal.dto"
+import { PostalDto } from "./dto/postal.dto"
 
 @EntityRepository(Postals)
 export class PostalRepository extends Repository<Postals> {
 
     // Create Postal
-    async createPostal(postalDto: CreatePostalDto): Promise<void> {
+    async createPostal(postalDto: PostalDto): Promise<void> {
         const { post_office, post_code } = postalDto
 
         const postalExists = await this.findOne({ where: [{ post_office }, { post_code }] })
@@ -27,7 +27,7 @@ export class PostalRepository extends Repository<Postals> {
     }
 
     // Edit Postal
-    async editPostal(postalId: string, postalDto: CreatePostalDto): Promise<void> {
+    async editPostal(postalId: string, postalDto: PostalDto): Promise<void> {
         const { post_office, post_code } = postalDto
         
         const existingPostal = await this.findOne({ where: { id: postalId } })

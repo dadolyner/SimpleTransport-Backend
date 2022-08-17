@@ -1,16 +1,17 @@
 // Auth Service
 import { Injectable } from '@nestjs/common'
-import { AuthLoginCredentialsDto } from './dto/auth-credentials-login.dto'
+import { LoginCredentialsDto } from './dto/login.dto'
 import { AuthRepository } from './auth.repository'
 import { JwtService } from '@nestjs/jwt'
 import { JwtPayload } from './jwt/jwt-payload.interface'
-import { AuthSignUpCredentialsDto } from './dto/auth-credentials-signup.dto'
+import { SignupCredentialsDto } from './dto/signup.dto'
 import { Logger } from '@nestjs/common'
 import { Users } from '../../entities/users.entity'
-import { AuthChangeInfoDto } from './dto/auth-changeInfo.dto'
+import { ChangeInfoDto } from './dto/changeInfo.dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { AuthChangePasswordDto } from './dto/auth-changePassword.dto'
+import { ChangePasswordDto } from './dto/changePassword.dto'
 import { CustomException } from 'src/helpers/custom.exception'
+import { RequestPassChangeDto } from './dto/requestPassChange.dto'
 
 @Injectable()
 export class AuthService {
@@ -21,12 +22,12 @@ export class AuthService {
     ) { }
 
     // Register user
-    async register(signupCredentials: AuthSignUpCredentialsDto): Promise<void> {
+    async register(signupCredentials: SignupCredentialsDto): Promise<void> {
         return this.authRepository.register(signupCredentials)
     }
 
     // Login user
-    async logIn(userCredentialsDto: AuthLoginCredentialsDto): Promise<{ accessToken: string }> {
+    async logIn(userCredentialsDto: LoginCredentialsDto): Promise<{ accessToken: string }> {
         const { email, username, password } = userCredentialsDto
 
         const userExists = await this.authRepository.findOne({ where: [{ email }, { username }] })
@@ -44,17 +45,17 @@ export class AuthService {
     }
 
     // Change user information
-    async changeUserInfo(user: Users, userInfo: AuthChangeInfoDto): Promise<void> {
+    async changeUserInfo(user: Users, userInfo: ChangeInfoDto): Promise<void> {
         return this.authRepository.changeUserInfo(user, userInfo)
     }
 
     // Request password reset
-    async requestPasswordChange(userEmail: string): Promise<void> {
+    async requestPasswordChange(userEmail: RequestPassChangeDto): Promise<void> {
         return this.authRepository.requestPasswordChange(userEmail)
     }
 
     // Update user password
-    async changePassword(token: string, changePassword: AuthChangePasswordDto): Promise<void> {
+    async changePassword(token: string, changePassword: ChangePasswordDto): Promise<void> {
         return this.authRepository.changePassword(token, changePassword)
     }
 }

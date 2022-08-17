@@ -3,13 +3,13 @@ import { Brands } from "src/entities/brands.entity"
 import { Countries } from "src/entities/countries.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreateBrandDto } from "./dto/create-brand.dto"
+import { BrandDto } from "./dto/brand.dto"
 
 @EntityRepository(Brands)
 export class BrandRepository extends Repository<Brands> {
 
     // Create Brand
-    async createBrand(brandDto: CreateBrandDto): Promise<void> {
+    async createBrand(brandDto: BrandDto): Promise<void> {
         const { brand, countryId } = brandDto
 
         const countryExists = await Countries.findOne({ where: { id: countryId } })
@@ -30,7 +30,7 @@ export class BrandRepository extends Repository<Brands> {
     }
 
     // Edit Brand
-    async editBrand(brandId: string, brandDto: CreateBrandDto): Promise<void> {
+    async editBrand(brandId: string, brandDto: BrandDto): Promise<void> {
         const { brand, countryId } = brandDto
 
         const existingBrand = await this.findOne({ where: { id: brandId } })
@@ -38,7 +38,7 @@ export class BrandRepository extends Repository<Brands> {
         const countryExists = await Countries.findOne({ where: { id: countryId } })
         if (!countryExists) throw CustomException.badRequest(BrandRepository.name, `Provided country does not exist.`)
         const brandExists = await this.findOne({ where: { brand: brand, countryId: countryId } })
-        if (brandExists) throw CustomException.conflict(BrandRepository.name, `Brand ${brand} in country: ${countryExists.country} already exists.`)
+        if (brandExists) throw CustomException.conflict(BrandRepository.name, `Brand ${brand} in country ${countryExists.country} already exists.`)
 
         const oldBrand = existingBrand.brand
         existingBrand.brand = brand

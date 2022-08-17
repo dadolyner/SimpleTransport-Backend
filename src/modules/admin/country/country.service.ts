@@ -5,7 +5,7 @@ import { Countries } from 'src/entities/countries.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
 import { CountryRepository } from './country.repository'
-import { CreateCountryDto } from './dto/create-country.dto'
+import { CountryDto } from './dto/country.dto'
 
 @Injectable()
 export class CountryService {
@@ -32,12 +32,12 @@ export class CountryService {
     }
 
     // Create Country
-    async createCountry(countryDto: CreateCountryDto): Promise<void> {
+    async createCountry(countryDto: CountryDto): Promise<void> {
         return this.countryRepository.createCountry(countryDto)
     }
 
     // Edit Country
-    async editCountry(countryId: string, countryDto: CreateCountryDto): Promise<void> {
+    async editCountry(countryId: string, countryDto: CountryDto): Promise<void> {
         return this.countryRepository.editCountry(countryId, countryDto)
     }
 

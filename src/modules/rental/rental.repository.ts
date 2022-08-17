@@ -5,13 +5,13 @@ import { Vehicles } from "src/entities/vehicles.entities"
 import { CustomException } from "src/helpers/custom.exception"
 import { getRentDuration } from "src/helpers/rentDuration"
 import { Between, EntityRepository, MoreThan, Repository } from "typeorm"
-import { CreateRentalDto } from "./dto/create-rental.dto"
+import { RentalDto } from "./dto/rental.dto"
 
 @EntityRepository(Rentals)
 export class RentalRepository extends Repository<Rentals> {
 
     // Create Rental
-    async createRental(user: Users, rentalDto: CreateRentalDto): Promise<void> {
+    async createRental(user: Users, rentalDto: RentalDto): Promise<void> {
         const { rent_start, rent_end, vehicleId } = rentalDto
 
         const userExists = await Users.findOne(user)
@@ -37,7 +37,7 @@ export class RentalRepository extends Repository<Rentals> {
     }
 
     // Edit Rental
-    async editRental(user: Users, rentalId: string, rentalDto: CreateRentalDto): Promise<void> {
+    async editRental(user: Users, rentalId: string, rentalDto: RentalDto): Promise<void> {
         const { rent_start, rent_end, vehicleId } = rentalDto
 
         const existingRental = await this.findOne({ where: { id: rentalId } })
@@ -48,6 +48,8 @@ export class RentalRepository extends Repository<Rentals> {
         if (!vehicleExists) throw CustomException.badRequest(RentalRepository.name, `Provided vehicle does not exist.`)
         const rentalExist = await this.findOne({ where: { vehicleId: vehicleId, rent_start: Between(rent_start, rent_end), rent_end: Between(rent_start, rent_end) } })
         if (rentalExist) throw CustomException.conflict(RentalRepository.name, `Selected car is not currently available for rent.`)
+        const userHasRental = await this.findOne({ where: { id: rentalId, userId: userExists.id } })
+        if (!userHasRental) throw CustomException.badRequest(RentalRepository.name, `Current user does not have this rental.`)
         if(getRentDuration(rent_start, rent_end) > vehicleExists.rent_duration) throw CustomException.badRequest(RentalRepository.name, `Rental duration is greater than the vehicle's rent duration.`)
 
         existingRental.rent_start = new Date(rent_start)
@@ -63,9 +65,13 @@ export class RentalRepository extends Repository<Rentals> {
     }
 
     // Delete Rental
-    async deleteRental(rentalId: string): Promise<void> {
+    async deleteRental(user: Users, rentalId: string): Promise<void> {
         const existingRental = await this.findOne({ where: { id: rentalId } })
         if (!existingRental) throw CustomException.badRequest(RentalRepository.name, `Provided rental does not exist.`)
+        const userExists = await Users.findOne(user)
+        if (!userExists) throw CustomException.badRequest(RentalRepository.name, `Provided user does not exist.`)
+        const userHasRental = await this.findOne({ where: { id: rentalId, userId: userExists.id } })
+        if (!userHasRental) throw CustomException.badRequest(RentalRepository.name, `Current user does not have this rental.`)
 
         try { await existingRental.remove() }
         catch (error) { throw CustomException.internalServerError(RentalRepository.name, `Deleting a rental failed. Reason: ${error.message}.`) }

@@ -16,10 +16,7 @@ import { Vehicles } from 'src/entities/vehicles.entities'
 
 @Module({
     imports: [
-        ConfigModule.forRoot({
-            envFilePath: '.env',
-            isGlobal: true,
-        }),
+        ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => ({
@@ -29,19 +26,7 @@ import { Vehicles } from 'src/entities/vehicles.entities'
                 username: configService.get<string>('DATABASE_USER'),
                 password: configService.get<string>('DATABASE_PASSWORD'),
                 database: configService.get<string>('DATABASE_NAME'),
-                entities: [
-                    Users,
-                    Rentals,
-                    Vehicles,
-                    Images,
-                    Fuels,
-                    Models,
-                    Brands,
-                    Postals,
-                    Places,
-                    Countries,
-                    Colors
-                ],
+                entities: [Users, Rentals, Vehicles, Images, Fuels, Models, Brands, Postals, Places, Countries, Colors],
                 synchronize: true,
                 // logging: true,
                 // logger: 'advanced-console',

@@ -2,13 +2,13 @@
 import { Fuels } from "src/entities/fuels.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreateFuelDto } from "./dto/create-fuel.dto"
+import { FuelDto } from "./dto/fuel.dto"
 
 @EntityRepository(Fuels)
 export class FuelRepository extends Repository<Fuels> {
 
     // Create Fuel
-    async createFuel(fuelDto: CreateFuelDto): Promise<void> {
+    async createFuel(fuelDto: FuelDto): Promise<void> {
         const { fuel } = fuelDto
 
         const fuelExists = await this.findOne({ where: { fuel: fuel } })
@@ -26,7 +26,7 @@ export class FuelRepository extends Repository<Fuels> {
     }
 
     // Edit Fuel
-    async editFuel(fuelId: string, fuelDto: CreateFuelDto): Promise<void> {
+    async editFuel(fuelId: string, fuelDto: FuelDto): Promise<void> {
         const { fuel } = fuelDto
         
         const existingFuel = await this.findOne({ where: { id: fuelId } })

@@ -3,13 +3,13 @@ import { Brands } from "src/entities/brands.entity"
 import { Models } from "src/entities/models.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreateModelDto } from "./dto/create-model.dto"
+import { ModelDto } from "./dto/model.dto"
 
 @EntityRepository(Models)
 export class ModelRepository extends Repository<Models> {
 
     // Create Model
-    async createModel(modelDto: CreateModelDto): Promise<void> {
+    async createModel(modelDto: ModelDto): Promise<void> {
         const { model, brandId } = modelDto
 
         const brandExists = await Brands.findOne({ where: { id: brandId } })
@@ -30,7 +30,7 @@ export class ModelRepository extends Repository<Models> {
     }
 
     // Edit Model
-    async editModel(modelId: string, modelDto: CreateModelDto): Promise<void> {
+    async editModel(modelId: string, modelDto: ModelDto): Promise<void> {
         const { model, brandId } = modelDto
         
         const existingBrand = await Brands.findOne({ where: { id: brandId } })

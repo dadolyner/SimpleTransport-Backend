@@ -2,13 +2,13 @@
 import { Colors } from "src/entities/colors.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreateColorDto } from "./dto/create-color.dto"
+import { ColorDto } from "./dto/color.dto"
 
 @EntityRepository(Colors)
 export class ColorRepository extends Repository<Colors> {
 
     // Create Color
-    async createColor(colorDto: CreateColorDto): Promise<void> {
+    async createColor(colorDto: ColorDto): Promise<void> {
         const { color } = colorDto
 
         const colorExists = await this.findOne({ where: { color: color } })
@@ -26,7 +26,7 @@ export class ColorRepository extends Repository<Colors> {
     }
 
     // Edit Color
-    async editColor(colorId: string, colorDto: CreateColorDto): Promise<void> {
+    async editColor(colorId: string, colorDto: ColorDto): Promise<void> {
         const { color } = colorDto
 
         const existingColor = await this.findOne({ where: { id: colorId } })

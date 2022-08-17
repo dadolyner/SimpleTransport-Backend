@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Postals } from 'src/entities/postals.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
-import { CreatePostalDto } from './dto/create-postal.dto'
+import { PostalDto } from './dto/postal.dto'
 import { PostalRepository } from './postal.repository'
 
 @Injectable()
@@ -32,12 +32,12 @@ export class PostalService {
     }
 
     // Create Postal
-    async createPostal(postalDto: CreatePostalDto): Promise<void> {
+    async createPostal(postalDto: PostalDto): Promise<void> {
         await this.postalRepository.createPostal(postalDto)
     }
 
     // Edit Postal
-    async editPostal(postalId: string, postalDto: CreatePostalDto): Promise<void> {
+    async editPostal(postalId: string, postalDto: PostalDto): Promise<void> {
         await this.postalRepository.editPostal(postalId, postalDto)
     }
 

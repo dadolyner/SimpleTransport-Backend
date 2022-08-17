@@ -2,13 +2,13 @@
 import { Images } from "src/entities/images.entity"
 import { CustomException } from "src/helpers/custom.exception"
 import { EntityRepository, Repository } from "typeorm"
-import { CreateImageDto } from "./dto/create-image.dto"
+import { ImageDto } from "./dto/image.dto"
 
 @EntityRepository(Images)
 export class ImageRepository extends Repository<Images> {
 
     // Create Image
-    async createImage(imageDto: CreateImageDto): Promise<void> {
+    async createImage(imageDto: ImageDto): Promise<void> {
         const { url } = imageDto
 
         const imageExists = await this.findOne({ where: { url: url } })
@@ -26,7 +26,7 @@ export class ImageRepository extends Repository<Images> {
     }
 
     // Edit Image
-    async editImage(imageId: string, imageDto: CreateImageDto): Promise<void> {
+    async editImage(imageId: string, imageDto: ImageDto): Promise<void> {
         const { url } = imageDto
 
         const existingImage = await this.findOne({ where: { id: imageId } })

@@ -6,7 +6,7 @@ import { Users } from 'src/entities/users.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
 import { RentalsOutput } from 'src/interfaces/rental-output.interface'
-import { CreateRentalDto } from './dto/create-rental.dto'
+import { RentalDto } from './dto/rental.dto'
 import { RentalRepository } from './rental.repository'
 
 @Injectable()
@@ -114,17 +114,17 @@ export class RentalService {
     }
 
     // Create Rental
-    async createRental(user: Users, rentalDto: CreateRentalDto): Promise<void> {
+    async createRental(user: Users, rentalDto: RentalDto): Promise<void> {
         return await this.rentalRepository.createRental(user, rentalDto)
     }
 
     // Edit Rental
-    async editRental(user: Users,rentalId: string, rentalDto: CreateRentalDto): Promise<void> {
+    async editRental(user: Users,rentalId: string, rentalDto: RentalDto): Promise<void> {
         return await this.rentalRepository.editRental(user, rentalId, rentalDto)
     }
 
     // Delete Rental
-    async deleteRental(rentalId: string): Promise<void> {
-        return await this.rentalRepository.deleteRental(rentalId)
+    async deleteRental(user: Users, rentalId: string): Promise<void> {
+        return await this.rentalRepository.deleteRental(user, rentalId)
     }
 }

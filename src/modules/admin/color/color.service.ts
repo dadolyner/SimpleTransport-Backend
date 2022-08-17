@@ -5,7 +5,7 @@ import { Colors } from 'src/entities/colors.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
 import { ColorRepository } from './color.repository'
-import { CreateColorDto } from './dto/create-color.dto'
+import { ColorDto } from './dto/color.dto'
 
 @Injectable()
 export class ColorService {
@@ -31,12 +31,12 @@ export class ColorService {
     }
 
     // Create Color
-    async createColor(colorDto: CreateColorDto): Promise<void> {
+    async createColor(colorDto: ColorDto): Promise<void> {
         return this.colorRepository.createColor(colorDto)
     }
 
     // Edit Color
-    async editColor(colorId: string, colorDto: CreateColorDto): Promise<void> {
+    async editColor(colorId: string, colorDto: ColorDto): Promise<void> {
         return this.colorRepository.editColor(colorId, colorDto)
     }
 

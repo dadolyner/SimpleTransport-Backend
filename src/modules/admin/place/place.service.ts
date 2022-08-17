@@ -5,7 +5,7 @@ import { Places } from 'src/entities/places.entity'
 import { CustomException } from 'src/helpers/custom.exception'
 import { QueryFilters } from 'src/helpers/queryFilter'
 import { PlacesOutput } from 'src/interfaces/place-output.interface'
-import { CreatePlaceDto } from './dto/create-place.dto'
+import { PlaceDto } from './dto/place.dto'
 import { PlaceRepository } from './place.repository'
 
 @Injectable()
@@ -48,12 +48,12 @@ export class PlaceService {
     }
 
     // Create place
-    async createPlace(placeDto: CreatePlaceDto): Promise<void> {
+    async createPlace(placeDto: PlaceDto): Promise<void> {
         await this.placeRepository.createPlace(placeDto)
     }
 
     // Edit place
-    async editPlace(placeId: string, placeDto: CreatePlaceDto): Promise<void> {
+    async editPlace(placeId: string, placeDto: PlaceDto): Promise<void> {
         await this.placeRepository.editPlace(placeId, placeDto)
     }
 
