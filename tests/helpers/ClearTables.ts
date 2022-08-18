@@ -1,0 +1,15 @@
+import { getConnection } from "typeorm"
+
+export const ClearTables = async () => {
+    try {
+        const connection = getConnection()
+        const entities = connection.entityMetadatas
+
+        entities.forEach(async (entity) => {
+            const repository = getConnection().getRepository(entity.name)
+            await repository.query(`TRUNCATE TABLE ${entity.tableName} CASCADE`)
+        })
+
+        connection.close()
+    } catch (error) { throw new Error(`Cleaning test database failed. Reason: ${error.message}`) }
+}
