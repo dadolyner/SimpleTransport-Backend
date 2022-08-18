@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { CountryModule } from 'src/modules/admin/country/country.module'
 
 export const retrieveCountries = () => {
-    describe('[CountryController] => Retrieve countries', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

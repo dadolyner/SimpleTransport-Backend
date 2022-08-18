@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { PostalModule } from 'src/modules/admin/postal/postal.module'
 
 export const deletePostal = () => {
-    describe('[PostalController] => Delete existing postal', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {
@@ -17,7 +17,7 @@ export const deletePostal = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing postal', async () => {
+        it('Delete existing postal', async () => {
             const existingPostal: request.Response = await request(app.getHttpServer()).get('/postal')
             const postalId = existingPostal.body[0].id
 

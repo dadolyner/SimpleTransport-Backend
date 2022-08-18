@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { ColorModule } from 'src/modules/admin/color/color.module'
 
 export const retrieveColors = () => {
-    describe('[ColorController] => Retrieve colors', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

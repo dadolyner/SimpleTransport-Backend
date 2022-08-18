@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { CountryModule } from 'src/modules/admin/country/country.module'
 
 export const deleteCountry = () => {
-    describe('[CountryController] => Delete existing country', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {
@@ -17,7 +17,7 @@ export const deleteCountry = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing country', async () => {
+        it('Delete existing country', async () => {
             const existingCountry: request.Response = await request(app.getHttpServer()).get('/country')
             const countryId = existingCountry.body[0].id
 

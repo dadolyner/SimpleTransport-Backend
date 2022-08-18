@@ -7,7 +7,7 @@ import { CountryModule } from 'src/modules/admin/country/country.module'
 import { CountryDto } from 'src/modules/admin/country/dto/country.dto'
 
 export const editCountry = () => {
-    describe('[CountryController] => Edit existing country', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

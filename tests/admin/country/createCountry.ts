@@ -7,7 +7,7 @@ import { CountryModule } from 'src/modules/admin/country/country.module'
 import { CountryDto } from 'src/modules/admin/country/dto/country.dto'
 
 export const createCountry = () => {
-    describe('[CountryController] => Create new country', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

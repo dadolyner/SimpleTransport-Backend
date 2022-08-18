@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { ImageModule } from 'src/modules/admin/image/image.module'
 
 export const retrieveImages = () => {
-    describe('[ImageController] => Retrieve images', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

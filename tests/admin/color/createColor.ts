@@ -7,7 +7,7 @@ import { ColorDto } from 'src/modules/admin/color/dto/color.dto'
 import { ColorModule } from 'src/modules/admin/color/color.module'
 
 export const createColor = () => {
-    describe('[ColorController] => Create new color', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

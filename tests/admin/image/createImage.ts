@@ -7,7 +7,7 @@ import { ImageModule } from 'src/modules/admin/image/image.module'
 import { ImageDto } from 'src/modules/admin/image/dto/image.dto'
 
 export const createImage = () => {
-    describe('[ImageController] => Create new image', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

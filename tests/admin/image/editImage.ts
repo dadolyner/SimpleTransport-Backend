@@ -7,7 +7,7 @@ import { ImageModule } from 'src/modules/admin/image/image.module'
 import { ImageDto } from 'src/modules/admin/image/dto/image.dto'
 
 export const editImage = () => {
-    describe('[ImageController] => Edit existing image', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

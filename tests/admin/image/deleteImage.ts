@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { ImageModule } from 'src/modules/admin/image/image.module'
 
 export const deleteImage = () => {
-    describe('[ImageController] => Delete existing image', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

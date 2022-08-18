@@ -7,7 +7,7 @@ import { FuelModule } from 'src/modules/admin/fuel/fuel.module'
 import { FuelDto } from 'src/modules/admin/fuel/dto/fuel.dto'
 
 export const editFuel = () => {
-    describe('[FuelController] => Edit existing fuel', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

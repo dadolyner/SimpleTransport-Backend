@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { PostalModule } from 'src/modules/admin/postal/postal.module'
 
 export const retrievePostals = () => {
-    describe('[PostalController] => Retrieve postals', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

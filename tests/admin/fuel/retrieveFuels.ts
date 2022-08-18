@@ -6,7 +6,7 @@ import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { FuelModule } from 'src/modules/admin/fuel/fuel.module'
 
 export const retrieveFuels = () => {
-    describe('[FuelController] => Retrieve fuels', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {

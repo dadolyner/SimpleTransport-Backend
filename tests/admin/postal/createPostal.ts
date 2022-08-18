@@ -7,7 +7,7 @@ import { PostalModule } from 'src/modules/admin/postal/postal.module'
 import { PostalDto } from 'src/modules/admin/postal/dto/postal.dto'
 
 export const createPostal = () => {
-    describe('[PostalController] => Create new postal', () => {
+    describe('', () => {
         let app: INestApplication
 
         beforeAll(async () => {
