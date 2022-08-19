@@ -41,6 +41,9 @@ export class Users extends BaseEntity {
     @Column({ nullable: true, default: null })
     imageId: string
 
+    @Column({ default: false })
+    isAdmin: boolean
+
     @Column()
     created_at: Date
 
