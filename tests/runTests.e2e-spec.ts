@@ -1,3 +1,7 @@
+import { createBrand } from "./admin/brand/createBrand"
+import { deleteBrand } from "./admin/brand/deleteBrand"
+import { editBrand } from "./admin/brand/editBrand"
+import { retrieveBrands } from "./admin/brand/retrieveBrand"
 import { createColor } from "./admin/color/createColor"
 import { deleteColor } from "./admin/color/deleteColor"
 import { editColor } from "./admin/color/editColor"
@@ -38,6 +42,13 @@ describe('Start running tests', () => {
         editCountry()
     })
 
+    // Brand
+    describe('[BrandController] => Running brand tests', () => {
+        createBrand()
+        retrieveBrands()
+        editBrand()
+    })
+
     // Fuel
     describe('[FuelController] => Running fuel tests', () => {
         createFuel()
@@ -72,6 +83,7 @@ describe('Start running tests', () => {
         deleteFuel()
         deleteImage()
         deletePlace()
+        deleteBrand()
         deleteCountry()
         deletePostal()
     })
