@@ -18,6 +18,10 @@ import { createImage } from "./admin/image/createImage"
 import { deleteImage } from "./admin/image/deleteImage"
 import { editImage } from "./admin/image/editImage"
 import { retrieveImages } from "./admin/image/retrieveImages"
+import { createModel } from "./admin/model/createModel"
+import { deleteModel } from "./admin/model/deleteModel"
+import { editModel } from "./admin/model/editModel"
+import { retrieveModels } from "./admin/model/retrieveModel"
 import { createPlace } from "./admin/place/createPlace"
 import { deletePlace } from "./admin/place/deletePlace"
 import { editPlace } from "./admin/place/editPlace"
@@ -47,6 +51,13 @@ describe('Start running tests', () => {
         createBrand()
         retrieveBrands()
         editBrand()
+    })
+
+    // Model
+    describe('[ModelController] => Running model tests', () => {
+        createModel()
+        retrieveModels()
+        editModel()
     })
 
     // Fuel
@@ -83,6 +94,7 @@ describe('Start running tests', () => {
         deleteFuel()
         deleteImage()
         deletePlace()
+        deleteModel()
         deleteBrand()
         deleteCountry()
         deletePostal()
