@@ -20,7 +20,7 @@ export const createFuel = () => {
 
         it('Create new fuel', async () => {
             const newFuel: FuelDto = {
-                fuel: "Diesel"
+                fuel: "Test Fuel"
             }
 
             return request(app.getHttpServer())

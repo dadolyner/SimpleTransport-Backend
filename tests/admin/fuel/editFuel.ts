@@ -18,12 +18,12 @@ export const editFuel = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing fuel', async () => {
+        it('Edit fuel', async () => {
             const existingFuel: request.Response = await request(app.getHttpServer()).get('/fuel')
             const fuelId = existingFuel.body[0].id
 
             const newFuel: FuelDto = {
-                fuel: "Gas"
+                fuel: "New Test Fuel"
             }
 
             return request(app.getHttpServer())

@@ -19,7 +19,7 @@ export const editModel = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing model', async () => {
+        it('Edit model', async () => {
             const existingModel = await request(app.getHttpServer()).get('/model')
             const modelId = existingModel.body[0].id
             const existingBrand = await request(app.getHttpServer()).get('/brand')

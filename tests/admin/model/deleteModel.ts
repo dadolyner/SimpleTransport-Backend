@@ -17,7 +17,7 @@ export const deleteModel= () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing postal', async () => {
+        it('Delete model', async () => {
             const existingModel = await request(app.getHttpServer()).get('/model')
             const modelId = existingModel.body[0].id
             

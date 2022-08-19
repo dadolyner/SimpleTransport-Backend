@@ -20,7 +20,7 @@ export const createImage = () => {
 
         it('Create new image', async () => {
             const newImage: ImageDto = {
-                url: "https://www.testsite.com/images/image1.png",
+                url: "https://www.testsite.com/images/test_image.png",
             }
 
             return request(app.getHttpServer())

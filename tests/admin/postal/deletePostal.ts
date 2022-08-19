@@ -17,7 +17,7 @@ export const deletePostal = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing postal', async () => {
+        it('Delete postal', async () => {
             const existingPostal: request.Response = await request(app.getHttpServer()).get('/postal')
             const postalId = existingPostal.body[0].id
 

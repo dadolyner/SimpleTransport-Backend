@@ -1,4 +1,4 @@
-// Create new image TEST
+// Create new postal TEST
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'

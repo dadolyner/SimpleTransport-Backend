@@ -18,13 +18,13 @@ export const editCountry = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing country', async () => {
+        it('Edit country', async () => {
             const existingCountry: request.Response = await request(app.getHttpServer()).get('/country')
             const countryId = existingCountry.body[0].id
 
             const newCountry: CountryDto = {
-                country: "Italia",
-                abbreviation: "I"
+                country: "New Test Country",
+                abbreviation: "NEWTEST"
             }
 
             return request(app.getHttpServer())

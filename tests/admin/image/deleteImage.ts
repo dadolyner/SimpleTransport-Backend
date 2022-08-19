@@ -17,7 +17,7 @@ export const deleteImage = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing image', async () => {
+        it('Delete image', async () => {
             const existingImage: request.Response = await request(app.getHttpServer()).get('/image')
             const imageId = existingImage.body[0].id
 

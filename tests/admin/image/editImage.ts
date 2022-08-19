@@ -18,12 +18,12 @@ export const editImage = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing image', async () => {
+        it('Edit image', async () => {
             const existingImage: request.Response = await request(app.getHttpServer()).get('/image')
             const imageId = existingImage.body[0].id
 
             const newImage: ImageDto = {
-                url: "https://www.testsite.com/images/image10.png",
+                url: "https://www.testsite.com/images/new_test_image.png",
             }
 
             return request(app.getHttpServer())

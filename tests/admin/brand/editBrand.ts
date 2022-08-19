@@ -19,7 +19,7 @@ export const editBrand = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing brand', async () => {
+        it('Edit brand', async () => {
             const existingBrand = await request(app.getHttpServer()).get('/brand')
             const brandId = existingBrand.body[0].id
             const existingCountry = await request(app.getHttpServer()).get('/country')

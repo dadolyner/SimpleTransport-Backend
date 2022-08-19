@@ -17,7 +17,7 @@ export const deleteBrand= () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing postal', async () => {
+        it('Delete brand', async () => {
             const existingBrand = await request(app.getHttpServer()).get('/brand')
             const brandId = existingBrand.body[0].id
             

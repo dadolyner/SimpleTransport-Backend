@@ -1,4 +1,4 @@
-// Edit existing image TEST
+// Edit existing place TEST
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
@@ -20,7 +20,7 @@ export const editPlace = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing place', async () => {
+        it('Edit place', async () => {
             const existingPlace: request.Response = await request(app.getHttpServer()).get('/place')
             const placeId = existingPlace.body[0].id
             const existingPostal = await request(app.getHttpServer()).get('/postal')
@@ -29,7 +29,7 @@ export const editPlace = () => {
             const countryId = existingCountry.body[0].id
 
             const newPlace: PlaceDto = {
-                place: "Edited Test",
+                place: "New Test Place",
                 postalId: postalId,
                 countryId: countryId 
             }

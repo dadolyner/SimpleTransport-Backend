@@ -18,12 +18,12 @@ export const editColor = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing color', async () => {
+        it('Edit color', async () => {
             const existingColor: request.Response = await request(app.getHttpServer()).get('/color')
             const colorId = existingColor.body[0].id
 
             const newColor: ColorDto = {
-                color: "Formula Red"
+                color: "New Test Color"
             }
 
             return request(app.getHttpServer())

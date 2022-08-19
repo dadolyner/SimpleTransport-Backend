@@ -17,7 +17,7 @@ export const deleteCountry = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing country', async () => {
+        it('Delete country', async () => {
             const existingCountry: request.Response = await request(app.getHttpServer()).get('/country')
             const countryId = existingCountry.body[0].id
 

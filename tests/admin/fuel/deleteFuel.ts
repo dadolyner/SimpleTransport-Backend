@@ -17,7 +17,7 @@ export const deleteFuel = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing fuel', async () => {
+        it('Delete fuel', async () => {
             const existingFuel: request.Response = await request(app.getHttpServer()).get('/fuel')
             const fuelId = existingFuel.body[0].id
 

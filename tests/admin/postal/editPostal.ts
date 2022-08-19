@@ -1,4 +1,4 @@
-// Edit existing image TEST
+// Edit existing postal TEST
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
@@ -18,12 +18,12 @@ export const editPostal = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Edit existing postal', async () => {
+        it('Edit postal', async () => {
             const existingPostal: request.Response = await request(app.getHttpServer()).get('/postal')
             const postalId = existingPostal.body[0].id
 
             const newPostal: PostalDto = {
-                post_office: "Another Test Office",
+                post_office: "New Test Office",
                 post_code: "4321"
             }
 

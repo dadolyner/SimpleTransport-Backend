@@ -20,7 +20,7 @@ export const createColor = () => {
 
         it('Create new color', async () => {
             const newColor: ColorDto = {
-                color: "Diamond Blue"
+                color: "Test Color"
             }
 
             return request(app.getHttpServer())

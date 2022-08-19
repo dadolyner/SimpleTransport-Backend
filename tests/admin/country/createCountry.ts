@@ -20,8 +20,8 @@ export const createCountry = () => {
 
         it('Create new country', async () => {
             const newCountry: CountryDto = {
-                country: "Slovenia",
-                abbreviation: "SLO"
+                country: "Test Country",
+                abbreviation: "TEST"
             }
 
             return request(app.getHttpServer())

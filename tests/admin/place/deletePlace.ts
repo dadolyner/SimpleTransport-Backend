@@ -1,4 +1,4 @@
-// Delete existing postal TEST
+// Delete existing place TEST
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
@@ -17,7 +17,7 @@ export const deletePlace = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing place', async () => {
+        it('Delete place', async () => {
             const existingPostal: request.Response = await request(app.getHttpServer()).get('/place')
             const postalId = existingPostal.body[0].id
 

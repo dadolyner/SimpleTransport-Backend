@@ -17,7 +17,7 @@ export const deleteColor = () => {
 
         afterAll(async () => { await app.close() })
 
-        it('Delete existing color', async () => {
+        it('Delete color', async () => {
             const existingColor: request.Response = await request(app.getHttpServer()).get('/color')
             const colorId = existingColor.body[0].id
 

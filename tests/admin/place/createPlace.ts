@@ -1,4 +1,4 @@
-// Create new image TEST
+// Create new place TEST
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
@@ -27,7 +27,7 @@ export const createPlace = () => {
             const countryId = existingCountry.body[0].id
 
             const newPlace: PlaceDto = {
-                place: "Test",
+                place: "Test Place",
                 postalId: postalId,
                 countryId: countryId 
             }
