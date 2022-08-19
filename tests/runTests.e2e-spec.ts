@@ -1,35 +1,42 @@
+import { Test, TestingModule } from "@nestjs/testing"
+import { TypeOrmTestConfig } from "src/config/test-config.typeorm"
+import { INestApplication } from "@nestjs/common"
+import { ClearTables } from "./helpers/ClearTables"
+
 import { createBrand } from "./admin/brand/createBrand"
-import { deleteBrand } from "./admin/brand/deleteBrand"
-import { editBrand } from "./admin/brand/editBrand"
 import { retrieveBrands } from "./admin/brand/retrieveBrand"
+import { editBrand } from "./admin/brand/editBrand"
+
 import { createColor } from "./admin/color/createColor"
-import { deleteColor } from "./admin/color/deleteColor"
-import { editColor } from "./admin/color/editColor"
 import { retrieveColors } from "./admin/color/retrieveColors"
+import { editColor } from "./admin/color/editColor"
+
 import { createCountry } from "./admin/country/createCountry"
-import { deleteCountry } from "./admin/country/deleteCountry"
-import { editCountry } from "./admin/country/editCountry"
 import { retrieveCountries } from "./admin/country/retrieveCountries"
+import { editCountry } from "./admin/country/editCountry"
+
 import { createFuel } from "./admin/fuel/createFuel"
-import { deleteFuel } from "./admin/fuel/deleteFuel"
-import { editFuel } from "./admin/fuel/editFuel"
 import { retrieveFuels } from "./admin/fuel/retrieveFuels"
+import { editFuel } from "./admin/fuel/editFuel"
+
 import { createImage } from "./admin/image/createImage"
-import { deleteImage } from "./admin/image/deleteImage"
-import { editImage } from "./admin/image/editImage"
 import { retrieveImages } from "./admin/image/retrieveImages"
+import { editImage } from "./admin/image/editImage"
+
 import { createModel } from "./admin/model/createModel"
-import { deleteModel } from "./admin/model/deleteModel"
-import { editModel } from "./admin/model/editModel"
 import { retrieveModels } from "./admin/model/retrieveModel"
+import { editModel } from "./admin/model/editModel"
+
 import { createPlace } from "./admin/place/createPlace"
-import { deletePlace } from "./admin/place/deletePlace"
-import { editPlace } from "./admin/place/editPlace"
 import { retrievePlaces } from "./admin/place/retrievePlaces"
+import { editPlace } from "./admin/place/editPlace"
+
 import { createPostal } from "./admin/postal/createPostal"
-import { deletePostal } from "./admin/postal/deletePostal"
-import { editPostal } from "./admin/postal/editPostal"
 import { retrievePostals } from "./admin/postal/retrievePostals"
+import { editPostal } from "./admin/postal/editPostal"
+
+import { createUser } from "./auth/createUser"
+import { loginUser } from "./auth/loginUser"
 
 describe('Start running tests', () => {
     // Color
@@ -88,15 +95,18 @@ describe('Start running tests', () => {
         editPlace()
     })
 
-    // Delete all created data
-    describe('Data Cleanup', () => {
-        deleteColor()
-        deleteFuel()
-        deleteImage()
-        deletePlace()
-        deleteModel()
-        deleteBrand()
-        deleteCountry()
-        deletePostal()
+    // Auth
+    describe('[AuthController] => Running auth tests', () => {
+        createUser()
+        loginUser()
+    })
+
+    // Trunc tables
+    afterAll(async () => {
+        const moduleFixture: TestingModule = await Test.createTestingModule({ imports: [TypeOrmTestConfig] }).compile()
+        const app: INestApplication = moduleFixture.createNestApplication()
+        await app.init()
+        await ClearTables()
+        await app.close()
     })
 })

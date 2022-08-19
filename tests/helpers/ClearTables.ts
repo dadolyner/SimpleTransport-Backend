@@ -5,10 +5,10 @@ export const ClearTables = async () => {
         const connection = getConnection()
         const entities = connection.entityMetadatas
 
-        entities.forEach(async (entity) => {
+        for(const entity of entities) {
             const repository = getConnection().getRepository(entity.name)
             await repository.query(`TRUNCATE TABLE ${entity.tableName} CASCADE`)
-        })
+        }
 
         connection.close()
     } catch (error) { throw new Error(`Cleaning test database failed. Reason: ${error.message}`) }
