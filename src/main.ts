@@ -20,8 +20,10 @@ const SimpleTransport = async () => {
         const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
         SwaggerModule.setup('docs', app, swaggerDocument)
 
-        await app.listen(3000, '0.0.0.0')
-        logger.log('Application SimpleTransport is listening on port http://localhost:3000')
+        logger.log(`Application SimpleTransport is running on ${process.env.SERVER_IP}`)
+        logger.log(`Swagger documentation is available on ${process.env.SERVER_IP}/docs`)
+        
+        await app.listen(process.env.SERVER_PORT, '0.0.0.0')
     } catch (error) {
         console.log(error)
     }
