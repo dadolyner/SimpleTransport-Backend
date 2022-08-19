@@ -35,7 +35,7 @@ export class AuthService {
         const isPasswordValid = await userExists.validatePassword(password)
         if (!isPasswordValid) throw CustomException.badRequest(AuthService.name, 'User entered invalid credentials.')
 
-        const payload: JwtPayload = { email }
+        const payload: JwtPayload = { email: userExists.email }
         const accessToken = this.jwtService.sign(payload)
 
         try {
