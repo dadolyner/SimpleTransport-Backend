@@ -46,7 +46,7 @@ export class AuthController {
     @ApiResponse({ status: 200, description: 'Request password change for existing user' })
     @ApiBody({ type: RequestPassChangeDto })
     @Post('/request-password-change')
-    requestPasswordChange(@Body('email') userEmail: RequestPassChangeDto): Promise<void> {
+    requestPasswordChange(@Body() userEmail: RequestPassChangeDto): Promise<void> {
         return this.authService.requestPasswordChange(userEmail)
     }
 
