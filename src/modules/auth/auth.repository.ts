@@ -63,7 +63,7 @@ export class AuthRepository extends Repository<Users> {
 
     // Send request password mail to user
     async requestPasswordChange(userEmail: RequestPassChangeDto): Promise<void> {
-        const userExists = await this.findOne({ where: { email: userEmail } })
+        const userExists = await this.findOne({ where: { email: userEmail.email } })
         if (!userExists) throw CustomException.badRequest(AuthRepository.name, `Provided user does not exist.`)
 
         const { first_name, last_name, email } = userExists
