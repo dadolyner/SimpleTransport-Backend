@@ -76,7 +76,7 @@ export class AuthRepository extends Repository<Users> {
             from: '"Simple Transport Support" <support@simpletransport.com>',
             to: email,
             subject: 'Password change request',
-            html: MailTemplate(first_name, last_name, `${process.env.SERVER_IP}/change-password?token=${passRequestToken}`),
+            html: MailTemplate(first_name, last_name, `${process.env.FRONTEND_IP}/change-password?token=${passRequestToken}`),
         })
 
         try { await this.save(userExists) }
