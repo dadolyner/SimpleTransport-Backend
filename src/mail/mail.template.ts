@@ -18,7 +18,7 @@ const MailTemplate = (first_name: string, last_name: string, resetLink: string) 
                 <tr><p style="margin:0">You have requested a password change.</p></tr>
                 
                 <tr><p style="margin:0">Please click on the link below to change your password.</p></tr>
-                <tr><td>&nbsp</td></tr>
+                <tr><td>&nbsp;</td></tr>
                 <tr><a href="${resetLink}">Change password</a></tr>
             </table>
         </body>
