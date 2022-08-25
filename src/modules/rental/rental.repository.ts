@@ -19,7 +19,7 @@ export class RentalRepository extends Repository<Rentals> {
         const vehicleExists = await Vehicles.findOne({ where: { id: vehicleId } })
         if (!vehicleExists) throw CustomException.badRequest(RentalRepository.name, `Provided vehicle does not exist.`)
         const rentalExist = await this.findOne({ where: { vehicleId: vehicleId, rent_end: MoreThan(new Date(rent_start)) } })
-        if (rentalExist) throw CustomException.conflict(RentalRepository.name, `Selected car is not currently available for rent.`)
+        if (rentalExist) throw CustomException.conflict(RentalRepository.name, `Selected car is not available in the selected time period.`)
         if(getRentDuration(rent_start, rent_end) > vehicleExists.rent_duration) throw CustomException.badRequest(RentalRepository.name, `Rental duration is greater than the vehicle's rent duration.`)
 
         const rental = new Rentals()
