@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Brands } from 'src/entities/brands.entity'
 import { CustomException } from 'src/helpers/custom.exception'
-import { QueryFilters } from 'src/helpers/queryFilter'
+import { AndQueryFilters } from 'src/helpers/queryFilter'
 import { BrandsOutput } from 'src/interfaces/brand-output.interface'
 import { BrandRepository } from './brand.repository'
 import { BrandDto } from './dto/brand.dto'
@@ -24,7 +24,7 @@ export class BrandService {
                 ])
                 .from(Brands, 'brand')
                 .leftJoin('brand.country', 'country')
-                .where(...QueryFilters(brandFilters))
+                .where(...AndQueryFilters(brandFilters))
                 .getMany()
 
             const output = brands.map(brand => {

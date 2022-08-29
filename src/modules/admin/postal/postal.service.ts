@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Postals } from 'src/entities/postals.entity'
 import { CustomException } from 'src/helpers/custom.exception'
-import { QueryFilters } from 'src/helpers/queryFilter'
+import { AndQueryFilters } from 'src/helpers/queryFilter'
 import { PostalDto } from './dto/postal.dto'
 import { PostalRepository } from './postal.repository'
 
@@ -22,7 +22,7 @@ export class PostalService {
                     'postal.post_code',
                 ])
                 .from(Postals, 'postal')
-                .where(...QueryFilters(postalFilters))
+                .where(...AndQueryFilters(postalFilters))
                 .getMany()
 
             this.logger.verbose(`Retrieving postals. Found ${postals.length} items.`)

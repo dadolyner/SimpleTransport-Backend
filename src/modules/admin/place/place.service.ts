@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Places } from 'src/entities/places.entity'
 import { CustomException } from 'src/helpers/custom.exception'
-import { QueryFilters } from 'src/helpers/queryFilter'
+import { AndQueryFilters } from 'src/helpers/queryFilter'
 import { PlacesOutput } from 'src/interfaces/place-output.interface'
 import { PlaceDto } from './dto/place.dto'
 import { PlaceRepository } from './place.repository'
@@ -27,7 +27,7 @@ export class PlaceService {
                 .from(Places, 'place')
                 .leftJoin('place.postal', 'postal')
                 .leftJoin('place.country', 'country')
-                .where(...QueryFilters(placeFilters))
+                .where(...AndQueryFilters(placeFilters))
                 .getMany()
 
 

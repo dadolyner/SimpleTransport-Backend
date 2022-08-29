@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Images } from 'src/entities/images.entity'
 import { CustomException } from 'src/helpers/custom.exception'
-import { QueryFilters } from 'src/helpers/queryFilter'
+import { AndQueryFilters } from 'src/helpers/queryFilter'
 import { ImageDto } from './dto/image.dto'
 import { ImageRepository } from './image.repository'
 
@@ -21,7 +21,7 @@ export class ImageService {
                     'image.url',
                 ])
                 .from(Images, 'image')
-                .where(...QueryFilters(imageFilters))
+                .where(...AndQueryFilters(imageFilters))
                 .getMany()
 
             this.logger.verbose(`Retrieving images. Found ${images.length} items.`)

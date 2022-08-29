@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Countries } from 'src/entities/countries.entity'
 import { CustomException } from 'src/helpers/custom.exception'
-import { QueryFilters } from 'src/helpers/queryFilter'
+import { AndQueryFilters } from 'src/helpers/queryFilter'
 import { CountryRepository } from './country.repository'
 import { CountryDto } from './dto/country.dto'
 
@@ -22,7 +22,7 @@ export class CountryService {
                     'country.abbreviation',
                 ])
                 .from(Countries, 'country')
-                .where(...QueryFilters(countryFilters))
+                .where(...AndQueryFilters(countryFilters))
                 .getMany()
 
             this.logger.verbose(`Retrieving countries. Found ${countries.length} items.`)

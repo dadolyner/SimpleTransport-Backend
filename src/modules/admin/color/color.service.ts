@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Colors } from 'src/entities/colors.entity'
 import { CustomException } from 'src/helpers/custom.exception'
-import { QueryFilters } from 'src/helpers/queryFilter'
+import { AndQueryFilters } from 'src/helpers/queryFilter'
 import { ColorRepository } from './color.repository'
 import { ColorDto } from './dto/color.dto'
 
@@ -21,7 +21,7 @@ export class ColorService {
                 'color.color',
             ])
             .from(Colors, 'color')
-            .where(...QueryFilters(colorFilters))
+            .where(...AndQueryFilters(colorFilters))
             .getMany()
             
             this.logger.verbose(`Retrieving colors. Found ${colors.length} items.`)
