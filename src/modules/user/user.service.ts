@@ -34,6 +34,7 @@ export class UserService {
                     'rental.id',
                     'rental.rent_start',
                     'rental.rent_end',
+                    'rental.vehicleId',
                     'vehicle.id',
                     'vehicle.seats',
                     'vehicle.shifter',
@@ -86,7 +87,8 @@ export class UserService {
                     return {
                         id: rental.id,
                         rent_start: rental.rent_start,
-                        rent_end: rental.rent_end
+                        rent_end: rental.rent_end,
+                        vehicleId: rental.vehicleId,
                     }
                 }),
                 vehicle: userInfo.vehicle.map(vehicle => {
