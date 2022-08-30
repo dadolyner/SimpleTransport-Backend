@@ -65,7 +65,7 @@ export class VehicleRepository extends Repository<Vehicles> {
         const fuelExists = await Fuels.findOne({ where: { id: fuelId } })
         if (!fuelExists) throw CustomException.badRequest(VehicleRepository.name, `Fuel with id ${fuelId} does not exist.`)
         const vehicleExists = await this.findOne({ where: [{ licence_plate }, { vin }] })
-        if (vehicleExists) throw CustomException.conflict(VehicleRepository.name, `Vehicle with licence plate ${licence_plate} or vin number ${vin} already exists.`)
+        if (vehicleExists && vehicleExists.userId !== user.id) throw CustomException.conflict(VehicleRepository.name, `Vehicle with licence plate ${licence_plate} or vin number ${vin} already exists.`)
         const userHasVehicle = await this.findOne({ where: { id: vehicleId, userId: userExists.id } })
         if (!userHasVehicle) throw CustomException.badRequest(VehicleRepository.name, `Current user does not own this vehicle.`)
 
