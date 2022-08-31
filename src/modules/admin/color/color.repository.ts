@@ -32,7 +32,7 @@ export class ColorRepository extends Repository<Colors> {
         const existingColor = await this.findOne({ where: { id: colorId } })
         if (!existingColor) throw CustomException.badRequest(ColorRepository.name, `Provided color does not exist.`)
         const colorExists = await this.findOne({ where: { color: color } })
-        if (colorExists) throw CustomException.conflict(ColorRepository.name, `Color ${color} already exists.`)
+        if (colorExists && colorId !== colorExists.id) throw CustomException.conflict(ColorRepository.name, `Color ${color} already exists.`)
 
         const oldColor = existingColor.color
         existingColor.color = color

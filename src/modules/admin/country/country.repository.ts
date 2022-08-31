@@ -33,7 +33,7 @@ export class CountryRepository extends Repository<Countries> {
         const existingCountry = await this.findOne({ where: { id: countryId } })
         if (!existingCountry) throw CustomException.badRequest(CountryRepository.name, `Provided country does not exist.`)
         const countryExists = await this.findOne({ where: { country: country } })
-        if (countryExists) throw CustomException.conflict(CountryRepository.name, `Country ${country} already exists.`)
+        if (countryExists && countryId !== countryExists.id) throw CustomException.conflict(CountryRepository.name, `Country ${country} already exists.`)
 
         const oldCountry = existingCountry.country
         existingCountry.country = country

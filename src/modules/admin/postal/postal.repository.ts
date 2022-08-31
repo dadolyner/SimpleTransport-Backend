@@ -33,7 +33,7 @@ export class PostalRepository extends Repository<Postals> {
         const existingPostal = await this.findOne({ where: { id: postalId } })
         if (!existingPostal) throw CustomException.badRequest(PostalRepository.name, `Provided postal does not exist.`)
         const postalExists = await this.findOne({ where: [{ post_office }, { post_code }] })
-        if (postalExists) throw CustomException.conflict(PostalRepository.name, `Postal ${post_office} (${post_code}) already exists.`)
+        if (postalExists && postalId !== postalExists.id) throw CustomException.conflict(PostalRepository.name, `Postal ${post_office} (${post_code}) already exists.`)
 
         const oldPostal = { ...existingPostal }
         existingPostal.post_office = post_office

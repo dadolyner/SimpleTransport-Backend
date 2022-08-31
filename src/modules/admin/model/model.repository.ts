@@ -38,7 +38,7 @@ export class ModelRepository extends Repository<Models> {
         const existingModel = await this.findOne({ where: { id: modelId } })
         if (!existingModel) throw CustomException.badRequest(ModelRepository.name, `Provided model does not exist.`)
         const modelExists = await this.findOne({ where: { model: model, brandId: brandId } })
-        if (modelExists) throw CustomException.conflict(ModelRepository.name, `Model ${model} for brand ${existingBrand.brand} already exists.`)
+        if (modelExists && modelId !== modelExists.id) throw CustomException.conflict(ModelRepository.name, `Model ${model} for brand ${existingBrand.brand} already exists.`)
 
         const oldModel = existingModel.model
         existingModel.model = model

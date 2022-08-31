@@ -38,7 +38,7 @@ export class BrandRepository extends Repository<Brands> {
         const countryExists = await Countries.findOne({ where: { id: countryId } })
         if (!countryExists) throw CustomException.badRequest(BrandRepository.name, `Provided country does not exist.`)
         const brandExists = await this.findOne({ where: { brand: brand, countryId: countryId } })
-        if (brandExists) throw CustomException.conflict(BrandRepository.name, `Brand ${brand} in country ${countryExists.country} already exists.`)
+        if (brandExists && brandId !== brandExists.id) throw CustomException.conflict(BrandRepository.name, `Brand ${brand} in country ${countryExists.country} already exists.`)
 
         const oldBrand = existingBrand.brand
         existingBrand.brand = brand

@@ -44,7 +44,7 @@ export class PlaceRepository extends Repository<Places> {
         const existingPlace = await this.findOne({ where: { id: placeId } })
         if (!existingPlace) throw CustomException.badRequest(PlaceRepository.name, `Provided place does not exist.`)
         const placeExists = await this.findOne({ where: { place: place, postalId: postalId, countryId: countryId } })
-        if (placeExists) throw CustomException.conflict(PlaceRepository.name, `Place ${place} already exists.`)
+        if (placeExists && placeId !== placeExists.id) throw CustomException.conflict(PlaceRepository.name, `Place ${place} already exists.`)
         
         const oldPlace = existingPlace.place
         existingPlace.place = place

@@ -32,7 +32,7 @@ export class FuelRepository extends Repository<Fuels> {
         const existingFuel = await this.findOne({ where: { id: fuelId } })
         if (!existingFuel) throw CustomException.badRequest(FuelRepository.name, `Provided fuel does not exist.`)
         const fuelExists = await this.findOne({ where: { fuel: fuel } })
-        if (fuelExists) throw CustomException.conflict(FuelRepository.name, `Fuel ${fuel} already exists.`)
+        if (fuelExists && fuelId !== fuelExists.id) throw CustomException.conflict(FuelRepository.name, `Fuel ${fuel} already exists.`)
 
         const oldFuel = existingFuel.fuel
         existingFuel.fuel = fuel
