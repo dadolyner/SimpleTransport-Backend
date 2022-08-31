@@ -5,7 +5,6 @@ import * as request from 'supertest'
 import { TypeOrmTestConfig } from 'src/config/test-config.typeorm'
 import { SignupCredentialsDto } from 'src/modules/auth/dto/signup.dto'
 import { AuthModule } from 'src/modules/auth/auth.module'
-import { ImageModule } from 'src/modules/admin/image/image.module'
 import { PlaceModule } from 'src/modules/admin/place/place.module'
 
 export const createUser = () => {
@@ -13,7 +12,7 @@ export const createUser = () => {
         let app: INestApplication
 
         beforeAll(async () => {
-            const moduleFixture: TestingModule = await Test.createTestingModule({ imports: [TypeOrmTestConfig, AuthModule, PlaceModule, ImageModule] }).compile()
+            const moduleFixture: TestingModule = await Test.createTestingModule({ imports: [TypeOrmTestConfig, AuthModule, PlaceModule] }).compile()
             app = moduleFixture.createNestApplication()
             await app.init()
         })
@@ -23,8 +22,6 @@ export const createUser = () => {
         it('Create new user', async () => {
             const existingPlace = await request(app.getHttpServer()).get('/place')
             const placeId = existingPlace.body[0].id
-            const existingImage = await request(app.getHttpServer()).get('/image')
-            const imageId = existingImage.body[0].id
 
             const newUser: SignupCredentialsDto = {
                 first_name: "Test",
@@ -33,7 +30,6 @@ export const createUser = () => {
                 username: "testuser",
                 password: "test12345",
                 placeId: placeId,
-                imageId: imageId
             }
 
             return request(app.getHttpServer())

@@ -4,7 +4,6 @@ import { Users } from './users.entity'
 import { Rentals } from './rentals.entity'
 import { Colors } from './colors.entity'
 import { Fuels } from './fuels.entity'
-import { Images } from './images.entity'
 import { Models } from './models.entity'
 @Entity('vehicles')
 @Unique(['licence_plate', 'vin'])

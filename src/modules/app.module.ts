@@ -1,4 +1,3 @@
-import { ImageModule } from './admin/image/image.module'
 import { UserModule } from './user/user.module'
 import { PostalModule } from './admin/postal/postal.module'
 import { PlaceModule } from './admin/place/place.module'
@@ -20,7 +19,6 @@ import { Module } from '@nestjs/common'
         ColorModule,
         CountryModule,
         FuelModule,
-        ImageModule,
         ModelModule,
         PlaceModule,
         PostalModule,

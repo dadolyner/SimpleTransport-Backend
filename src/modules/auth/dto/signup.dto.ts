@@ -1,6 +1,6 @@
 // SignUp DTO
 import { ApiProperty } from '@nestjs/swagger'
-import { IsEmail, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
 export class SignupCredentialsDto {
     @ApiProperty({ type: String, description: 'User first name', example: 'Janez' })
     @IsString({ message: 'First name must be a string' })
@@ -29,13 +29,6 @@ export class SignupCredentialsDto {
     @MinLength(8, { message: 'Password is too short' })
     @MaxLength(100, { message: 'Password is too long' })
     password: string
-
-    @ApiProperty({ type: String, description: 'User imageId', example: 'f4b0c0c0-0c0c-4c0c-0c0c-0c0c0c0c0c0c' })
-    @IsOptional({ message: 'ImageId is optional' })
-    @IsString({ message: 'imageId must be a valid uuid string' })
-    @IsNotEmpty({ message: 'imageId is required' })
-    @IsUUID()
-    imageId: string
 
     @ApiProperty({ type: String, description: 'User placeId', example: 'f4b0c0c0-0c0c-4c0c-0c0c-0c0c0c0c0c0c' })
     @IsString({ message: 'placeId must be a valid uuid string' })

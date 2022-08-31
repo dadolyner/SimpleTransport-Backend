@@ -19,10 +19,6 @@ import { createFuel } from "./admin/fuel/createFuel"
 import { retrieveFuels } from "./admin/fuel/retrieveFuels"
 import { editFuel } from "./admin/fuel/editFuel"
 
-import { createImage } from "./admin/image/createImage"
-import { retrieveImages } from "./admin/image/retrieveImages"
-import { editImage } from "./admin/image/editImage"
-
 import { createModel } from "./admin/model/createModel"
 import { retrieveModels } from "./admin/model/retrieveModel"
 import { editModel } from "./admin/model/editModel"
@@ -72,13 +68,6 @@ describe('Start running tests', () => {
         createFuel()
         retrieveFuels()
         editFuel()
-    })
-
-    // Image
-    describe('[ImageController] => Running image tests', () => {
-        createImage()
-        retrieveImages()
-        editImage()
     })
 
     // Postal

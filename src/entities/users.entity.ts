@@ -3,7 +3,6 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, Unique, OneToMany, 
 import * as bcrypt from 'bcrypt'
 import { Vehicles } from './vehicles.entities'
 import { Rentals } from './rentals.entity'
-import { Images } from './images.entity'
 import { Places } from './places.entity'
 @Entity('users')
 @Unique(['email', 'username'])
@@ -38,9 +37,6 @@ export class Users extends BaseEntity {
     @Column()
     placeId: string
 
-    @Column({ nullable: true, default: null })
-    imageId: string
-
     @Column({ default: false })
     isAdmin: boolean
 
@@ -62,10 +58,6 @@ export class Users extends BaseEntity {
     // Places
     @ManyToOne(() => Places, place => place.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     place: Places
-
-    // Images
-    @ManyToOne(() => Images, image => image.user, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    image: Images
 
     // Functions
     // Validate user password with bcrypt
