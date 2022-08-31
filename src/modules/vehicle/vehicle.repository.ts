@@ -53,7 +53,7 @@ export class VehicleRepository extends Repository<Vehicles> {
 
     // Edit vehicle
     async editVehicle(user: Users, vehicleId: string, vehicleDto: VehicleDto): Promise<void> {
-        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId } = vehicleDto
+        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId, imageUrl } = vehicleDto
 
         const existingVehicle = await this.findOne({ where: { id: vehicleId } })
         if (!existingVehicle) throw CustomException.badRequest(VehicleRepository.name, `Provided vehicle does not exist.`)
@@ -84,6 +84,7 @@ export class VehicleRepository extends Repository<Vehicles> {
         existingVehicle.modelId = modelExists.id
         existingVehicle.colorId = colorExists.id
         existingVehicle.fuelId = fuelExists.id
+        existingVehicle.imageUrl = imageUrl
         existingVehicle.updated_at = new Date()
 
         try { await existingVehicle.save() }
