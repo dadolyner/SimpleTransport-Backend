@@ -13,7 +13,7 @@ export class VehicleRepository extends Repository<Vehicles> {
 
     // Create vehicle
     async createVehicle(user: Users, vehicleDto: VehicleDto): Promise<void> {
-        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId } = vehicleDto
+        const { seats, shifter, horsepower, torque, acceleration, year, price, rent_duration, licence_plate, vin, modelId, colorId, fuelId, imageUrl } = vehicleDto
 
         const userExists = await Users.findOne(user)
         if (!userExists) throw CustomException.badRequest(VehicleRepository.name, `Provided user does not exist.`)
@@ -41,6 +41,7 @@ export class VehicleRepository extends Repository<Vehicles> {
         newVehicle.modelId = modelId
         newVehicle.colorId = colorId
         newVehicle.fuelId = fuelId
+        newVehicle.imageUrl = imageUrl
         newVehicle.created_at = new Date()
         newVehicle.updated_at = new Date()
 

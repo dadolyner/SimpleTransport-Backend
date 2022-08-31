@@ -30,6 +30,7 @@ export class VehicleService {
                     'vehicle.rent_duration',
                     'vehicle.licence_plate',
                     'vehicle.vin',
+                    'vehicle.imageUrl',
                     'user.id',
                     'user.first_name',
                     'user.last_name',
@@ -85,6 +86,7 @@ export class VehicleService {
                         model: vehicle.model.model,
                         brand: vehicle.model.brand.brand,
                         country: vehicle.model.brand.country.country,
+                        image: vehicle.imageUrl
                     },
                     user: {
                         id: vehicle.user.id,

@@ -33,5 +33,6 @@ export interface UsersOutput {
         model: string
         brand: string
         country: string
+        image: string
     }[],
 }

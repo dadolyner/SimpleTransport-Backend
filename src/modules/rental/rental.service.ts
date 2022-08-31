@@ -45,6 +45,7 @@ export class RentalService {
                     'vehicle.rent_duration',
                     'vehicle.licence_plate',
                     'vehicle.vin',
+                    'vehicle.imageUrl',
                     'color.id',
                     'color.color',
                     'fuel.id',
@@ -103,6 +104,7 @@ export class RentalService {
                         model: rental.vehicle.model.model,
                         brand: rental.vehicle.model.brand.brand,
                         country: rental.vehicle.model.brand.country.country,
+                        image: rental.vehicle.imageUrl,
                     }
                 }
             })

@@ -17,6 +17,7 @@ export interface VehiclesOutput {
         model: string
         brand: string
         country: string
+        image: string
     },
     user: {
         id: string

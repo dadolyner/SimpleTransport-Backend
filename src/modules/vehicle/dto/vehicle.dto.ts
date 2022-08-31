@@ -1,6 +1,6 @@
 // Vehicle DTO
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator'
 export class VehicleDto {
     @ApiProperty({ type: Number, description: 'Vehicle seats', example: 4 })
     @IsNumber({}, { message: 'Seats must be a number' })
@@ -69,4 +69,9 @@ export class VehicleDto {
     @IsNotEmpty({ message: 'fuelId is required' })
     @IsUUID()
     fuelId: string
+
+    @ApiProperty({ type: String, description: 'Vehicle imageId', example: 'f4b0c0c0-0c0c-4c0c-0c0c-0c0c0c0c0c0c' })
+    @IsString({ message: 'imageId must be a valid uuid string' })
+    @IsNotEmpty({ message: 'imageId is required' })
+    imageUrl: string
 }

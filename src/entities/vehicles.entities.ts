@@ -45,8 +45,8 @@ export class Vehicles extends BaseEntity {
     @Column()
     userId: string
 
-    @Column({ nullable: true, default: null })
-    imageId: string
+    @Column()
+    imageUrl: string
 
     @Column()
     modelId: string
@@ -83,8 +83,4 @@ export class Vehicles extends BaseEntity {
     //Fuels
     @ManyToOne(() => Fuels, fuel => fuel.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
     fuel: Fuels
-
-    // Images
-    @OneToMany(() => Images, image => image.vehicle, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-    image: Images[]
 }

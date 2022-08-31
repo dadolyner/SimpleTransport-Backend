@@ -31,5 +31,6 @@ export interface RentalsOutput {
         model: string
         brand: string
         country: string
+        image: string
     }
 }

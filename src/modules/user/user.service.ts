@@ -46,6 +46,7 @@ export class UserService {
                     'vehicle.rent_duration',
                     'vehicle.licence_plate',
                     'vehicle.vin',
+                    'vehicle.imageUrl',
                     'color.id',
                     'color.color',
                     'fuel.id',
@@ -108,7 +109,8 @@ export class UserService {
                         fuel: vehicle.fuel.fuel,
                         model: vehicle.model.model,
                         brand: vehicle.model.brand.brand,
-                        country: vehicle.model.brand.country.country
+                        country: vehicle.model.brand.country.country,
+                        image: vehicle.imageUrl,
                     }
                 })
             }
@@ -153,6 +155,7 @@ export class UserService {
                     'vehicle.rent_duration',
                     'vehicle.licence_plate',
                     'vehicle.vin',
+                    'vehicle.imageUrl',
                     'color.id',
                     'color.color',
                     'fuel.id',
@@ -214,7 +217,8 @@ export class UserService {
                             fuel: vehicle.fuel.fuel,
                             model: vehicle.model.model,
                             brand: vehicle.model.brand.brand,
-                            country: vehicle.model.brand.country.country
+                            country: vehicle.model.brand.country.country,
+                            image: vehicle.imageUrl,
                         }
                     })
                 }
