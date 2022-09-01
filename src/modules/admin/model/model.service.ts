@@ -27,6 +27,7 @@ export class ModelService {
                 .leftJoin('model.brand', 'brand')
                 .leftJoin('brand.country', 'country')
                 .where(...AndQueryFilters(modelFilters))
+                .orderBy('model.model', 'ASC')
                 .getMany()
 
             const output = models.map(model => {

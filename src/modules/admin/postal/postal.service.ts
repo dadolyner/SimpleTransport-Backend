@@ -23,6 +23,7 @@ export class PostalService {
                 ])
                 .from(Postals, 'postal')
                 .where(...AndQueryFilters(postalFilters))
+                .orderBy('postal.post_office', 'ASC')
                 .getMany()
 
             this.logger.verbose(`Retrieving postals. Found ${postals.length} items.`)

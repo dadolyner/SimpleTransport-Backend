@@ -28,6 +28,7 @@ export class PlaceService {
                 .leftJoin('place.postal', 'postal')
                 .leftJoin('place.country', 'country')
                 .where(...AndQueryFilters(placeFilters))
+                .orderBy('place.place', 'ASC')
                 .getMany()
 
 

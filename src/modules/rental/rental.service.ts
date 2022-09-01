@@ -22,6 +22,7 @@ export class RentalService {
                     'rental.id',
                     'rental.rent_start',
                     'rental.rent_end',
+                    'rental.updated_at',
                     'user.id',
                     'user.first_name',
                     'user.last_name',
@@ -69,6 +70,7 @@ export class RentalService {
                 .leftJoin('model.brand', 'brand')
                 .leftJoin('brand.country', 'country')
                 .where(...AndQueryFilters(rentalFilters))
+                .orderBy('rental.updated_at', 'DESC')
                 .getMany()
 
             const output = rentals.map(rental => {

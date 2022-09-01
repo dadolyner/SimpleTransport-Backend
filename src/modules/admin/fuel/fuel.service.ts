@@ -22,6 +22,7 @@ export class FuelService {
                 ])
                 .from(Fuels, 'fuel')
                 .where(...AndQueryFilters(fuelFilters))
+                .orderBy('fuel.fuel', 'ASC')
                 .getMany()
 
             this.logger.verbose(`Retrieving fuels. Found ${fuels.length} items.`)

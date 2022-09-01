@@ -22,6 +22,7 @@ export class ColorService {
             ])
             .from(Colors, 'color')
             .where(...AndQueryFilters(colorFilters))
+            .orderBy('color.color', 'ASC')
             .getMany()
             
             this.logger.verbose(`Retrieving colors. Found ${colors.length} items.`)

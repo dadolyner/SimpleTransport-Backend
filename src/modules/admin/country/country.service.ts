@@ -23,6 +23,7 @@ export class CountryService {
                 ])
                 .from(Countries, 'country')
                 .where(...AndQueryFilters(countryFilters))
+                .orderBy('country.country', 'ASC')
                 .getMany()
 
             this.logger.verbose(`Retrieving countries. Found ${countries.length} items.`)

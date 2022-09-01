@@ -31,6 +31,7 @@ export class VehicleService {
                     'vehicle.licence_plate',
                     'vehicle.vin',
                     'vehicle.imageUrl',
+                    'vehicle.updated_at',
                     'user.id',
                     'user.first_name',
                     'user.last_name',
@@ -65,6 +66,7 @@ export class VehicleService {
                 .leftJoin('model.brand', 'brand')
                 .leftJoin('brand.country', 'country')
                 .where(...AndQueryFilters(vehicleFilters))
+                .orderBy('vehicle.updated_at', 'DESC')
                 .getMany()
 
             const output = vehicles.map(vehicle => {
