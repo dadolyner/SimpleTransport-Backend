@@ -86,7 +86,7 @@ FRONTEND_PORT=
 #### Run the application
 
 ```bash
-# development
+# Run the application
 $ npm run start
 ```
 
