@@ -34,6 +34,13 @@ import { editPostal } from "./admin/postal/editPostal"
 import { createUser } from "./auth/createUser"
 import { loginUser } from "./auth/loginUser"
 
+import { createVehicle } from "./vehicle/createVehicle"
+import { retrieveVehicle } from "./vehicle/retrieveVehicles"
+import { editVehicle } from "./vehicle/editVehicle"
+import { createRental } from "./rental/createRental"
+import { retrieveRentals } from "./rental/retrieveRental"
+import { editRental } from "./rental/editRental"
+
 describe('Start running tests', () => {
     // Color
     describe('[ColorController] => Running color tests', () => {
@@ -88,6 +95,20 @@ describe('Start running tests', () => {
     describe('[AuthController] => Running auth tests', () => {
         createUser()
         loginUser()
+    })
+
+    // Vehicle
+    describe('[VehicleController] => Running vehicle tests', () => {
+        createVehicle()
+        retrieveVehicle()
+        editVehicle()
+    })
+
+    // Rental
+    describe('[RentalController] => Running rental tests', () => {
+        createRental()
+        retrieveRentals()
+        editRental()
     })
 
     // Trunc tables
