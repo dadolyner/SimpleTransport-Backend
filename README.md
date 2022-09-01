@@ -53,29 +53,30 @@ $ npm i
 #### Setup environment variables
 
 ```ts
-//  In the root directory create .env file and add the following variables (fill them with your own values)
-//  Database connection
+// In the root directory create .env file 
+// Fillthe following variables (fill them with your own values)
+// Database connection
 DATABASE_HOST=
 DATABASE_PORT=
 DATABASE_USER=
 DATABASE_PASSWORD=
 DATABASE_NAME=
 
-//  Test connection
+// Test connection
 TEST_DATABASE_HOST=
 TEST_DATABASE_PORT=
 TEST_DATABASE_USER=
 TEST_DATABASE_PASSWORD=
 TEST_DATABASE_NAME=
 
-//  Secret key for JWT
+// Secret key for JWT
 ACCESS_TOKEN_SECRET=
 
-//  Email configuration
+// Email configuration
 STMP_USER=
 STMP_PASS=
 
-//  Backend and frontend url and port
+// Backend and frontend url and port
 SERVER_IP=
 SERVER_PORT=
 FRONTEND_IP=
