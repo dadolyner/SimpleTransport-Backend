@@ -37,6 +37,7 @@ import { loginUser } from "./auth/loginUser"
 import { createVehicle } from "./vehicle/createVehicle"
 import { retrieveVehicle } from "./vehicle/retrieveVehicles"
 import { editVehicle } from "./vehicle/editVehicle"
+
 import { createRental } from "./rental/createRental"
 import { retrieveRentals } from "./rental/retrieveRental"
 import { editRental } from "./rental/editRental"

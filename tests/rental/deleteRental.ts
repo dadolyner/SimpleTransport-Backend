@@ -26,7 +26,7 @@ export const deleteRental = () => {
             const rentalId = existingRental.body[0].id
 
             return request(app.getHttpServer())
-                .post(`/rental?id=${rentalId}`)
+                .delete(`/rental?id=${rentalId}`)
                 .set('Content-Type', 'application/json')
                 .set('Authorization', `Bearer ${accessToken}`)
                 .expect(200)
