@@ -54,7 +54,7 @@ $ npm i
 
 ```ts
 // In the root directory create .env file 
-// Fillthe following variables (fill them with your own values)
+// Fill the following variables (fill them with your own values)
 // Database connection
 DATABASE_HOST=
 DATABASE_PORT=
