@@ -23,7 +23,7 @@ const SimpleTransport = async () => {
         logger.log(`Application SimpleTransport is running on ${process.env.SERVER_IP}`)
         logger.log(`Swagger documentation is available on ${process.env.SERVER_IP}/docs`)
         
-        await app.listen(process.env.PORT, '0.0.0.0')
+        await app.listen(process.env.PORT || process.env.SERVER_PORT)
     } catch (error) {
         console.log(error)
     }
