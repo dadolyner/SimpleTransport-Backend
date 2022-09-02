@@ -1,11 +1,16 @@
 // Rental Repository
+import { Brands } from "src/entities/brands.entity"
+import { Models } from "src/entities/models.entity"
 import { Rentals } from "src/entities/rentals.entity"
 import { Users } from "src/entities/users.entity"
 import { Vehicles } from "src/entities/vehicles.entities"
 import { CustomException } from "src/helpers/custom.exception"
 import { getRentDuration } from "src/helpers/rentDuration"
+import transporter from "src/mail/mail.config"
+import RentMailTemplate from "src/mail/rentMail.template"
 import { Between, EntityRepository, MoreThan, Repository } from "typeorm"
 import { RentalDto } from "./dto/rental.dto"
+import moment from 'moment'
 
 @EntityRepository(Rentals)
 export class RentalRepository extends Repository<Rentals> {
@@ -29,6 +34,20 @@ export class RentalRepository extends Repository<Rentals> {
         rental.vehicleId = vehicleExists.id
         rental.created_at = new Date()
         rental.updated_at = new Date()
+
+        const vehicleOwner = await Users.findOne({ where: { id: vehicleExists.userId } })
+        if (!vehicleOwner) throw CustomException.badRequest(RentalRepository.name, `Vehicle owner does not exist.`)
+        const vehicleModel = await Models.findOne({ where: { id: vehicleExists.modelId } })
+        if (!vehicleModel) throw CustomException.badRequest(RentalRepository.name, `Vehicle model does not exist.`)
+        const vehicleBrand = await Brands.findOne({ where: { id: vehicleModel.brandId } })
+        if (!vehicleBrand) throw CustomException.badRequest(RentalRepository.name, `Vehicle brand does not exist.`)
+
+        await transporter.sendMail({
+            from: '"Simple Transport Support" <support@simpletransport.com>',
+            to: userExists.email,
+            subject: 'Password change request',
+            html: RentMailTemplate(`${userExists.first_name} ${userExists.last_name}`, `${vehicleOwner.first_name} ${vehicleOwner.last_name}`, `${vehicleBrand.brand} ${vehicleModel.model}`, `${moment(rental.rent_start).format('DD. MM. YYYY | HH:mm')}`, `${moment(rental.rent_end).format('DD. MM. YYYY | HH:mm')}`),
+        })
 
         try { await this.save(rental) }
         catch (error) { throw CustomException.internalServerError(RentalRepository.name, `Creating a rental failed. Reason: ${error.message}.`) }

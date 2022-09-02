@@ -1,5 +1,5 @@
-// Reset email template
-const MailTemplate = (first_name: string, last_name: string, resetLink: string) => {
+// Rent a car template
+const RentMailTemplate = (userThatRented: string, userThatOwns: string, car: string, start_date: string, end_date: string) => {
     return `
         <!DOCTYPE html>
 
@@ -14,13 +14,12 @@ const MailTemplate = (first_name: string, last_name: string, resetLink: string) 
 
         <body>
             <table>
-                <tr><td><h3 style="font-size: 16px"><span style="font-weight: 200">Dear </span>${first_name} ${last_name}<span style="font-weight: 200">,</span></h3></td></tr>
-                <tr><p style="margin:0">You have requested a password change.</p></tr>
-                
-                <tr><p style="margin:0">Please click on the link below to change your password.</p></tr>
+                <tr><td><h3 style="font-size: 16px"><span style="font-weight: 200">Dear </span>${userThatOwns}<span style="font-weight: 200">,</span></h3></td></tr>
                 <tr><td>&nbsp;</td></tr>
-                <tr><a href="${resetLink}">Change password</a></tr>
-
+                
+                <tr><p style="margin:0">${userThatRented} just reserved your ${car} between ${start_date} and ${end_date}</p></tr>
+                <tr><p style="margin:0">Please click on the link below to change your password.</p></tr>
+                
                 <tr><td>&nbsp;</td></tr>
                 <tr><p style="margin:0">Best regards,</p></tr>
                 <tr><p style="margin:0">Simple Transport Team</p></tr>
@@ -30,4 +29,4 @@ const MailTemplate = (first_name: string, last_name: string, resetLink: string) 
     `
 }
 
-export default MailTemplate
+export default RentMailTemplate
