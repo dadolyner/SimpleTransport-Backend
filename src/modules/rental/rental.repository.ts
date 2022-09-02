@@ -46,7 +46,7 @@ export class RentalRepository extends Repository<Rentals> {
             await transporter.sendMail({
                 from: '"Simple Transport Support" <support@simpletransport.com>',
                 to: userExists.email,
-                subject: 'Password change request',
+                subject: 'Your car was selected for a rental',
                 html: RentMailTemplate(userExists, vehicleOwner, `${vehicleBrand.brand} ${vehicleModel.model}`, `${rent_start}`, `${rent_end}`),
             })
         }
