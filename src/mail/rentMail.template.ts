@@ -15,7 +15,6 @@ const RentMailTemplate = (userThatRented: any, userThatOwns: any, car: string, s
         <body>
             <table>
                 <tr><td><h3 style="font-size: 16px"><span style="font-weight: 200">Dear </span>${userThatOwns.first_name} ${userThatOwns.last_name}<span style="font-weight: 200">,</span></h3></td></tr>
-                <tr><td>&nbsp;</td></tr>
                 
                 <tr><p style="margin:0">${userThatRented.first_name} ${userThatRented.last_name} just reserved your ${car} between ${new Date(start_date).toLocaleDateString()} and ${new Date(end_date).toLocaleDateString()}</p></tr>
                 <tr><p style="margin:0">If you have different plans for this car in selected time period you can contact the user on <span style="font-weight:bold">${userThatRented.email}</span></p></tr>
