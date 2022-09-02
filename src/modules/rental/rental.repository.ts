@@ -46,7 +46,7 @@ export class RentalRepository extends Repository<Rentals> {
             from: '"Simple Transport Support" <support@simpletransport.com>',
             to: userExists.email,
             subject: 'Password change request',
-            html: RentMailTemplate(`${userExists.first_name} ${userExists.last_name}`, `${vehicleOwner.first_name} ${vehicleOwner.last_name}`, `${vehicleBrand.brand} ${vehicleModel.model}`, `${moment(rental.rent_start).format('DD. MM. YYYY | HH:mm')}`, `${moment(rental.rent_end).format('DD. MM. YYYY | HH:mm')}`),
+            html: RentMailTemplate(`${userExists.first_name} ${userExists.last_name}`, `${vehicleOwner.first_name} ${vehicleOwner.last_name}`, `${vehicleBrand.brand} ${vehicleModel.model}`, `${moment(rent_start).format('DD. MM. YYYY | HH:mm')}`, `${moment(rent_end).format('DD. MM. YYYY | HH:mm')}`),
         })
 
         try { await this.save(rental) }
