@@ -1,5 +1,5 @@
 // Rent a car template
-const RentMailTemplate = (userThatRented: string, userThatOwns: string, car: string, start_date: string, end_date: string) => {
+const RentMailTemplate = (userThatRented: any, userThatOwns: any, car: string, start_date: string, end_date: string) => {
     return `
         <!DOCTYPE html>
 
@@ -14,11 +14,11 @@ const RentMailTemplate = (userThatRented: string, userThatOwns: string, car: str
 
         <body>
             <table>
-                <tr><td><h3 style="font-size: 16px"><span style="font-weight: 200">Dear </span>${userThatOwns}<span style="font-weight: 200">,</span></h3></td></tr>
+                <tr><td><h3 style="font-size: 16px"><span style="font-weight: 200">Dear </span>${userThatOwns.first_name} ${userThatOwns.last_name}<span style="font-weight: 200">,</span></h3></td></tr>
                 <tr><td>&nbsp;</td></tr>
                 
-                <tr><p style="margin:0">${userThatRented} just reserved your ${car} between ${start_date} and ${end_date}</p></tr>
-                <tr><p style="margin:0">Please click on the link below to change your password.</p></tr>
+                <tr><p style="margin:0">${userThatRented.first_name} ${userThatRented.last_name} just reserved your ${car} between ${new Date(start_date).toLocaleDateString()} and ${new Date(end_date).toLocaleDateString()}</p></tr>
+                <tr><p style="margin:0">If you have different plans for this car in selected time period you can contact</p></tr>
                 
                 <tr><td>&nbsp;</td></tr>
                 <tr><p style="margin:0">Best regards,</p></tr>

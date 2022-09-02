@@ -41,14 +41,15 @@ export class RentalRepository extends Repository<Rentals> {
         const vehicleBrand = await Brands.findOne({ where: { id: vehicleModel.brandId } })
         if (!vehicleBrand) throw CustomException.badRequest(RentalRepository.name, `Vehicle brand does not exist.`)
 
-        await transporter.sendMail({
-            from: '"Simple Transport Support" <support@simpletransport.com>',
-            to: userExists.email,
-            subject: 'Password change request',
-            html: RentMailTemplate(`${userExists.first_name} ${userExists.last_name}`, `${vehicleOwner.first_name} ${vehicleOwner.last_name}`, `${vehicleBrand.brand} ${vehicleModel.model}`, `${rent_start}`, `${rent_end}`),
-        })
-
-        try { await this.save(rental) }
+        try { 
+            await this.save(rental)
+            await transporter.sendMail({
+                from: '"Simple Transport Support" <support@simpletransport.com>',
+                to: userExists.email,
+                subject: 'Password change request',
+                html: RentMailTemplate(userExists, vehicleOwner, `${vehicleBrand.brand} ${vehicleModel.model}`, `${rent_start}`, `${rent_end}`),
+            })
+        }
         catch (error) { throw CustomException.internalServerError(RentalRepository.name, `Creating a rental failed. Reason: ${error.message}.`) }
 
         throw CustomException.created(RentalRepository.name, `User ${userExists.first_name} ${userExists.last_name} <${userExists.email}> successfully rented a vehicle ${vehicleExists.id}.`)
